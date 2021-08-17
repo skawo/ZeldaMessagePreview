@@ -59,6 +59,8 @@ namespace ZeldaMessage
         {
             List<byte> box = new List<byte>();
 
+            bool End = false;
+
             for (int i = 0; i < MessageData.Length; i++)
             {
                 switch (MessageData[i])
@@ -67,7 +69,11 @@ namespace ZeldaMessage
                         {
                             Message.Add(box);
                             box = new List<byte>();
-                            break;
+
+                            if (End)
+                                return;
+                            else
+                                break;
                         }
                     case (byte)Data.MsgControlCode.DELAY:
                         {
@@ -86,11 +92,19 @@ namespace ZeldaMessage
                     case (byte)Data.MsgControlCode.COLOR:
                     case (byte)Data.MsgControlCode.JUMP:
                     case (byte)Data.MsgControlCode.ICON:
-                    case (byte)Data.MsgControlCode.FADE:
                         {
                             box.Add(MessageData[i]);
                             box.Add(MessageData[i + 1]);
                             i += 1;
+                            break;
+                        }
+                    case (byte)Data.MsgControlCode.FADE:
+                    case (byte)Data.MsgControlCode.FADE2:
+                        {
+                            box.Add(MessageData[i]);
+                            box.Add(MessageData[i + 1]);
+                            i += 1;
+                            End = true;
                             break;
                         }
                     case (byte)Data.MsgControlCode.SOUND:
