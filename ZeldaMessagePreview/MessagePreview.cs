@@ -35,7 +35,31 @@ namespace ZeldaMessage
                     box = new List<byte>();
                 }
                 else
+                {
+                    switch (MessageData[i])
+                    {
+                        case (byte)Data.MsgControlCode.POINTS:
+                        case (byte)Data.MsgControlCode.MARATHON_TIME:
+                        case (byte)Data.MsgControlCode.RACE_TIME:
+                        case (byte)Data.MsgControlCode.DELAY:
+                        case (byte)Data.MsgControlCode.SPEED:
+                        case (byte)Data.MsgControlCode.SHIFT:
+                        case (byte)Data.MsgControlCode.COLOR:
+                        case (byte)Data.MsgControlCode.JUMP:
+                            i += 1; continue;
+                        case (byte)Data.MsgControlCode.SOUND:
+                            i += 2; continue;
+                        case (byte)Data.MsgControlCode.BACKGROUND:
+                            i += 3; continue;
+                        case (byte)Data.MsgControlCode.FADE:
+                            {
+                                i = MessageData.Length;
+                                continue;
+                            }
+                    }
+
                     box.Add(MessageData[i]);
+                }
             }
 
             if (box.Count != 0)
