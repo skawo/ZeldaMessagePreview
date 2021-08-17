@@ -270,9 +270,10 @@ namespace ZeldaMessage
 
         public static readonly int OUTPUT_IMAGE_X = 256;
         public static readonly int OUTPUT_IMAGE_Y = 64 + (Properties.Resources.Box_End.Width / 2);
-        public static readonly int XPOS_DEFAULT = 20;
+        public static readonly int XPOS_DEFAULT = 28;
         public static readonly int LINEBREAK_SIZE = 12;
-        public static readonly int YPOS_DEFAULT = 6;
+        public static readonly int YPOS_DEFAULT = 8;
+        public static readonly int CHOICE_OFFSET = 0x20;
         public static readonly float SCALE_DEFAULT = 0.75f;
 
         public static readonly float[] FontWidths =

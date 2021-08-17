@@ -18,57 +18,12 @@ namespace ZeldaMessage
         public MessagePreview(Data.BoxType BoxType, byte[] MessageData)
         {
             Box = BoxType;
-
-            List<byte> box = new List<byte>();
-
-            for (int i = 0; i < MessageData.Length; i++)
-            {
-                if (MessageData[i] == (byte)Data.MsgControlCode.NEW_BOX)
-                {
-                    Message.Add(box);
-                    box = new List<byte>();
-                }
-                else if (MessageData[i] == (byte)Data.MsgControlCode.DELAY)
-                {
-                    box.Add(MessageData[i + 1]);
-                    Message.Add(box);
-                    box = new List<byte>();
-                }
-                else
-                {
-                    switch (MessageData[i])
-                    {
-                        case (byte)Data.MsgControlCode.POINTS:
-                        case (byte)Data.MsgControlCode.MARATHON_TIME:
-                        case (byte)Data.MsgControlCode.RACE_TIME:
-                        case (byte)Data.MsgControlCode.DELAY:
-                        case (byte)Data.MsgControlCode.SPEED:
-                        case (byte)Data.MsgControlCode.SHIFT:
-                        case (byte)Data.MsgControlCode.COLOR:
-                        case (byte)Data.MsgControlCode.JUMP:
-                            i += 1; continue;
-                        case (byte)Data.MsgControlCode.SOUND:
-                            i += 2; continue;
-                        case (byte)Data.MsgControlCode.BACKGROUND:
-                            i += 3; continue;
-                        case (byte)Data.MsgControlCode.FADE:
-                            {
-                                i = MessageData.Length;
-                                continue;
-                            }
-                    }
-
-                    box.Add(MessageData[i]);
-                }
-            }
-
-            if (box.Count != 0)
-                Message.Add(box);
+            SplitMsgIntoTextboxes(MessageData);
 
             MessageCount = Message.Count;
         }
 
-        public Bitmap GetPreview(int BoxNum = 0)
+        public Bitmap GetPreview(int BoxNum = 0, float outputScale = 1.75f)
         {
             Bitmap bmp = new Bitmap(Data.OUTPUT_IMAGE_X, Data.OUTPUT_IMAGE_Y);
             bmp.MakeTransparent();
@@ -79,18 +34,83 @@ namespace ZeldaMessage
                 if (Message[BoxNum].Count != 0)
                     bmp = DrawText(bmp, BoxNum);
 
-            bmp = Resize(bmp, 1.5f);
+            bmp = Resize(bmp, outputScale);
 
             return bmp;
         }
 
-        private int FindNumOfTag(int BoxNum, int Tag)
+        private void SplitMsgIntoTextboxes(byte[] MessageData)
+        {
+            List<byte> box = new List<byte>();
+
+            for (int i = 0; i < MessageData.Length; i++)
+            {
+                switch (MessageData[i])
+                {
+                    case (byte)Data.MsgControlCode.NEW_BOX:
+                        {
+                            Message.Add(box);
+                            box = new List<byte>();
+                            break;
+                        }
+                    case (byte)Data.MsgControlCode.DELAY:
+                        {
+                            box.Add(MessageData[i + 1]);
+                            Message.Add(box);
+                            box = new List<byte>();
+
+                            i += 1;
+                            break;
+                        }
+                    case (byte)Data.MsgControlCode.POINTS:
+                    case (byte)Data.MsgControlCode.MARATHON_TIME:
+                    case (byte)Data.MsgControlCode.RACE_TIME:
+                    case (byte)Data.MsgControlCode.SPEED:
+                    case (byte)Data.MsgControlCode.SHIFT:
+                    case (byte)Data.MsgControlCode.COLOR:
+                    case (byte)Data.MsgControlCode.JUMP:
+                    case (byte)Data.MsgControlCode.ICON:
+                    case (byte)Data.MsgControlCode.FADE:
+                        {
+                            box.Add(MessageData[i]);
+                            box.Add(MessageData[i + 1]);
+                            i += 1;
+                            break;
+                        }
+                    case (byte)Data.MsgControlCode.SOUND:
+                        {
+                            box.Add(MessageData[i]);
+                            box.Add(MessageData[i + 1]);
+                            box.Add(MessageData[i + 2]);
+                            i += 2;
+                            break;
+                        }
+                    case (byte)Data.MsgControlCode.BACKGROUND:
+                        {
+                            box.Add(MessageData[i]);
+                            box.Add(MessageData[i + 1]);
+                            box.Add(MessageData[i + 2]);
+                            box.Add(MessageData[i + 3]);
+                            i += 3;
+                            break;
+                        }
+                    default:
+                        box.Add(MessageData[i]); break;
+
+                }
+            }
+
+            if (box.Count != 0)
+                Message.Add(box);
+        }
+
+        private int FindNumberOfTags(int BoxNum, int Tag)
         {
             int numTags = 0;
 
             if (BoxNum < 0)
                 for (int i = 0; i < Message.Count; i++)
-                    numTags += FindNumOfTag(i, Tag);
+                    numTags += FindNumberOfTags(i, Tag);
             else
             {
                 List<byte> BoxData = Message[BoxNum];
@@ -112,13 +132,13 @@ namespace ZeldaMessage
                             case (byte)Data.MsgControlCode.SHIFT:
                             case (byte)Data.MsgControlCode.COLOR:
                             case (byte)Data.MsgControlCode.JUMP:
+                            case (byte)Data.MsgControlCode.ICON:
+                            case (byte)Data.MsgControlCode.FADE:
                                 i += 1; break;
                             case (byte)Data.MsgControlCode.SOUND:
                                 i += 2; break;
                             case (byte)Data.MsgControlCode.BACKGROUND:
                                 i += 3; break;
-                            case (byte)Data.MsgControlCode.FADE:
-                                return numTags;
                         }
                     }
                 }
@@ -202,13 +222,9 @@ namespace ZeldaMessage
             int choiceType = 0;
 
             float xPos = Data.XPOS_DEFAULT;
-            float yPos = Box == Data.BoxType.None_White ? Data.YPOS_DEFAULT : ((58 - (12 * FindNumOfTag(boxNum, (int)Data.MsgControlCode.LINE_BREAK))) / 2);
-
-            if (yPos < 12)
-                yPos = 12;
-
+            float yPos = Box == Data.BoxType.None_White ? Data.YPOS_DEFAULT : Math.Max(Data.YPOS_DEFAULT, ((52 - (Data.LINEBREAK_SIZE * FindNumberOfTags(boxNum, (int)Data.MsgControlCode.LINE_BREAK))) / 2));
             float scale = Data.SCALE_DEFAULT;
-            float xOffsChoice = ((Data.FontWidths[0] * scale) * 5);
+            float xOffsChoice = Data.CHOICE_OFFSET;
             Color c = Box == Data.BoxType.None_White ? Color.Black : Color.White;
 
             using (Graphics g = Graphics.FromImage(destBmp))
@@ -222,16 +238,14 @@ namespace ZeldaMessage
                                 choiceType = 2;
 
                                 Bitmap imgArrow = Properties.Resources.Box_Arrow;
-                                float xPosChoice = 6;
-                                float yPosChoice = 36;
+                                float xPosChoice = 12;
+                                float yPosChoice = 32;
 
                                 for (int ch = 0; ch < 2; ch++)
                                 {
                                     DrawImage(destBmp, imgArrow, Color.LimeGreen, scale, ref xPosChoice, ref yPosChoice, 0);
                                     yPosChoice += Data.LINEBREAK_SIZE;
                                 }
-
-                                xPos += xOffsChoice;
 
                                 break;
                             }
@@ -240,16 +254,14 @@ namespace ZeldaMessage
                                 choiceType = 3;
 
                                 Bitmap imgArrow = Properties.Resources.Box_Arrow;
-                                float xPosChoice = 6;
-                                float yPosChoice = 24;
+                                float xPosChoice = 12;
+                                float yPosChoice = 20;
 
                                 for (int ch = 0; ch < 3; ch++)
                                 {
                                     DrawImage(destBmp, imgArrow, Color.LimeGreen, scale, ref xPosChoice, ref yPosChoice, 0);
                                     yPosChoice += Data.LINEBREAK_SIZE;
                                 }
-
-                                xPos += xOffsChoice;
 
                                 break;
                             }
@@ -275,6 +287,11 @@ namespace ZeldaMessage
                                     DrawTextInternal(destBmp, (byte)ch, c, scale, ref xPos, ref yPos);
 
                                 break;
+                            }
+                        case (byte)Data.MsgControlCode.ICON:
+                            {
+                                charPos += 1;
+                                continue;
                             }
                         case (byte)Data.MsgControlCode.EVENT:
                             {
@@ -330,19 +347,19 @@ namespace ZeldaMessage
                             }
                         case (byte)Data.MsgControlCode.COLOR:
                             {
-                                int color_data_idx = BoxData[charPos + 1] - 0x40;
+                                int color_data_idx = BoxData[charPos + 1];
 
                                 switch (color_data_idx)
                                 {
-                                    case 1:
-                                    case 2:
-                                    case 3:
-                                    case 4:
-                                    case 5:
-                                    case 6:
-                                    case 7:
+                                    case (int)Data.MsgColor.R:
+                                    case (int)Data.MsgColor.G:
+                                    case (int)Data.MsgColor.B:
+                                    case (int)Data.MsgColor.C:
+                                    case (int)Data.MsgColor.M:
+                                    case (int)Data.MsgColor.Y:
+                                    case (int)Data.MsgColor.BLK:
                                         {
-                                            RGB cl = Data.CharColors[color_data_idx - 1][Convert.ToInt32(Box == Data.BoxType.Wooden)];
+                                            RGB cl = Data.CharColors[color_data_idx - (int)Data.MsgColor.R][Convert.ToInt32(Box == Data.BoxType.Wooden)];
                                             c = Color.FromArgb(255, cl.R, cl.G, cl.B);
                                             break;
                                         }
@@ -363,7 +380,7 @@ namespace ZeldaMessage
                                 xPos = Data.XPOS_DEFAULT;
                                 yPos += Data.LINEBREAK_SIZE;
 
-                                if ((choiceType == 2 && yPos >= 24) || (choiceType == 3 && yPos >= 6))
+                                if ((choiceType == 2 && yPos >= 32) || (choiceType == 3 && yPos >= 6))
                                     xPos = Data.XPOS_DEFAULT + xOffsChoice;
 
                                 continue;
@@ -376,11 +393,11 @@ namespace ZeldaMessage
                     }
                 }
 
-                if (FindNumOfTag(boxNum, (byte)Data.MsgControlCode.FADE) == 0 &&
-                    FindNumOfTag(boxNum, (byte)Data.MsgControlCode.FADE2) == 0 &&
-                    FindNumOfTag(boxNum, (byte)Data.MsgControlCode.TWO_CHOICES) == 0 &&
-                    FindNumOfTag(boxNum, (byte)Data.MsgControlCode.THREE_CHOICES) == 0 &&
-                    FindNumOfTag(boxNum, (byte)Data.MsgControlCode.EVENT) == 0)
+                if (FindNumberOfTags(boxNum, (byte)Data.MsgControlCode.FADE) == 0 &&
+                    FindNumberOfTags(boxNum, (byte)Data.MsgControlCode.FADE2) == 0 &&
+                    FindNumberOfTags(boxNum, (byte)Data.MsgControlCode.TWO_CHOICES) == 0 &&
+                    FindNumberOfTags(boxNum, (byte)Data.MsgControlCode.THREE_CHOICES) == 0 &&
+                    FindNumberOfTags(boxNum, (byte)Data.MsgControlCode.EVENT) == 0)
                 {
                     Bitmap imgend;
 
@@ -420,13 +437,17 @@ namespace ZeldaMessage
                 {
                     shadow = Colorize(shadow, Color.Black);
                     shadow = Resize(shadow, scale);
+
+                    shadow.SetResolution(g.DpiX, g.DpiY);
+
                     g.DrawImage(shadow, xPos + 1.0f, yPos + 1.0f);
                 }
 
+                img.SetResolution(g.DpiX, g.DpiY);
                 g.DrawImage(img, xPos, yPos);
             }
 
-            xPos += (Data.FontWidths[Char - 0x20] * scale);
+            xPos += (Data.FontWidths[Char - 0x20] * 0.7f);
             return destBmp;
         }
 
@@ -446,9 +467,12 @@ namespace ZeldaMessage
                 {
                     shadow = Colorize(shadow, Color.Black);
                     shadow = Resize(shadow, scale);
+                    shadow.SetResolution(g.DpiX, g.DpiY);
+
                     g.DrawImage(shadow, xPos + 1.0f, yPos + 1.0f);
                 }
 
+                srcBmp.SetResolution(g.DpiX, g.DpiY);
                 g.DrawImage(srcBmp, xPos, yPos);
             }
 
@@ -476,35 +500,6 @@ namespace ZeldaMessage
 
             return bmp;
         }
-
-        /*
-                private Bitmap SetAlpha(Bitmap b, int Alpha)
-                {
-                    if (Alpha == 255)
-                        return b;
-
-                    b.MakeTransparent();
-
-                    BitmapData bmpData = b.LockBits(new Rectangle(0, 0, b.Width, b.Height), ImageLockMode.ReadWrite, b.PixelFormat);
-
-                    int bytes = Math.Abs(bmpData.Stride) * b.Height;
-                    byte[] rgbaValues = new byte[bytes];
-
-                    Marshal.Copy(bmpData.Scan0, rgbaValues, 0, bytes);
-
-                    for (int i = 3; i < rgbaValues.Length; i += 4)
-                    {
-                        float r = rgbaValues[i] * ((float)Alpha / (float)255);
-                        rgbaValues[i] = (byte)r;
-                    }
-
-                    Marshal.Copy(rgbaValues, 0, bmpData.Scan0, bytes);
-
-                    b.UnlockBits(bmpData);
-
-                    return b;
-                }
-        */
 
         private Bitmap Resize(Bitmap bmp, float scale)
         {
