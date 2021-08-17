@@ -426,8 +426,8 @@ namespace ZeldaMessage
                     else
                         imgend = Properties.Resources.Box_Triangle;
 
-                    xPosEnd = 128 - 4;
-                    yPosEnd = 64 - 2;
+                    float xPosEnd = 128 - 4;
+                    float yPosEnd = 64 - 2;
 
                     DrawImage(destBmp, imgend, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosEnd, ref yPosEnd, 0);
                 }
