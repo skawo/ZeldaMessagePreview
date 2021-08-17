@@ -394,6 +394,7 @@ namespace ZeldaMessage
                 }
 
                 if (FindNumberOfTags(boxNum, (byte)Data.MsgControlCode.FADE) == 0 &&
+                    FindNumberOfTags(boxNum, (byte)Data.MsgControlCode.DELAY) == 0 &&
                     FindNumberOfTags(boxNum, (byte)Data.MsgControlCode.FADE2) == 0 &&
                     FindNumberOfTags(boxNum, (byte)Data.MsgControlCode.TWO_CHOICES) == 0 &&
                     FindNumberOfTags(boxNum, (byte)Data.MsgControlCode.THREE_CHOICES) == 0 &&
