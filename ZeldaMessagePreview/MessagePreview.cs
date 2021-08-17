@@ -15,6 +15,9 @@ namespace ZeldaMessage
         private readonly List<List<byte>> Message = new List<List<byte>>();
         public int MessageCount;
 
+        private int OUTPUT_IMAGE_X = 256;
+        private int OUTPUT_IMAGE_Y = 64 + (Properties.Resources.Box_End.Width / 2);
+
         public MessagePreview(Data.BoxType BoxType, byte[] MessageData)
         {
             Box = BoxType;
@@ -25,7 +28,20 @@ namespace ZeldaMessage
 
         public Bitmap GetPreview(int BoxNum = 0, float outputScale = 1.75f)
         {
-            Bitmap bmp = new Bitmap(Data.OUTPUT_IMAGE_X, Data.OUTPUT_IMAGE_Y);
+
+            if ((int)Box >= (int)Data.BoxType.None_White)
+            {
+                OUTPUT_IMAGE_X = 320;
+                OUTPUT_IMAGE_Y = 64 + 8;
+            }
+            else
+            {
+                OUTPUT_IMAGE_X = 256;
+                OUTPUT_IMAGE_Y = 64 + 8;
+            }
+
+            Bitmap bmp = new Bitmap(OUTPUT_IMAGE_X, OUTPUT_IMAGE_Y);
+
             bmp.MakeTransparent();
 
             bmp = DrawBox(bmp);
@@ -186,7 +202,7 @@ namespace ZeldaMessage
                 case Data.BoxType.None_White:
                 case Data.BoxType.None_Black:
                     {
-                        destBmp = new Bitmap(Data.OUTPUT_IMAGE_X, Data.OUTPUT_IMAGE_Y);
+                        destBmp = new Bitmap(OUTPUT_IMAGE_X, OUTPUT_IMAGE_Y);
                         destBmp.MakeTransparent();
                         return destBmp;
                     }
@@ -225,7 +241,7 @@ namespace ZeldaMessage
             int choiceType = 0;
 
             float xPos = Data.XPOS_DEFAULT;
-            float yPos = Box == Data.BoxType.None_White ? Data.YPOS_DEFAULT : Math.Max(Data.YPOS_DEFAULT, ((52 - (Data.LINEBREAK_SIZE * FindNumberOfTags(boxNum, (int)Data.MsgControlCode.LINE_BREAK))) / 2));
+            float yPos = Box == Data.BoxType.None_White ? 36 : Math.Max(Data.YPOS_DEFAULT, ((52 - (Data.LINEBREAK_SIZE * FindNumberOfTags(boxNum, (int)Data.MsgControlCode.LINE_BREAK))) / 2));
             float scale = Data.SCALE_DEFAULT;
             float xOffsChoice = Data.CHOICE_OFFSET;
             Color c = Box == Data.BoxType.None_White ? Color.Black : Color.White;
@@ -410,8 +426,8 @@ namespace ZeldaMessage
                     else
                         imgend = Properties.Resources.Box_Triangle;
 
-                    float xPosEnd = 128 - (imgend.Width / 2);
-                    float yPosEnd = 64 - 4;
+                    xPosEnd = 128 - 4;
+                    yPosEnd = 64 - 2;
 
                     DrawImage(destBmp, imgend, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosEnd, ref yPosEnd, 0);
                 }
@@ -456,8 +472,6 @@ namespace ZeldaMessage
         {
             if (revAlpha)
                 srcBmp = ReverseAlphaMask(srcBmp);
-
-            Bitmap shadow = srcBmp;
 
             srcBmp = Colorize(srcBmp, cl);
 

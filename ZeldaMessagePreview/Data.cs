@@ -268,8 +268,6 @@ namespace ZeldaMessage
             new List<RGB>() { new RGB(255, 255, 255), new RGB(0, 0, 0)},
         };
 
-        public static readonly int OUTPUT_IMAGE_X = 256;
-        public static readonly int OUTPUT_IMAGE_Y = 64 + (Properties.Resources.Box_End.Width / 2);
         public static readonly int XPOS_DEFAULT = 0x20;
         public static readonly int LINEBREAK_SIZE = 12;
         public static readonly int YPOS_DEFAULT = 8;
