@@ -208,7 +208,10 @@ namespace ZeldaMessage
             {
                 srcBmp.SetResolution(g.DpiX, g.DpiY);
                 g.DrawImage(srcBmp, 0, 0);
-                srcBmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
+
+                srcBmp = FlipBitmapX_MonoSafe(srcBmp);
+
+                //srcBmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
                 g.DrawImage(srcBmp, srcBmp.Width, 0);
             }
 
@@ -479,6 +482,21 @@ namespace ZeldaMessage
 
             xPos += xPosMove;
             return destBmp;
+        }
+
+        private Bitmap FlipBitmapX_MonoSafe(Bitmap bmp)
+        {
+            Bitmap returnBitmap = new Bitmap(bmp.Width, bmp.Height);
+
+            using (Graphics g = Graphics.FromImage(returnBitmap))
+            {
+                g.TranslateTransform((float)bmp.Width / 2, (float)bmp.Height / 2);
+                g.ScaleTransform(-1, 1);
+                g.TranslateTransform(-(float)bmp.Width / 2, -(float)bmp.Height / 2);
+                g.DrawImage(bmp, new Point(0, 0));
+            }
+
+            return returnBitmap;
         }
 
         private Bitmap ReverseAlphaMask(Bitmap bmp)
