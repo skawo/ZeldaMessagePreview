@@ -241,12 +241,12 @@ namespace ZeldaMessage
                                 choiceType = 2;
 
                                 Bitmap imgArrow = Properties.Resources.Box_Arrow;
-                                float xPosChoice = 12;
+                                float xPosChoice = 16;
                                 float yPosChoice = 32;
 
                                 for (int ch = 0; ch < 2; ch++)
                                 {
-                                    DrawImage(destBmp, imgArrow, Color.LimeGreen, scale, ref xPosChoice, ref yPosChoice, 0);
+                                    DrawImage(destBmp, imgArrow, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
                                     yPosChoice += Data.LINEBREAK_SIZE;
                                 }
 
@@ -257,12 +257,12 @@ namespace ZeldaMessage
                                 choiceType = 3;
 
                                 Bitmap imgArrow = Properties.Resources.Box_Arrow;
-                                float xPosChoice = 12;
+                                float xPosChoice = 16;
                                 float yPosChoice = 20;
 
                                 for (int ch = 0; ch < 3; ch++)
                                 {
-                                    DrawImage(destBmp, imgArrow, Color.LimeGreen, scale, ref xPosChoice, ref yPosChoice, 0);
+                                    DrawImage(destBmp, imgArrow, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
                                     yPosChoice += Data.LINEBREAK_SIZE;
                                 }
 
@@ -308,11 +308,11 @@ namespace ZeldaMessage
                                 float xPosbg = 0;
                                 float yPosbg = 0;
 
-                                DrawImage(destBmp, left, Color.White, 1, ref xPosbg, ref yPosbg, 0);
+                                DrawImage(destBmp, left, Color.White, left.Width, left.Height, ref xPosbg, ref yPosbg, 0);
 
                                 xPosbg += left.Width;
 
-                                DrawImage(destBmp, right, Color.White, 1, ref xPosbg, ref yPosbg, 0);
+                                DrawImage(destBmp, right, Color.White, left.Width, left.Height, ref xPosbg, ref yPosbg, 0);
 
                                 charPos += 3;
                                 continue;
@@ -344,7 +344,7 @@ namespace ZeldaMessage
                         case (byte)Data.MsgControlCode.SHIFT:
                             {
                                 int num_shift = BoxData[charPos + 1];
-                                xPos += Data.FontWidths[0] * scale;
+                                xPos += num_shift;
                                 charPos++;
                                 continue;
                             }
@@ -411,9 +411,9 @@ namespace ZeldaMessage
                         imgend = Properties.Resources.Box_Triangle;
 
                     float xPosEnd = 128 - (imgend.Width / 2);
-                    float yPosEnd = 64 - (imgend.Height / 2);
+                    float yPosEnd = 64 - 4;
 
-                    DrawImage(destBmp, imgend, Color.LimeGreen, scale, ref xPosEnd, ref yPosEnd, 0);
+                    DrawImage(destBmp, imgend, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosEnd, ref yPosEnd, 0);
                 }
             }
 
@@ -433,29 +433,26 @@ namespace ZeldaMessage
             Bitmap shadow = img;
 
             img = Colorize(img, cl);
-            img = Resize(img, scale);
 
             using (Graphics g = Graphics.FromImage(destBmp))
             {
                 if (Box != Data.BoxType.None_White)
                 {
                     shadow = Colorize(shadow, Color.Black);
-                    shadow = Resize(shadow, scale);
-
                     shadow.SetResolution(g.DpiX, g.DpiY);
 
-                    g.DrawImage(shadow, xPos + 1.0f, yPos + 1.0f);
+                    g.DrawImage(shadow, new Rectangle((int)xPos + 1, (int)yPos + 1, (int)(16 * scale), (int)(16 * scale)));
                 }
 
                 img.SetResolution(g.DpiX, g.DpiY);
-                g.DrawImage(img, xPos, yPos);
+                g.DrawImage(img, new Rectangle((int)xPos, (int)yPos, (int)(16 * scale), (int)(16 * scale)));
             }
 
-            xPos += (Data.FontWidths[Char - 0x20] * 0.7f);
+            xPos += (int)Math.Floor((Data.FontWidths[Char - 0x20] * scale));
             return destBmp;
         }
 
-        private Bitmap DrawImage(Bitmap destBmp, Bitmap srcBmp, Color cl, float scale, ref float xPos, ref float yPos, float xPosMove, bool revAlpha = true)
+        private Bitmap DrawImage(Bitmap destBmp, Bitmap srcBmp, Color cl, int xSize, int ySize, ref float xPos, ref float yPos, float xPosMove, bool revAlpha = true)
         {
             if (revAlpha)
                 srcBmp = ReverseAlphaMask(srcBmp);
@@ -463,21 +460,11 @@ namespace ZeldaMessage
             Bitmap shadow = srcBmp;
 
             srcBmp = Colorize(srcBmp, cl);
-            srcBmp = Resize(srcBmp, scale);
 
             using (Graphics g = Graphics.FromImage(destBmp))
             {
-                if (Box != Data.BoxType.None_White)
-                {
-                    shadow = Colorize(shadow, Color.Black);
-                    shadow = Resize(shadow, scale);
-                    shadow.SetResolution(g.DpiX, g.DpiY);
-
-                    g.DrawImage(shadow, xPos + 1.0f, yPos + 1.0f);
-                }
-
                 srcBmp.SetResolution(g.DpiX, g.DpiY);
-                g.DrawImage(srcBmp, xPos, yPos);
+                g.DrawImage(srcBmp, new Rectangle((int)xPos, (int)yPos, xSize, ySize));
             }
 
             xPos += xPosMove;
