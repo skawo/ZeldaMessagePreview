@@ -258,7 +258,7 @@ namespace ZeldaMessage
             float yPos = Box == Data.BoxType.None_White ? 36 : Math.Max(Data.YPOS_DEFAULT, ((52 - (Data.LINEBREAK_SIZE * FindNumberOfTags(boxNum, (int)Data.MsgControlCode.LINE_BREAK))) / 2));
             float scale = Data.SCALE_DEFAULT;
             float xOffsChoice = Data.CHOICE_OFFSET;
-            Color c = Box == Data.BoxType.None_White ? Color.Black : Color.White;
+            Color c = Box == Data.BoxType.None_Black ? Color.Black : Color.White;
 
             using (Graphics g = Graphics.FromImage(destBmp))
             {
@@ -441,7 +441,7 @@ namespace ZeldaMessage
                         imgend = Properties.Resources.Box_Triangle;
 
                     float xPosEnd = 128 - 4;
-                    float yPosEnd = 64 - 2;
+                    float yPosEnd = 64 - 4;
 
                     DrawImage(destBmp, imgend, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosEnd, ref yPosEnd, 0);
                 }
@@ -466,7 +466,7 @@ namespace ZeldaMessage
 
             using (Graphics g = Graphics.FromImage(destBmp))
             {
-                if (Box != Data.BoxType.None_White)
+                if (Box != Data.BoxType.None_Black)
                 {
                     shadow = Colorize(shadow, Color.Black);
                     shadow.SetResolution(g.DpiX, g.DpiY);
