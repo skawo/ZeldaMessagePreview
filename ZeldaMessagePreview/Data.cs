@@ -265,7 +265,7 @@ namespace ZeldaMessage
             new List<RGB>() { new RGB(210, 100, 255), new RGB(255, 150, 180)},
             new List<RGB>() { new RGB(255, 255, 30), new RGB(255, 255, 50)},
             new List<RGB>() { new RGB(0, 0, 0), new RGB(0, 0, 0)},
-            new List<RGB>() { new RGB(0, 0, 0), new RGB(255, 255, 255)},
+            new List<RGB>() { new RGB(255, 255, 255), new RGB(0, 0, 0)},
         };
 
         public static readonly int XPOS_DEFAULT = 0x20;

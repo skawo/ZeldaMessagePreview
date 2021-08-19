@@ -134,6 +134,54 @@ namespace ZeldaMessage
                 Message.Add(box);
         }
 
+        private int FindChoiceTags(int BoxNum)
+        {
+            int Result = 0;
+
+            List<byte> BoxData = Message[BoxNum];
+
+            for (int i = 0; i < BoxData.Count; i++)
+            {
+                if (BoxData[i] == (byte)Data.MsgControlCode.TWO_CHOICES)
+                {
+                    Result = 2; 
+                    continue;
+                }
+                else if (BoxData[i] == (byte)Data.MsgControlCode.THREE_CHOICES)
+                {
+                    Result = 3;
+                    continue;
+                }
+                else
+                {
+
+                    switch (BoxData[i])
+                    {
+                        case (byte)Data.MsgControlCode.POINTS:
+                        case (byte)Data.MsgControlCode.MARATHON_TIME:
+                        case (byte)Data.MsgControlCode.RACE_TIME:
+                        case (byte)Data.MsgControlCode.DELAY:
+                        case (byte)Data.MsgControlCode.SPEED:
+                        case (byte)Data.MsgControlCode.SHIFT:
+                        case (byte)Data.MsgControlCode.COLOR:
+                        case (byte)Data.MsgControlCode.JUMP:
+                        case (byte)Data.MsgControlCode.ICON:
+                            i += 1; break;
+                        case (byte)Data.MsgControlCode.SOUND:
+                            i += 2; break;
+                        case (byte)Data.MsgControlCode.BACKGROUND:
+                            i += 3; break;
+                        case (byte)Data.MsgControlCode.FADE:
+                        case (byte)Data.MsgControlCode.FADE2:
+                            return Result;
+                    }
+                }
+            }
+
+
+            return Result;
+        }
+
         private int FindNumberOfTags(int BoxNum, int Tag)
         {
             int numTags = 0;
@@ -164,6 +212,7 @@ namespace ZeldaMessage
                             case (byte)Data.MsgControlCode.JUMP:
                             case (byte)Data.MsgControlCode.ICON:
                             case (byte)Data.MsgControlCode.FADE:
+                            case (byte)Data.MsgControlCode.FADE2:
                                 i += 1; break;
                             case (byte)Data.MsgControlCode.SOUND:
                                 i += 2; break;
@@ -252,13 +301,13 @@ namespace ZeldaMessage
         {
             List<byte> BoxData = Message[boxNum];
 
-            int choiceType = 0;
-
             float xPos = Data.XPOS_DEFAULT;
             float yPos = Box == Data.BoxType.None_White ? 36 : Math.Max(Data.YPOS_DEFAULT, ((52 - (Data.LINEBREAK_SIZE * FindNumberOfTags(boxNum, (int)Data.MsgControlCode.LINE_BREAK))) / 2));
             float scale = Data.SCALE_DEFAULT;
             float xOffsChoice = Data.CHOICE_OFFSET;
             Color c = Box == Data.BoxType.None_Black ? Color.Black : Color.White;
+
+            int choiceType = FindChoiceTags(boxNum);
 
             using (Graphics g = Graphics.FromImage(destBmp))
             {
@@ -268,8 +317,6 @@ namespace ZeldaMessage
                     {
                         case (byte)Data.MsgControlCode.TWO_CHOICES:
                             {
-                                choiceType = 2;
-
                                 Bitmap imgArrow = Properties.Resources.Box_Arrow;
                                 float xPosChoice = 16;
                                 float yPosChoice = 32;
@@ -284,8 +331,6 @@ namespace ZeldaMessage
                             }
                         case (byte)Data.MsgControlCode.THREE_CHOICES:
                             {
-                                choiceType = 3;
-
                                 Bitmap imgArrow = Properties.Resources.Box_Arrow;
                                 float xPosChoice = 16;
                                 float yPosChoice = 20;
@@ -413,8 +458,8 @@ namespace ZeldaMessage
                                 xPos = Data.XPOS_DEFAULT;
                                 yPos += Data.LINEBREAK_SIZE;
 
-                                if ((choiceType == 2 && yPos >= 32) || (choiceType == 3 && yPos >= 6))
-                                    xPos = Data.XPOS_DEFAULT + xOffsChoice;
+                                if ((choiceType == 2 && yPos >= 32) || (choiceType == 3 && yPos >= 20))
+                                    xPos = 2 * Data.XPOS_DEFAULT;
 
                                 continue;
                             }
