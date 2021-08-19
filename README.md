@@ -1,4 +1,6 @@
 A library for rendering previews of Zelda OoT textboxes.
+Most of OoT's messages should be rendered 1:1 to how they appear in the game,
+with the exception of messages using a <Background> tag (0x15).
 
 <b>Usage</b>
 ```csharp
