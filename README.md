@@ -13,6 +13,7 @@ Bitmap bmp = msgP1.GetPreview();
 bmp.Save("out.png");
 ```
 Result:
-![image](https://user-images.githubusercontent.com/43761362/130130443-7e9fa915-7e7e-408a-85ef-69434bafb035.png)
+![out](https://user-images.githubusercontent.com/43761362/130130470-b00bb939-e525-4d93-9365-5175393c166d.png)
+
 
 
