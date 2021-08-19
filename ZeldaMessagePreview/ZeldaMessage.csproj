@@ -536,5 +536,335 @@
   <ItemGroup>
     <None Include="Resources\xmes_right.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_14.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_15.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_17.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_19.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_23.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_25.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_27.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_28.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_31.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_33.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_34.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_35.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_36.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_37.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_38.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_39.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_41.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_42.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_43.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_44.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_45.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_46.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_47.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_49.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_51.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_52.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_53.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_54.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_55.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_56.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_57.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_58.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_59.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_61.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_62.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_63.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_65.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_66.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_67.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_68.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_69.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_70.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_71.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_73.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_74.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_75.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_76.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_77.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_78.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_79.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_80.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_81.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_82.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_83.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_84.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_85.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_86.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_87.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_88.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_89.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_102.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_103.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_104.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_105.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_106.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_107.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_108.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_109.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_110.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_111.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_112.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_113.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_114.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_115.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_116.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_117.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_118.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_119.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_120.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_121.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
