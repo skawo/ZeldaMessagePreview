@@ -8,10 +8,10 @@ with the exception of messages using a <Background> tag (0x15).
 byte[] msg = System.Text.Encoding.Unicode.GetBytes($"Hello world!");
 
 // Create the preview class.
-MessagePreview preview = new MessagePreview(Data.BoxType.Black, msg);
+MessagePreview preview = new MessagePreview(ZeldaMessagePreview.Data.BoxType.Black, msg);
 
 // Get and save the bitmap.
-Bitmap bmp = msgP1.GetPreview();
+Bitmap bmp = preview.GetPreview();
 bmp.Save("out.png");
 ```
 Result:<br><br>
