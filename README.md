@@ -12,3 +12,7 @@ MessagePreview preview = new MessagePreview(Data.BoxType.Black, msg);
 Bitmap bmp = msgP1.GetPreview();
 bmp.Save("out.png");
 ```
+Result:
+![image](https://user-images.githubusercontent.com/43761362/130130443-7e9fa915-7e7e-408a-85ef-69434bafb035.png)
+
+
