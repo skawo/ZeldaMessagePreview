@@ -77,7 +77,6 @@ namespace ZeldaMessage
                         }
                     case (byte)Data.MsgControlCode.DELAY:
                         {
-                            box.Add(MessageData[i + 1]);
                             Message.Add(box);
                             box = new List<byte>();
 
