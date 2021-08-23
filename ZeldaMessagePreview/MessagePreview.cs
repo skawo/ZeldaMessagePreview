@@ -14,6 +14,7 @@ namespace ZeldaMessage
         private readonly Data.BoxType Box;
         private readonly List<List<byte>> Message = new List<List<byte>>();
         public int MessageCount;
+        public bool BrightenText;
 
         private int OUTPUT_IMAGE_X = 256;
         private int OUTPUT_IMAGE_Y = 64 + (Properties.Resources.Box_End.Width / 2);
@@ -26,8 +27,10 @@ namespace ZeldaMessage
             MessageCount = Message.Count;
         }
 
-        public Bitmap GetPreview(int BoxNum = 0, float outputScale = 1.75f)
+        public Bitmap GetPreview(int BoxNum = 0, bool brightenText = true, float outputScale = 1.75f)
         {
+
+            BrightenText = brightenText;
 
             if ((int)Box >= (int)Data.BoxType.None_White)
             {
@@ -578,7 +581,7 @@ namespace ZeldaMessage
             if (img == null)
                 return destBmp;
 
-            img = ReverseAlphaMask(img);
+            img = ReverseAlphaMask(img, BrightenText);
 
             Bitmap shadow = img;
 
@@ -634,7 +637,7 @@ namespace ZeldaMessage
             return returnBitmap;
         }
 
-        private Bitmap ReverseAlphaMask(Bitmap bmp)
+        private Bitmap ReverseAlphaMask(Bitmap bmp, bool Brighten = false)
         {
             bmp.MakeTransparent();
 
@@ -646,7 +649,16 @@ namespace ZeldaMessage
             Marshal.Copy(bmpData.Scan0, rgbaValues, 0, bytes);
 
             for (int i = 3; i < rgbaValues.Length; i += 4)
+            {
                 rgbaValues[i] = rgbaValues[i - 3];
+
+                if (Brighten)
+                {
+                    rgbaValues[i - 1] = 255;
+                    rgbaValues[i - 2] = 255;
+                    rgbaValues[i - 3] = 255;
+                }
+            }
 
             Marshal.Copy(rgbaValues, 0, bmpData.Scan0, bytes);
 
