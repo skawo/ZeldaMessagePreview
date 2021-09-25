@@ -396,6 +396,15 @@ namespace ZeldaMessage
 
                                 break;
                             }
+                        case (byte)Data.MsgControlCode.TIME:
+                            {
+                                char[] Setting = Data.ControlCharPresets[(Data.MsgControlCode)BoxData[charPos]].ToArray();
+
+                                foreach (char ch in Setting)
+                                    DrawTextInternal(destBmp, (byte)ch, textColor, scale, ref xPos, ref yPos);
+
+                                break;
+                            }
                         case (byte)Data.MsgControlCode.POINTS:
                         case (byte)Data.MsgControlCode.MARATHON_TIME:
                         case (byte)Data.MsgControlCode.RACE_TIME:

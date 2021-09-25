@@ -254,6 +254,7 @@ namespace ZeldaMessage
             {MsgControlCode.GOLD_SKULLTULAS,    new List<char>() { '1', '0', '0' } },
             {MsgControlCode.MARATHON_TIME,      new List<char>() { '0', '0', '"', '0', '0', '"' } },
             {MsgControlCode.RACE_TIME,          new List<char>() { '0', '0', '"', '0', '0', '"' } },
+            {MsgControlCode.TIME,               new List<char>() { '0', '0', ':', '0', '0' } },
         };
 
         public static readonly List<List<RGB>> CharColors = new List<List<RGB>>()
