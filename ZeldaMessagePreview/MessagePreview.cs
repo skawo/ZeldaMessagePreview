@@ -647,7 +647,7 @@ namespace ZeldaMessage
             string fn = $"char_{Char.ToString("X").ToLower()}";
             Bitmap img;
 
-            if (FontData != null)
+            if (FontData != null && (Char - ' ') * 128 < FontData.Length)
                 img = GetBitmapFromI4FontChar(FontData.Skip((Char - ' ') * 128).Take(128).ToArray());
             else
             {
