@@ -645,6 +645,13 @@ namespace ZeldaMessage
         private Bitmap DrawTextInternal(Bitmap destBmp, byte Char, Color cl, float scale, ref float xPos, ref float yPos)
         {
             string fn = $"char_{Char.ToString("X").ToLower()}";
+
+            if (Char == ' ')
+            {
+                xPos += 6.0f;
+                return destBmp;
+            }
+
             Bitmap img;
 
             if (FontData != null && (Char - ' ') * 128 < FontData.Length)
