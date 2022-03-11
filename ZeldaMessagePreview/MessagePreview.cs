@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -19,12 +20,43 @@ namespace ZeldaMessage
         private int OUTPUT_IMAGE_X = 256;
         private int OUTPUT_IMAGE_Y = 64 + (Properties.Resources.Box_End.Width / 2);
 
+        public byte[] FontData = null;
+
         public MessagePreview(Data.BoxType BoxType, byte[] MessageData)
         {
             Box = BoxType;
             SplitMsgIntoTextboxes(MessageData);
 
             MessageCount = Message.Count;
+
+            try
+            {
+                if (System.IO.File.Exists("font.width_table"))
+                {
+                    byte[] widths = System.IO.File.ReadAllBytes("font.width_table");
+
+                    for (int i = 0; i < widths.Length; i += 4)
+                    {
+                        byte[] width = widths.Skip(i).Take(4).Reverse().ToArray();
+                        Data.FontWidths[i / 4] = BitConverter.ToSingle(width, 0);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+            try
+            {
+                if (System.IO.File.Exists("font.font_static"))
+                {
+                    FontData = System.IO.File.ReadAllBytes("font.font_static");
+                }
+            }
+            catch (Exception)
+            {
+                FontData = null;
+            }
         }
 
         public Bitmap GetPreview(int BoxNum = 0, bool brightenText = true, float outputScale = 1.75f)
@@ -582,13 +614,48 @@ namespace ZeldaMessage
             return destBmp;
         }
 
+        public Bitmap GetBitmapFromI4FontChar(byte[] bytes)
+        {
+            List<Color> Pixels = new List<Color>();
+
+            foreach (byte b in bytes)
+            {
+                byte ab = (byte)((b >> 4) * 0x11);
+                byte bb = (byte)((b & 0x0F) * 0x11);
+
+                Pixels.Add(Color.FromArgb(255, ab, ab, ab));
+                Pixels.Add(Color.FromArgb(255, bb, bb, bb));
+            }
+
+            Bitmap img = new Bitmap(16, 16);
+            int i = 0;
+
+            for (int y = 0; y < 16; y++)
+            {
+                for (int x = 0; x < 16; x++)
+                {
+                    img.SetPixel(x, y, Pixels[i]);
+                    i++;
+                }
+            }
+
+            return img;
+        }
+
         private Bitmap DrawTextInternal(Bitmap destBmp, byte Char, Color cl, float scale, ref float xPos, ref float yPos)
         {
             string fn = $"char_{Char.ToString("X").ToLower()}";
-            Bitmap img = (Bitmap)Properties.Resources.ResourceManager.GetObject(fn);
+            Bitmap img;
 
-            if (img == null)
-                return destBmp;
+            if (FontData != null)
+                img = GetBitmapFromI4FontChar(FontData.Skip((Char - ' ') * 128).Take(128).ToArray());
+            else
+            {
+                img = (Bitmap)Properties.Resources.ResourceManager.GetObject(fn);
+
+                if (img == null)
+                    return destBmp;
+            }
 
             img = ReverseAlphaMask(img, BrightenText);
 
