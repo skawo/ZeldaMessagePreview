@@ -1,6 +1,11 @@
 A library for rendering previews of Zelda OoT textboxes.
 Most of OoT's messages should be rendered 1:1 to how they appear in the game,
 with the exception of messages using a <Background> tag (0x15).
+  
+Supports custom fonts as exported from <a href="https://github.com/z64me/z64font">z64font</a>. Simply put
+both files exported from the program in the same directory as the dll - named ''font.font_static'' and ''font.width_table''  
+for them to be used for the preview.
+
 
 <b>Usage</b>
 ```csharp
