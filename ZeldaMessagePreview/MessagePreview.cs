@@ -684,7 +684,9 @@ namespace ZeldaMessage
                 g.DrawImage(img, new Rectangle((int)xPos, (int)yPos, (int)(16 * scale), (int)(16 * scale)));
             }
 
-            xPos += (int)Math.Floor((Data.FontWidths[Char - 0x20] * scale));
+            if (Data.FontWidths.Count() > (Char - 0x20) && (Char - 0x20) > 0x20)
+                xPos += (int)Math.Floor((Data.FontWidths[Char - 0x20] * scale));
+
             return destBmp;
         }
 
