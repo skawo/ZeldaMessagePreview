@@ -269,7 +269,7 @@ namespace ZeldaMessage
             new List<RGB>() { new RGB(255, 255, 255), new RGB(0, 0, 0)},
         };
 
-        public static readonly int XPOS_DEFAULT = 0x20;
+        public static readonly int XPOS_DEFAULT = 32;
         public static readonly int LINEBREAK_SIZE = 12;
         public static readonly int YPOS_DEFAULT = 8;
         public static readonly int CHOICE_OFFSET = 0x20;

@@ -64,10 +64,15 @@ namespace ZeldaMessage
 
             BrightenText = brightenText;
 
-            if ((int)Box >= (int)Data.BoxType.None_White)
+            if ((int)Box == (int)Data.BoxType.None_White || (int)Box == (int)Data.BoxType.None_Black)
             {
                 OUTPUT_IMAGE_X = 320;
                 OUTPUT_IMAGE_Y = 64 + 8;
+            }
+            else if ((int)Box > (int)Data.BoxType.None_Black)
+            {
+                OUTPUT_IMAGE_X = 320;
+                OUTPUT_IMAGE_Y = 240;
             }
             else
             {
@@ -126,7 +131,6 @@ namespace ZeldaMessage
                     case (byte)Data.MsgControlCode.SPEED:
                     case (byte)Data.MsgControlCode.SHIFT:
                     case (byte)Data.MsgControlCode.COLOR:
-                    case (byte)Data.MsgControlCode.JUMP:
                     case (byte)Data.MsgControlCode.ICON:
                         {
                             box.Add(curByte);
@@ -142,6 +146,7 @@ namespace ZeldaMessage
                             End = true;
                             break;
                         }
+                    case (byte)Data.MsgControlCode.JUMP:
                     case (byte)Data.MsgControlCode.FADE2:
                     case (byte)Data.MsgControlCode.SOUND:
                         {
@@ -196,8 +201,8 @@ namespace ZeldaMessage
                         case (byte)Data.MsgControlCode.SPEED:
                         case (byte)Data.MsgControlCode.SHIFT:
                         case (byte)Data.MsgControlCode.COLOR:
-                        case (byte)Data.MsgControlCode.JUMP:
                             i += 1; break;
+                        case (byte)Data.MsgControlCode.JUMP:
                         case (byte)Data.MsgControlCode.SOUND:
                             i += 2; break;
                         case (byte)Data.MsgControlCode.BACKGROUND:
@@ -245,9 +250,9 @@ namespace ZeldaMessage
                         case (byte)Data.MsgControlCode.SPEED:
                         case (byte)Data.MsgControlCode.SHIFT:
                         case (byte)Data.MsgControlCode.COLOR:
-                        case (byte)Data.MsgControlCode.JUMP:
                         case (byte)Data.MsgControlCode.ICON:
                             i += 1; break;
+                        case (byte)Data.MsgControlCode.JUMP:
                         case (byte)Data.MsgControlCode.SOUND:
                             i += 2; break;
                         case (byte)Data.MsgControlCode.BACKGROUND:
@@ -292,10 +297,10 @@ namespace ZeldaMessage
                             case (byte)Data.MsgControlCode.SPEED:
                             case (byte)Data.MsgControlCode.SHIFT:
                             case (byte)Data.MsgControlCode.COLOR:
-                            case (byte)Data.MsgControlCode.JUMP:
                             case (byte)Data.MsgControlCode.ICON:
                             case (byte)Data.MsgControlCode.FADE:
                                 i += 1; break;
+                            case (byte)Data.MsgControlCode.JUMP:
                             case (byte)Data.MsgControlCode.SOUND:
                             case (byte)Data.MsgControlCode.FADE2:
                                 i += 2; break;
@@ -318,6 +323,13 @@ namespace ZeldaMessage
             switch (Box)
             {
                 default:
+                    {
+                        destBmp = new Bitmap(320, 240);
+                        var g = Graphics.FromImage(destBmp);
+                        g.FillRectangle(Brushes.Black, 0, 0, 320, 240);
+
+                        return destBmp;
+                    }
                 case Data.BoxType.Black:
                     {
                         img = Properties.Resources.Box_Default;
@@ -388,6 +400,13 @@ namespace ZeldaMessage
             float xPos = Data.XPOS_DEFAULT;
             float yPos = (Box == Data.BoxType.None_White) ? 36 : Math.Max(Data.YPOS_DEFAULT, ((52 - (Data.LINEBREAK_SIZE * GetNumberOfTags(boxNum, (int)Data.MsgControlCode.LINE_BREAK))) / 2));
             float scale = Data.SCALE_DEFAULT;
+
+            if ((int)Box > (int)Data.BoxType.None_Black)
+            {
+                xPos = 20;
+                yPos = 48;
+                scale = 0.85f;
+            }
 
             Color textColor = (Box == Data.BoxType.None_Black) ? Color.Black : Color.White;
 
@@ -520,7 +539,7 @@ namespace ZeldaMessage
                         case (byte)Data.MsgControlCode.SPEED:
                         case (byte)Data.MsgControlCode.JUMP:
                             {
-                                charPos += 1;
+                                charPos += 2;
                                 continue;
                             }
                         case (byte)Data.MsgControlCode.FADE:
@@ -574,8 +593,16 @@ namespace ZeldaMessage
                             }
                         case (byte)Data.MsgControlCode.LINE_BREAK:
                             {
-                                xPos = Data.XPOS_DEFAULT;
-                                yPos += Data.LINEBREAK_SIZE;
+                                if ((int)Box > (int)Data.BoxType.None_Black)
+                                {
+                                    xPos = 20;
+                                    yPos += 6;
+                                }
+                                else
+                                {
+                                    xPos = Data.XPOS_DEFAULT;
+                                    yPos += Data.LINEBREAK_SIZE;
+                                }
 
                                 if ((choiceType == 2 && yPos >= 32) || (choiceType == 3 && yPos >= 20) || iconType != -1 && yPos > 12)
                                     xPos = 2 * Data.XPOS_DEFAULT;
@@ -684,7 +711,7 @@ namespace ZeldaMessage
                 g.DrawImage(img, new Rectangle((int)xPos, (int)yPos, (int)(16 * scale), (int)(16 * scale)));
             }
 
-            if (Data.FontWidths.Count() > (Char - 0x20) && (Char - 0x20) > 0x20)
+            //if (Data.FontWidths.Count() > (Char - 0x20) && (Char - 0x20) > 0x20)
                 xPos += (int)Math.Floor((Data.FontWidths[Char - 0x20] * scale));
 
             return destBmp;
