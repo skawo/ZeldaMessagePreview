@@ -135,7 +135,6 @@ namespace ZeldaMessage
                             break;
                         }
                     case (byte)Data.MsgControlCode.FADE:
-                    case (byte)Data.MsgControlCode.FADE2:
                         {
                             box.Add(curByte);
                             box.Add(GetByteFromArray(MessageData, i + 1));
@@ -143,6 +142,7 @@ namespace ZeldaMessage
                             End = true;
                             break;
                         }
+                    case (byte)Data.MsgControlCode.FADE2:
                     case (byte)Data.MsgControlCode.SOUND:
                         {
                             box.Add(curByte);
@@ -295,9 +295,9 @@ namespace ZeldaMessage
                             case (byte)Data.MsgControlCode.JUMP:
                             case (byte)Data.MsgControlCode.ICON:
                             case (byte)Data.MsgControlCode.FADE:
-                            case (byte)Data.MsgControlCode.FADE2:
                                 i += 1; break;
                             case (byte)Data.MsgControlCode.SOUND:
+                            case (byte)Data.MsgControlCode.FADE2:
                                 i += 2; break;
                             case (byte)Data.MsgControlCode.BACKGROUND:
                                 i += 3; break;
@@ -511,6 +511,7 @@ namespace ZeldaMessage
                                 continue;
                             }
                         case (byte)Data.MsgControlCode.SOUND:
+                        case (byte)Data.MsgControlCode.FADE2:
                             {
                                 charPos += 2;
                                 continue;
@@ -523,7 +524,6 @@ namespace ZeldaMessage
                                 continue;
                             }
                         case (byte)Data.MsgControlCode.FADE:
-                        case (byte)Data.MsgControlCode.FADE2:
                             {
                                 charPos += 1;
                                 return destBmp;
