@@ -536,10 +536,14 @@ namespace ZeldaMessage
                                 continue;
                             }
                         case (byte)Data.MsgControlCode.DELAY:
-                        case (byte)Data.MsgControlCode.SPEED:
                         case (byte)Data.MsgControlCode.JUMP:
                             {
                                 charPos += 2;
+                                continue;
+                            }
+                        case (byte)Data.MsgControlCode.SPEED:
+                            {
+                                charPos += 1;
                                 continue;
                             }
                         case (byte)Data.MsgControlCode.FADE:
