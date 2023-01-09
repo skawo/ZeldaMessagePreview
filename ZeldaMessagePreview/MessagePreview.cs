@@ -125,9 +125,7 @@ namespace ZeldaMessage
                             i += 1;
                             break;
                         }
-                    case (byte)Data.MsgControlCode.POINTS:
-                    case (byte)Data.MsgControlCode.MARATHON_TIME:
-                    case (byte)Data.MsgControlCode.RACE_TIME:
+                    case (byte)Data.MsgControlCode.HIGH_SCORE:
                     case (byte)Data.MsgControlCode.SPEED:
                     case (byte)Data.MsgControlCode.SHIFT:
                     case (byte)Data.MsgControlCode.COLOR:
@@ -194,9 +192,7 @@ namespace ZeldaMessage
                 {
                     switch (curByte)
                     {
-                        case (byte)Data.MsgControlCode.POINTS:
-                        case (byte)Data.MsgControlCode.MARATHON_TIME:
-                        case (byte)Data.MsgControlCode.RACE_TIME:
+                        case (byte)Data.MsgControlCode.HIGH_SCORE:
                         case (byte)Data.MsgControlCode.DELAY:
                         case (byte)Data.MsgControlCode.SPEED:
                         case (byte)Data.MsgControlCode.SHIFT:
@@ -243,9 +239,7 @@ namespace ZeldaMessage
 
                     switch (curByte)
                     {
-                        case (byte)Data.MsgControlCode.POINTS:
-                        case (byte)Data.MsgControlCode.MARATHON_TIME:
-                        case (byte)Data.MsgControlCode.RACE_TIME:
+                        case (byte)Data.MsgControlCode.HIGH_SCORE:
                         case (byte)Data.MsgControlCode.DELAY:
                         case (byte)Data.MsgControlCode.SPEED:
                         case (byte)Data.MsgControlCode.SHIFT:
@@ -290,9 +284,7 @@ namespace ZeldaMessage
 
                         switch (curByte)
                         {
-                            case (byte)Data.MsgControlCode.POINTS:
-                            case (byte)Data.MsgControlCode.MARATHON_TIME:
-                            case (byte)Data.MsgControlCode.RACE_TIME:
+                            case (byte)Data.MsgControlCode.HIGH_SCORE:
                             case (byte)Data.MsgControlCode.DELAY:
                             case (byte)Data.MsgControlCode.SPEED:
                             case (byte)Data.MsgControlCode.SHIFT:
@@ -459,15 +451,6 @@ namespace ZeldaMessage
                         case (byte)Data.MsgControlCode.POINTS:
                         case (byte)Data.MsgControlCode.MARATHON_TIME:
                         case (byte)Data.MsgControlCode.RACE_TIME:
-                            {
-                                char[] Setting = Data.ControlCharPresets[(Data.MsgControlCode)BoxData[charPos]].ToArray();
-
-                                foreach (char ch in Setting)
-                                    DrawTextInternal(destBmp, (byte)ch, textColor, scale, ref xPos, ref yPos);
-
-                                charPos++;
-                                break;
-                            }
                         case (byte)Data.MsgControlCode.FISH_WEIGHT:
                         case (byte)Data.MsgControlCode.GOLD_SKULLTULAS:
                         case (byte)Data.MsgControlCode.PLAYER:
@@ -477,6 +460,16 @@ namespace ZeldaMessage
                                 foreach (char ch in Setting)
                                     DrawTextInternal(destBmp, (byte)ch, textColor, scale, ref xPos, ref yPos);
 
+                                break;
+                            }
+                        case (byte)Data.MsgControlCode.HIGH_SCORE:
+                            {
+                                char[] Setting = Data.HighScoreControlCharPresets[(Data.MsgHighScore)BoxData[charPos + 1]].ToArray();
+
+                                foreach (char ch in Setting)
+                                    DrawTextInternal(destBmp, (byte)ch, textColor, scale, ref xPos, ref yPos);
+
+                                charPos++;
                                 break;
                             }
                         case (byte)Data.MsgControlCode.ICON:

@@ -233,6 +233,7 @@ namespace ZeldaMessage
             FISHING = 0x02,
             HORSE_RACE = 0x03,
             MARATHON = 0x04,
+            HS_UNK = 0x05,
             DAMPE_RACE = 0x06
         }
 
@@ -255,6 +256,17 @@ namespace ZeldaMessage
             {MsgControlCode.MARATHON_TIME,      new List<char>() { '0', '0', '"', '0', '0', '"' } },
             {MsgControlCode.RACE_TIME,          new List<char>() { '0', '0', '"', '0', '0', '"' } },
             {MsgControlCode.TIME,               new List<char>() { '0', '0', ':', '0', '0' } },
+        };
+
+        public static readonly Dictionary<MsgHighScore, List<char>> HighScoreControlCharPresets = new Dictionary<MsgHighScore, List<char>>()
+        {
+            {MsgHighScore.ARCHERY,      new List<char>() { '1', '0', '0', '0' } },
+            {MsgHighScore.POE_POINTS,         new List<char>() { '1', '0', '0', '0' } },
+            {MsgHighScore.FISHING,            new List<char>() { '1', '0' } },
+            {MsgHighScore.HORSE_RACE,         new List<char>() { '0', '0', '"', '0', '0', '"' } },
+            {MsgHighScore.MARATHON,           new List<char>() { '0', '0', '"', '0', '0', '"' } },
+            {MsgHighScore.HS_UNK,                new List<char>() { } },
+            {MsgHighScore.DAMPE_RACE,         new List<char>() { '0', '0', '"', '0', '0', '"' } },
         };
 
         public static readonly List<List<RGB>> CharColors = new List<List<RGB>>()
