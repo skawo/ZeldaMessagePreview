@@ -23,7 +23,7 @@ namespace ZeldaMessage
     {
         public short MessageID;
         public DataMajora.BoxType BoxType;
-        public short MajoraIcon;
+        public byte MajoraIcon;
         public short MajoraNextMessage;
         public short MajoraFirstItemPrice;
         public short MajoraSecondItemPrice;

@@ -150,7 +150,7 @@ namespace ZeldaMessage
             UNK_0F = 0xF,
             NEW_BOX = 0x10,
             LINE_BREAK = 0x11,
-            NEW_BOX_3L = 0x12,
+            NEW_BOX_INCOMPL = 0x12,
             RESET_CURSOR = 0x13,
             SHIFT = 0x14,
             NOSKIP = 0x15,
@@ -306,7 +306,7 @@ namespace ZeldaMessage
 
         public static readonly List<List<RGB>> CharColors = new List<List<RGB>>()
         {
-            new List<RGB>() { new RGB(255, 255, 255), new RGB(255, 255, 255) },
+            new List<RGB>() { new RGB(255, 255, 255), new RGB(0, 0, 0) },
             new List<RGB>() { new RGB(255, 60, 60), new RGB(255, 120, 0)},
             new List<RGB>() { new RGB(70, 255, 80), new RGB(70, 255, 80)},
             new List<RGB>() { new RGB(80, 110, 255), new RGB(80, 90, 255)},
