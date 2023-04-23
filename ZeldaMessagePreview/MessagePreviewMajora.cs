@@ -298,6 +298,48 @@ namespace ZeldaMessage
             return numTags;
         }
 
+        private byte GetLastColorTag(int BoxNum)
+        {
+            if (BoxNum == 0)
+                return (byte)DataMajora.MsgControlCode.COLOR_DEFAULT;
+            else
+            {
+                for (int box = BoxNum - 1; box >= 0; box--)
+                {
+                    List<byte> BoxDataMajora = Message[box];
+
+                    for (int i = BoxDataMajora.Count - 1; i >= 0; i--)
+                    {
+                        byte curByte = BoxDataMajora[i];
+
+                        if (i > 0)
+                        {
+                            byte curBytePrev = BoxDataMajora[i - 1];
+
+                            List<byte> MultiByteCodes = new List<byte>()
+                            {
+                                (byte)DataMajora.MsgControlCode.SHIFT,
+                                (byte)DataMajora.MsgControlCode.DELAY_END,
+                                (byte)DataMajora.MsgControlCode.DELAY_DC,
+                                (byte)DataMajora.MsgControlCode.DELAY_DI,
+                                (byte)DataMajora.MsgControlCode.SOUND,
+                                (byte)DataMajora.MsgControlCode.FADE
+                            };
+
+
+                            if (MultiByteCodes.Contains(curBytePrev))
+                                continue;
+                        }
+
+                        if (curByte <= (byte)DataMajora.MsgControlCode.COLOR_ORANGE)
+                            return curByte;
+                    }
+                }
+            }
+
+            return (byte)DataMajora.MsgControlCode.COLOR_DEFAULT;
+        }
+
         private Bitmap DrawBox(Bitmap destBmp)
         {
             Bitmap img = Properties.Resources.Box_Default;
@@ -402,26 +444,48 @@ namespace ZeldaMessage
         {
             List<byte> BoxDataMajora = Message[boxNum];
 
-            float xPos = DataMajora.XPOS_DEFAULT;
-            float yPos = (Header.BoxType == DataMajora.BoxType.None_White) ? 
-                    36 
-                : 
-                    Math.Max(
-                                DataMajora.YPOS_DEFAULT
-                                ,
-                                ((52 - (Data.LINEBREAK_SIZE * GetNumberOfLineBreaks(boxNum))) / 2)
-                            );
+            float xPos = 0;
+            float yPos = 0;
+            float scale = 0;
 
-            float scale = DataMajora.SCALE_DEFAULT;
-
-            if ((int)Header.BoxType == (int)DataMajora.BoxType.Credits)
+            switch (Header.BoxType)
             {
-                xPos = 20;
-                yPos = 48;
-                scale = 0.85f;
+                case DataMajora.BoxType.None_White:
+                    {
+                        xPos = DataMajora.XPOS_DEFAULT;
+                        yPos = 36;
+                        scale = DataMajora.SCALE_DEFAULT;
+                        break;
+                    }
+                case DataMajora.BoxType.Ocarina:
+                    {
+                        xPos = DataMajora.XPOS_DEFAULT;
+                        yPos = 2;
+                        scale = DataMajora.SCALE_DEFAULT;
+                        break;
+                    }
+                case DataMajora.BoxType.Credits:
+                    {
+                        xPos = 20;
+                        yPos = 48;
+                        scale = 0.85f;
+                        break;
+                    }
+                default:
+                    {
+                        xPos = DataMajora.XPOS_DEFAULT;
+                        yPos = Math.Max(DataMajora.YPOS_DEFAULT, ((52 - (Data.LINEBREAK_SIZE * GetNumberOfLineBreaks(boxNum))) / 2));
+                        scale = DataMajora.SCALE_DEFAULT;
+                        break;
+                    }
             }
 
-            Color textColor = (Header.BoxType == DataMajora.BoxType.None_Black) ? Color.Black : Color.White;
+
+            byte colorIdx = GetLastColorTag(boxNum);
+            bool altColor = (Header.BoxType == DataMajora.BoxType.Bombers_Notebook || Header.BoxType == DataMajora.BoxType.None_Black);
+
+            RGB clInitial = DataMajora.CharColors[colorIdx][Convert.ToInt32(altColor)];
+            Color textColor = Color.FromArgb(255, clInitial.R, clInitial.G, clInitial.B);
 
             int choiceType = GetBoxChoiceTag(boxNum);
 
@@ -538,10 +602,7 @@ namespace ZeldaMessage
                             {
                                 byte color_DataMajora_idx = (byte)(BoxDataMajora[charPos] - (byte)DataMajora.MsgControlCode.COLOR_DEFAULT);
 
-                                
-
-
-                                RGB cl = DataMajora.CharColors[color_DataMajora_idx][Convert.ToInt32(Header.BoxType == DataMajora.BoxType.Wooden)];
+                                RGB cl = DataMajora.CharColors[color_DataMajora_idx][Convert.ToInt32(Header.BoxType == DataMajora.BoxType.Bombers_Notebook)];
                                 textColor = Color.FromArgb(255, cl.R, cl.G, cl.B);
 
                                 break;
