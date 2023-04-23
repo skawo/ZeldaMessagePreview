@@ -889,6 +889,453 @@
   <data name="icon_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon_9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="majora_Box_Arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_Box_Arrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_Box_Default" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_Box_Default.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_Box_End" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_Box_End.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_Box_Staff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_Box_Staff.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_Box_Triangle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_Box_Triangle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_Box_Wooden" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_Box_Wooden.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_20" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_21" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_21.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_22" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_22.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_23" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_23.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_25" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_25.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_26" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_27" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_27.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_28" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_28.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_29" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_29.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_2a" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_2a.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_2b" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_2b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_2c" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_2c.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_2d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_2d.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_2e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_2e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_2f" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_2f.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_31" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_31.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_33" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_33.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_34" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_34.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_35" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_35.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_36" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_36.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_37" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_37.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_38" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_38.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_39" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_39.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_3a" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_3a.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_3b" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_3b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_3c" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_3c.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_3d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_3d.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_3e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_3e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_3f" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_3f.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_41" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_41.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_42" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_42.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_43" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_43.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_44" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_44.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_45" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_45.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_46" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_46.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_47" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_47.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_49" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_49.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_4a" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_4a.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_4b" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_4b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_4c" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_4c.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_4d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_4d.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_4e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_4e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_4f" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_4f.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_51" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_51.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_52" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_52.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_53" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_53.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_54" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_54.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_55" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_55.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_56" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_56.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_57" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_57.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_58" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_58.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_59" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_59.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_5a" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_5a.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_5b" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_5b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_5c" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_5c.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_5d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_5d.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_5e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_5e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_5f" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_5f.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_60" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_60.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_61" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_61.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_62" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_62.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_63" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_63.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_65" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_65.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_66" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_66.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_67" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_67.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_68" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_68.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_69" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_69.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_6a" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_6a.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_6b" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_6b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_6c" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_6c.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_6d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_6d.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_6e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_6e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_6f" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_6f.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_70" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_70.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_71" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_71.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_72" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_72.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_73" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_73.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_74" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_74.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_75" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_75.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_76" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_76.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_77" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_77.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_78" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_78.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_79" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_79.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_7a" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_7a.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_7b" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_7b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_7c" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_7c.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_7d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_7d.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_7e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_7e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_7f" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_7f.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_80" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_80.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_81" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_81.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_82" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_82.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_83" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_83.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_84" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_84.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_85" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_85.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_86" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_86.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_87" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_87.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_88" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_88.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_89" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_89.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_8a" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_8a.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_8b" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_8b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_8c" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_8c.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_8d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_8d.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_8e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_8e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_8f" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_8f.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_90" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_90.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_91" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_91.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_92" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_92.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_93" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_93.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_94" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_94.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_95" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_95.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_96" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_96.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_97" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_97.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_98" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_98.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_99" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_99.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_9a" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_9a.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_9b" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_9b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_9c" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_9c.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_9d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_9d.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_9e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_9e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_b0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_b0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_b1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_b1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_b2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_b2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_b3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_b3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_b4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_b4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_b5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_b5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_b6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_b6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_b7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_b7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_b8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_b8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_b9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_b9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_ba" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_ba.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_bb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_bb.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_char_bc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_char_bc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_Fading_Box" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_Fading_Box.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_xmes_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_xmes_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="majora_xmes_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\majora_xmes_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="xmes_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\xmes_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

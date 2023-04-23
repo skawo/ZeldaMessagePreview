@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace ZeldaMessage
 {
-    public class MessagePreview
+    public class MessagePreviewMajora
     {
-        private readonly Data.BoxType Box;
+        private readonly MajoraMsgHeader Header;
         private readonly List<List<byte>> Message = new List<List<byte>>();
         public int MessageCount;
         public bool BrightenText;
@@ -20,12 +20,14 @@ namespace ZeldaMessage
         private int OUTPUT_IMAGE_X = 256;
         private int OUTPUT_IMAGE_Y = 64 + (Properties.Resources.Box_End.Width / 2);
 
-        public byte[] FontData = null;
+        public byte[] FontDataMajora = null;
 
-        public MessagePreview(Data.BoxType BoxType, byte[] MessageData)
+        public MessagePreviewMajora(byte[] MessageDataMajora)
         {
-            Box = BoxType;
-            SplitMsgIntoTextboxes(MessageData);
+            Header = new MajoraMsgHeader(MessageDataMajora);
+            MessageDataMajora = MessageDataMajora.Skip(11).ToArray();
+
+            SplitMsgIntoTextboxes(MessageDataMajora);
 
             MessageCount = Message.Count;
 
@@ -38,7 +40,7 @@ namespace ZeldaMessage
                     for (int i = 0; i < widths.Length; i += 4)
                     {
                         byte[] width = widths.Skip(i).Take(4).Reverse().ToArray();
-                        Data.FontWidths[i / 4] = BitConverter.ToSingle(width, 0);
+                        DataMajora.FontWidths[i / 4] = BitConverter.ToSingle(width, 0);
                     }
                 }
             }
@@ -50,12 +52,12 @@ namespace ZeldaMessage
             {
                 if (System.IO.File.Exists("font.font_static"))
                 {
-                    FontData = System.IO.File.ReadAllBytes("font.font_static");
+                    FontDataMajora = System.IO.File.ReadAllBytes("font.font_static");
                 }
             }
             catch (Exception)
             {
-                FontData = null;
+                FontDataMajora = null;
             }
         }
 
@@ -64,12 +66,12 @@ namespace ZeldaMessage
 
             BrightenText = brightenText;
 
-            if ((int)Box == (int)Data.BoxType.None_White || (int)Box == (int)Data.BoxType.None_Black)
+            if ((int)Header.BoxType == (int)DataMajora.BoxType.None_White || (int)Header.BoxType == (int)DataMajora.BoxType.None_Black)
             {
                 OUTPUT_IMAGE_X = 320;
                 OUTPUT_IMAGE_Y = 64 + 8;
             }
-            else if ((int)Box > (int)Data.BoxType.None_Black)
+            else if ((int)Header.BoxType > (int)DataMajora.BoxType.None_Black)
             {
                 OUTPUT_IMAGE_X = 320;
                 OUTPUT_IMAGE_Y = 240;
@@ -95,20 +97,22 @@ namespace ZeldaMessage
             return bmp;
         }
 
-        private void SplitMsgIntoTextboxes(byte[] MessageData)
+        private void SplitMsgIntoTextboxes(byte[] MessageDataMajora)
         {
             List<byte> box = new List<byte>();
 
             bool End = false;
 
-            for (int i = 0; i < MessageData.Length; i++)
+            for (int i = 0; i < MessageDataMajora.Length; i++)
             {
-                byte curByte = GetByteFromArray(MessageData, i);
+                byte curByte = GetByteFromArray(MessageDataMajora, i);
 
                 switch (curByte)
                 {
-                    case (byte)Data.MsgControlCode.NEW_BOX:
+                    case (byte)DataMajora.MsgControlCode.NEW_BOX:
+                    case (byte)DataMajora.MsgControlCode.NEW_BOX_3L:
                         {
+                            box.Add(curByte);
                             Message.Add(box);
                             box = new List<byte>();
 
@@ -117,7 +121,14 @@ namespace ZeldaMessage
                             else
                                 break;
                         }
-                    case (byte)Data.MsgControlCode.DELAY:
+                    case (byte)DataMajora.MsgControlCode.SHIFT:
+                        {
+                            box.Add(curByte);
+                            box.Add(GetByteFromArray(MessageDataMajora, i + 1));
+                            i += 1;
+                            break;
+                        }
+                    case (byte)DataMajora.MsgControlCode.DELAY_END:
                         {
                             Message.Add(box);
                             box = new List<byte>();
@@ -125,42 +136,28 @@ namespace ZeldaMessage
                             i += 1;
                             break;
                         }
-                    case (byte)Data.MsgControlCode.HIGH_SCORE:
-                    case (byte)Data.MsgControlCode.SPEED:
-                    case (byte)Data.MsgControlCode.SHIFT:
-                    case (byte)Data.MsgControlCode.COLOR:
-                    case (byte)Data.MsgControlCode.ICON:
+                    case (byte)DataMajora.MsgControlCode.DELAY_DC:
+                    case (byte)DataMajora.MsgControlCode.DELAY_DI:
                         {
                             box.Add(curByte);
-                            box.Add(GetByteFromArray(MessageData, i + 1));
-                            i += 1;
-                            break;
-                        }
-                    case (byte)Data.MsgControlCode.FADE:
-                        {
-                            box.Add(curByte);
-                            box.Add(GetByteFromArray(MessageData, i + 1));
-                            i += 1;
-                            End = true;
-                            break;
-                        }
-                    case (byte)Data.MsgControlCode.JUMP:
-                    case (byte)Data.MsgControlCode.FADE2:
-                    case (byte)Data.MsgControlCode.SOUND:
-                        {
-                            box.Add(curByte);
-                            box.Add(GetByteFromArray(MessageData, i + 1));
-                            box.Add(GetByteFromArray(MessageData, i + 2));
+                            box.Add(GetByteFromArray(MessageDataMajora, i + 1));
                             i += 2;
                             break;
                         }
-                    case (byte)Data.MsgControlCode.BACKGROUND:
+                    case (byte)DataMajora.MsgControlCode.FADE:
                         {
                             box.Add(curByte);
-                            box.Add(GetByteFromArray(MessageData, i + 1));
-                            box.Add(GetByteFromArray(MessageData, i + 2));
-                            box.Add(GetByteFromArray(MessageData, i + 3));
-                            i += 3;
+                            box.Add(GetByteFromArray(MessageDataMajora, i + 1));
+                            i += 2;
+                            End = true;
+                            break;
+                        }
+                    case (byte)DataMajora.MsgControlCode.SOUND:
+                        {
+                            box.Add(curByte);
+                            box.Add(GetByteFromArray(MessageDataMajora, i + 1));
+                            box.Add(GetByteFromArray(MessageDataMajora, i + 2));
+                            i += 2;
                             break;
                         }
                     default:
@@ -173,63 +170,22 @@ namespace ZeldaMessage
                 Message.Add(box);
         }
 
-        private int GetBoxIconTag(int BoxNum)
-        {
-            int Result = -1;
-
-            List<byte> BoxData = Message[BoxNum];
-
-            for (int i = 0; i < BoxData.Count; i++)
-            {
-                byte curByte = GetByteFromArray(BoxData.ToArray(), i);
-
-                if (curByte == (byte)Data.MsgControlCode.ICON)
-                {
-                    Result = GetByteFromArray(BoxData.ToArray(), i + 1);
-                    continue;
-                }
-                else
-                {
-                    switch (curByte)
-                    {
-                        case (byte)Data.MsgControlCode.HIGH_SCORE:
-                        case (byte)Data.MsgControlCode.DELAY:
-                        case (byte)Data.MsgControlCode.SPEED:
-                        case (byte)Data.MsgControlCode.SHIFT:
-                        case (byte)Data.MsgControlCode.COLOR:
-                            i += 1; break;
-                        case (byte)Data.MsgControlCode.JUMP:
-                        case (byte)Data.MsgControlCode.SOUND:
-                            i += 2; break;
-                        case (byte)Data.MsgControlCode.BACKGROUND:
-                            i += 3; break;
-                        case (byte)Data.MsgControlCode.FADE:
-                        case (byte)Data.MsgControlCode.FADE2:
-                            return Result;
-                    }
-                }
-            }
-
-
-            return Result;
-        }
-
         private int GetBoxChoiceTag(int BoxNum)
         {
             int Result = 0;
 
-            List<byte> BoxData = Message[BoxNum];
+            List<byte> BoxDataMajora = Message[BoxNum];
 
-            for (int i = 0; i < BoxData.Count; i++)
+            for (int i = 0; i < BoxDataMajora.Count; i++)
             {
-                byte curByte = GetByteFromArray(BoxData.ToArray(), i);
+                byte curByte = GetByteFromArray(BoxDataMajora.ToArray(), i);
 
-                if (curByte == (byte)Data.MsgControlCode.TWO_CHOICES)
+                if (curByte == (byte)DataMajora.MsgControlCode.TWO_CHOICES)
                 {
                     Result = 2; 
                     continue;
                 }
-                else if (curByte == (byte)Data.MsgControlCode.THREE_CHOICES)
+                else if (curByte == (byte)DataMajora.MsgControlCode.THREE_CHOICES)
                 {
                     Result = 3;
                     continue;
@@ -239,20 +195,16 @@ namespace ZeldaMessage
 
                     switch (curByte)
                     {
-                        case (byte)Data.MsgControlCode.HIGH_SCORE:
-                        case (byte)Data.MsgControlCode.DELAY:
-                        case (byte)Data.MsgControlCode.SPEED:
-                        case (byte)Data.MsgControlCode.SHIFT:
-                        case (byte)Data.MsgControlCode.COLOR:
-                        case (byte)Data.MsgControlCode.ICON:
+                        case (byte)DataMajora.MsgControlCode.SHIFT:
                             i += 1; break;
-                        case (byte)Data.MsgControlCode.JUMP:
-                        case (byte)Data.MsgControlCode.SOUND:
+                        case (byte)DataMajora.MsgControlCode.DELAY_END:
+                        case (byte)DataMajora.MsgControlCode.DELAY_DC:
+                        case (byte)DataMajora.MsgControlCode.DELAY_DI:
+                        case (byte)DataMajora.MsgControlCode.SOUND:
                             i += 2; break;
-                        case (byte)Data.MsgControlCode.BACKGROUND:
+                        case (byte)DataMajora.MsgControlCode.BACKGROUND:
                             i += 3; break;
-                        case (byte)Data.MsgControlCode.FADE:
-                        case (byte)Data.MsgControlCode.FADE2:
+                        case (byte)DataMajora.MsgControlCode.FADE:
                             return Result;
                     }
                 }
@@ -271,11 +223,11 @@ namespace ZeldaMessage
                     numTags += GetNumberOfTags(i, Tag);
             else
             {
-                List<byte> BoxData = Message[BoxNum];
+                List<byte> BoxDataMajora = Message[BoxNum];
 
-                for (int i = 0; i < BoxData.Count; i++)
+                for (int i = 0; i < BoxDataMajora.Count; i++)
                 {
-                    byte curByte = GetByteFromArray(BoxData.ToArray(), i);
+                    byte curByte = GetByteFromArray(BoxDataMajora.ToArray(), i);
 
                     if (curByte == (byte)Tag)
                         numTags++;
@@ -284,20 +236,59 @@ namespace ZeldaMessage
 
                         switch (curByte)
                         {
-                            case (byte)Data.MsgControlCode.HIGH_SCORE:
-                            case (byte)Data.MsgControlCode.DELAY:
-                            case (byte)Data.MsgControlCode.SPEED:
-                            case (byte)Data.MsgControlCode.SHIFT:
-                            case (byte)Data.MsgControlCode.COLOR:
-                            case (byte)Data.MsgControlCode.ICON:
-                            case (byte)Data.MsgControlCode.FADE:
+                            case (byte)DataMajora.MsgControlCode.SHIFT:
                                 i += 1; break;
-                            case (byte)Data.MsgControlCode.JUMP:
-                            case (byte)Data.MsgControlCode.SOUND:
-                            case (byte)Data.MsgControlCode.FADE2:
+                            case (byte)DataMajora.MsgControlCode.DELAY_END:
+                            case (byte)DataMajora.MsgControlCode.DELAY_DC:
+                            case (byte)DataMajora.MsgControlCode.DELAY_DI:
+                            case (byte)DataMajora.MsgControlCode.SOUND:
+                            case (byte)DataMajora.MsgControlCode.FADE:
                                 i += 2; break;
-                            case (byte)Data.MsgControlCode.BACKGROUND:
-                                i += 3; break;
+                        }
+                    }
+                }
+            }
+
+            return numTags;
+        }
+
+        private int GetNumberOfLineBreaks(int BoxNum)
+        {
+            int numTags = 0;
+
+            if (BoxNum < 0)
+                for (int i = 0; i < Message.Count; i++)
+                    numTags += GetNumberOfLineBreaks(i);
+            else
+            {
+                List<byte> BoxDataMajora = Message[BoxNum];
+
+                for (int i = 0; i < BoxDataMajora.Count; i++)
+                {
+                    byte curByte = GetByteFromArray(BoxDataMajora.ToArray(), i);
+
+                    if (curByte == (byte)DataMajora.MsgControlCode.LINE_BREAK)
+                        numTags++;
+                    else if (curByte == (byte)DataMajora.MsgControlCode.NEW_BOX_3L)
+                    {
+                        numTags--;
+
+                        if (numTags < 0)
+                            numTags = 0;
+                    }
+                    else
+                    {
+
+                        switch (curByte)
+                        {
+                            case (byte)DataMajora.MsgControlCode.SHIFT:
+                                i += 1; break;
+                            case (byte)DataMajora.MsgControlCode.DELAY_END:
+                            case (byte)DataMajora.MsgControlCode.DELAY_DC:
+                            case (byte)DataMajora.MsgControlCode.DELAY_DI:
+                            case (byte)DataMajora.MsgControlCode.SOUND:
+                            case (byte)DataMajora.MsgControlCode.FADE:
+                                i += 2; break;
                         }
                     }
                 }
@@ -312,7 +303,7 @@ namespace ZeldaMessage
             Color c = Color.Black;
             bool revAlpha = true;
 
-            switch (Box)
+            switch (Header.BoxType)
             {
                 default:
                     {
@@ -322,36 +313,36 @@ namespace ZeldaMessage
 
                         return destBmp;
                     }
-                case Data.BoxType.Black:
+                case DataMajora.BoxType.Black:
                     {
                         img = Properties.Resources.Box_Default;
                         c = Color.FromArgb(170, 0, 0, 0);
                         revAlpha = true;
                         break;
                     }
-                case Data.BoxType.Ocarina:
+                case DataMajora.BoxType.Ocarina:
                     {
                         img = Properties.Resources.Box_Staff;
                         c = Color.FromArgb(180, 255, 0, 0);
                         revAlpha = false;
                         break;
                     }
-                case Data.BoxType.Wooden:
+                case DataMajora.BoxType.Wooden:
                     {
                         img = Properties.Resources.Box_Wooden;
                         c = Color.FromArgb(230, 70, 50, 30);
                         revAlpha = false;
                         break;
                     }
-                case Data.BoxType.Blue:
+                case DataMajora.BoxType.Blue:
                     {
                         img = Properties.Resources.Box_Blue;
                         c = Color.FromArgb(170, 0, 10, 50);
                         revAlpha = true;
                         break;
                     }
-                case Data.BoxType.None_White:
-                case Data.BoxType.None_Black:
+                case DataMajora.BoxType.None_White:
+                case DataMajora.BoxType.None_Black:
                     {
                         destBmp = new Bitmap(OUTPUT_IMAGE_X, OUTPUT_IMAGE_Y);
                         destBmp.MakeTransparent();
@@ -387,31 +378,54 @@ namespace ZeldaMessage
 
         private Bitmap DrawText(Bitmap destBmp, int boxNum)
         {
-            List<byte> BoxData = Message[boxNum];
+            List<byte> BoxDataMajora = Message[boxNum];
 
-            float xPos = Data.XPOS_DEFAULT;
-            float yPos = (Box == Data.BoxType.None_White) ? 36 : Math.Max(Data.YPOS_DEFAULT, ((52 - (Data.LINEBREAK_SIZE * GetNumberOfTags(boxNum, (int)Data.MsgControlCode.LINE_BREAK))) / 2));
-            float scale = Data.SCALE_DEFAULT;
+            float xPos = DataMajora.XPOS_DEFAULT;
+            float yPos = (Header.BoxType == DataMajora.BoxType.None_White) ? 
+                    36 
+                : 
+                    Math.Max(
+                                DataMajora.YPOS_DEFAULT
+                                ,
+                                ((52 - (Data.LINEBREAK_SIZE * GetNumberOfLineBreaks(boxNum))) / 2)
+                            );
 
-            if ((int)Box > (int)Data.BoxType.None_Black)
+            float scale = DataMajora.SCALE_DEFAULT;
+
+            if ((int)Header.BoxType > (int)DataMajora.BoxType.None_Black)
             {
                 xPos = 20;
                 yPos = 48;
                 scale = 0.85f;
             }
 
-            Color textColor = (Box == Data.BoxType.None_Black) ? Color.Black : Color.White;
+            Color textColor = (Header.BoxType == DataMajora.BoxType.None_Black) ? Color.Black : Color.White;
 
             int choiceType = GetBoxChoiceTag(boxNum);
-            int iconType = GetBoxIconTag(boxNum);
+
+            if (Header.MajoraIcon != 0xFE)
+            {
+                string fn = $"majoraicon_{Header.MajoraIcon.ToString().ToLower()}";
+                Bitmap img = (Bitmap)Properties.Resources.ResourceManager.GetObject(fn);
+
+                if (img != null)
+                {
+                    float xPosIcon = xPos - 0x7;
+                    float yPosIcon = Header.BoxType == DataMajora.BoxType.None_White ? 36 : 0x14;
+
+                    DrawImage(destBmp, img, Color.White, 24, 24, ref xPosIcon, ref yPosIcon, 0, false);
+                }
+
+                xPos += 0x20;
+            }
 
             using (Graphics g = Graphics.FromImage(destBmp))
             {
-                for (int charPos = 0; charPos < BoxData.Count; charPos++)
+                for (int charPos = 0; charPos < BoxDataMajora.Count; charPos++)
                 {
-                    switch (BoxData[charPos])
+                    switch (BoxDataMajora[charPos])
                     {
-                        case (byte)Data.MsgControlCode.TWO_CHOICES:
+                        case (byte)DataMajora.MsgControlCode.TWO_CHOICES:
                             {
                                 Bitmap imgArrow = Properties.Resources.Box_Arrow;
                                 float xPosChoice = 16;
@@ -420,12 +434,12 @@ namespace ZeldaMessage
                                 for (int ch = 0; ch < 2; ch++)
                                 {
                                     DrawImage(destBmp, imgArrow, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
-                                    yPosChoice += Data.LINEBREAK_SIZE;
+                                    yPosChoice += DataMajora.LINEBREAK_SIZE;
                                 }
 
                                 break;
                             }
-                        case (byte)Data.MsgControlCode.THREE_CHOICES:
+                        case (byte)DataMajora.MsgControlCode.THREE_CHOICES:
                             {
                                 Bitmap imgArrow = Properties.Resources.Box_Arrow;
                                 float xPosChoice = 16;
@@ -434,78 +448,21 @@ namespace ZeldaMessage
                                 for (int ch = 0; ch < 3; ch++)
                                 {
                                     DrawImage(destBmp, imgArrow, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
-                                    yPosChoice += Data.LINEBREAK_SIZE;
+                                    yPosChoice += DataMajora.LINEBREAK_SIZE;
                                 }
 
                                 break;
                             }
-                        case (byte)Data.MsgControlCode.TIME:
+                        case (byte)DataMajora.MsgControlCode.PLAYER:
                             {
-                                char[] Setting = Data.ControlCharPresets[(Data.MsgControlCode)BoxData[charPos]].ToArray();
+                                char[] Setting = DataMajora.ControlCharPresets[(DataMajora.MsgControlCode)BoxDataMajora[charPos]].ToArray();
 
                                 foreach (char ch in Setting)
                                     DrawTextInternal(destBmp, (byte)ch, textColor, scale, ref xPos, ref yPos);
 
                                 break;
                             }
-                        case (byte)Data.MsgControlCode.POINTS:
-                        case (byte)Data.MsgControlCode.MARATHON_TIME:
-                        case (byte)Data.MsgControlCode.RACE_TIME:
-                        case (byte)Data.MsgControlCode.FISH_WEIGHT:
-                        case (byte)Data.MsgControlCode.GOLD_SKULLTULAS:
-                        case (byte)Data.MsgControlCode.PLAYER:
-                            {
-                                char[] Setting = Data.ControlCharPresets[(Data.MsgControlCode)BoxData[charPos]].ToArray();
-
-                                foreach (char ch in Setting)
-                                    DrawTextInternal(destBmp, (byte)ch, textColor, scale, ref xPos, ref yPos);
-
-                                break;
-                            }
-                        case (byte)Data.MsgControlCode.HIGH_SCORE:
-                            {
-                                char[] Setting = Data.HighScoreControlCharPresets[(Data.MsgHighScore)BoxData[charPos + 1]].ToArray();
-
-                                foreach (char ch in Setting)
-                                    DrawTextInternal(destBmp, (byte)ch, textColor, scale, ref xPos, ref yPos);
-
-                                charPos++;
-                                break;
-                            }
-                        case (byte)Data.MsgControlCode.ICON:
-                            {
-                                byte IconN = GetByteFromArray(BoxData.ToArray(), charPos + 1);
-
-                                string fn = $"icon_{IconN.ToString().ToLower()}";
-                                Bitmap img = (Bitmap)Properties.Resources.ResourceManager.GetObject(fn);
-
-                                if (img != null)
-                                {
-                                    if (IconN < 102)
-                                    {
-                                        float xPosIcon = xPos - 0xA;
-                                        float yPosIcon = Box == Data.BoxType.None_White ? 36 : 0x10;
-
-                                        DrawImage(destBmp, img, Color.White, 32, 32, ref xPosIcon, ref yPosIcon, 0, false);
-                                    }
-                                    else
-                                    {
-                                        float xPosIcon = xPos - 0x7;
-                                        float yPosIcon = Box == Data.BoxType.None_White ? 36 : 0x14;
-
-                                        DrawImage(destBmp, img, Color.White, 24, 24, ref xPosIcon, ref yPosIcon, 0, false);
-                                    }
-                                }
-
-                                xPos += 0x20;
-                                charPos += 1;
-                                continue;
-                            }
-                        case (byte)Data.MsgControlCode.EVENT:
-                            {
-                                break;
-                            }
-                        case (byte)Data.MsgControlCode.BACKGROUND:
+                        case (byte)DataMajora.MsgControlCode.BACKGROUND:
                             {
                                 Bitmap left = Properties.Resources.xmes_left;
                                 Bitmap right = Properties.Resources.xmes_right;
@@ -518,112 +475,86 @@ namespace ZeldaMessage
                                 xPosbg += left.Width;
 
                                 DrawImage(destBmp, right, Color.White, left.Width, left.Height, ref xPosbg, ref yPosbg, 0);
-
-                                charPos += 3;
                                 continue;
                             }
-                        case (byte)Data.MsgControlCode.SOUND:
-                        case (byte)Data.MsgControlCode.FADE2:
+                        case (byte)DataMajora.MsgControlCode.SOUND:
+                        case (byte)DataMajora.MsgControlCode.DELAY_DC:
+                        case (byte)DataMajora.MsgControlCode.DELAY_DI:
+                        case (byte)DataMajora.MsgControlCode.DELAY_END:
                             {
                                 charPos += 2;
                                 continue;
                             }
-                        case (byte)Data.MsgControlCode.DELAY:
-                        case (byte)Data.MsgControlCode.JUMP:
+                        case (byte)DataMajora.MsgControlCode.FADE:
                             {
                                 charPos += 2;
-                                continue;
-                            }
-                        case (byte)Data.MsgControlCode.SPEED:
-                            {
-                                charPos += 1;
-                                continue;
-                            }
-                        case (byte)Data.MsgControlCode.FADE:
-                            {
-                                charPos += 1;
                                 return destBmp;
                             }
-                        case (byte)Data.MsgControlCode.AWAIT_BUTTON:
-                        case (byte)Data.MsgControlCode.END:
-                        case (byte)Data.MsgControlCode.DC:
-                        case (byte)Data.MsgControlCode.DI:
-                        case (byte)Data.MsgControlCode.NS:
+                        case (byte)DataMajora.MsgControlCode.END:
+                        case (byte)DataMajora.MsgControlCode.DC:
+                        case (byte)DataMajora.MsgControlCode.DI:
+                        case (byte)DataMajora.MsgControlCode.NOSKIP:
+                        case (byte)DataMajora.MsgControlCode.NOSKIP_SOUND:
                             continue;
-                        case (byte)Data.MsgControlCode.SHIFT:
+                        case (byte)DataMajora.MsgControlCode.SHIFT:
                             {
-                                byte num_shift = GetByteFromArray(BoxData.ToArray(), charPos + 1);
+                                byte num_shift = GetByteFromArray(BoxDataMajora.ToArray(), charPos + 1);
 
                                 xPos += num_shift;
                                 charPos++;
                                 continue;
                             }
-                        case (byte)Data.MsgControlCode.COLOR:
+                        case (byte)DataMajora.MsgControlCode.COLOR_DEFAULT:
+                        case (byte)DataMajora.MsgControlCode.COLOR_RED:
+                        case (byte)DataMajora.MsgControlCode.COLOR_GREEN:
+                        case (byte)DataMajora.MsgControlCode.COLOR_BLUE:
+                        case (byte)DataMajora.MsgControlCode.COLOR_YELLOW:
+                        case (byte)DataMajora.MsgControlCode.COLOR_NAVY:
+                        case (byte)DataMajora.MsgControlCode.COLOR_PINK:
+                        case (byte)DataMajora.MsgControlCode.COLOR_SILVER:
+                        case (byte)DataMajora.MsgControlCode.COLOR_ORANGE:
                             {
-                                byte color_data_idx = GetByteFromArray(BoxData.ToArray(), charPos + 1);
+                                byte color_DataMajora_idx = (byte)(BoxDataMajora[charPos] - (byte)DataMajora.MsgControlCode.COLOR_DEFAULT);
 
-                                switch (color_data_idx)
-                                {
-                                    case (int)Data.MsgColor.R:
-                                    case (int)Data.MsgColor.G:
-                                    case (int)Data.MsgColor.B:
-                                    case (int)Data.MsgColor.C:
-                                    case (int)Data.MsgColor.M:
-                                    case (int)Data.MsgColor.Y:
-                                    case (int)Data.MsgColor.BLK:
-                                        {
-                                            RGB cl = Data.CharColors[color_data_idx - (int)Data.MsgColor.R][Convert.ToInt32(Box == Data.BoxType.Wooden)];
-                                            textColor = Color.FromArgb(255, cl.R, cl.G, cl.B);
-                                            break;
-                                        }
-                                    default:
-                                        {
-                                            RGB cl = Data.CharColors[7][Convert.ToInt32(Box == Data.BoxType.None_Black)];
-                                            textColor = Color.FromArgb(255, cl.R, cl.G, cl.B);
-                                            break;
-                                        }
-                                }
-
-                                charPos++;
+                                RGB cl = DataMajora.CharColors[color_DataMajora_idx][Convert.ToInt32(Header.BoxType == DataMajora.BoxType.Wooden)];
+                                textColor = Color.FromArgb(255, cl.R, cl.G, cl.B);
 
                                 break;
                             }
-                        case (byte)Data.MsgControlCode.LINE_BREAK:
+                        case (byte)DataMajora.MsgControlCode.LINE_BREAK:
                             {
-                                if ((int)Box > (int)Data.BoxType.None_Black)
+                                if ((int)Header.BoxType > (int)DataMajora.BoxType.None_Black)
                                 {
                                     xPos = 20;
                                     yPos += 6;
                                 }
                                 else
                                 {
-                                    xPos = Data.XPOS_DEFAULT;
-                                    yPos += Data.LINEBREAK_SIZE;
+                                    xPos = DataMajora.XPOS_DEFAULT;
+                                    yPos += DataMajora.LINEBREAK_SIZE;
                                 }
 
-                                if ((choiceType == 2 && yPos >= 32) || (choiceType == 3 && yPos >= 20) || iconType != -1 && yPos > 12)
-                                    xPos = 2 * Data.XPOS_DEFAULT;
+                                if ((choiceType == 2 && yPos >= 32) || (choiceType == 3 && yPos >= 20) || Header.MajoraIcon != 0xFE && yPos > 12)
+                                    xPos = 2 * DataMajora.XPOS_DEFAULT;
 
                                 continue;
                             }
                         default:
                             {
-                                destBmp = DrawTextInternal(destBmp, BoxData[charPos], textColor, scale, ref xPos, ref yPos);
+                                destBmp = DrawTextInternal(destBmp, BoxDataMajora[charPos], textColor, scale, ref xPos, ref yPos);
                                 break;
                             }
                     }
                 }
 
-                if (GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.FADE) == 0 &&
-                    GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.DELAY) == 0 &&
-                    GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.FADE2) == 0 &&
-                    GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.TWO_CHOICES) == 0 &&
-                    GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.THREE_CHOICES) == 0 &&
-                    GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.EVENT) == 0)
+                if (GetNumberOfTags(boxNum, (byte)DataMajora.MsgControlCode.FADE) == 0 &&
+                    GetNumberOfTags(boxNum, (byte)DataMajora.MsgControlCode.DELAY_END) == 0 &&
+                    GetNumberOfTags(boxNum, (byte)DataMajora.MsgControlCode.TWO_CHOICES) == 0 &&
+                    GetNumberOfTags(boxNum, (byte)DataMajora.MsgControlCode.THREE_CHOICES) == 0)
                 {
                     Bitmap imgend;
 
-                    if (Message.Last() == BoxData)
+                    if (Message.Last() == BoxDataMajora)
                         imgend = Properties.Resources.Box_End;
                     else
                         imgend = Properties.Resources.Box_Triangle;
@@ -668,7 +599,7 @@ namespace ZeldaMessage
 
         private Bitmap DrawTextInternal(Bitmap destBmp, byte Char, Color cl, float scale, ref float xPos, ref float yPos)
         {
-            string fn = $"char_{Char.ToString("X").ToLower()}";
+            string fn = $"majora_char_{Char.ToString("X").ToLower()}";
 
             if (Char == ' ')
             {
@@ -678,8 +609,8 @@ namespace ZeldaMessage
 
             Bitmap img;
 
-            if (FontData != null && (Char - ' ') * 128 < FontData.Length)
-                img = GetBitmapFromI4FontChar(FontData.Skip((Char - ' ') * 128).Take(128).ToArray());
+            if (FontDataMajora != null && (Char - ' ') * 128 < FontDataMajora.Length)
+                img = GetBitmapFromI4FontChar(FontDataMajora.Skip((Char - ' ') * 128).Take(128).ToArray());
             else
             {
                 img = (Bitmap)Properties.Resources.ResourceManager.GetObject(fn);
@@ -696,7 +627,7 @@ namespace ZeldaMessage
 
             using (Graphics g = Graphics.FromImage(destBmp))
             {
-                if (Box != Data.BoxType.None_Black)
+                if (Header.BoxType != DataMajora.BoxType.None_Black)
                 {
                     shadow = Colorize(shadow, Color.Black);
                     shadow.SetResolution(g.DpiX, g.DpiY);
@@ -710,11 +641,16 @@ namespace ZeldaMessage
 
             try
             {
-                xPos += (int)Math.Floor((Data.FontWidths[Char - 0x20] * scale));
+                byte char_f = Char;
+
+                if (char_f >= 0xB0 && char_f <= 0xBC)
+                    char_f = (byte)(0x9F + (char_f - 0xB0));
+
+                xPos += (int)Math.Floor((DataMajora.FontWidths[char_f - 0x20] * scale));
             }
             catch (Exception)
             {
-                // Lazy way to ensure the program does not crash if exported message data doesn't have data for all the characters.
+                // Lazy way to ensure the program does not crash if exported message DataMajora doesn't have DataMajora for all the characters.
             }
 
             return destBmp;
@@ -756,12 +692,12 @@ namespace ZeldaMessage
         {
             bmp.MakeTransparent();
 
-            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
+            BitmapData bmpDataMajora = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
 
-            int bytes = Math.Abs(bmpData.Stride) * bmp.Height;
+            int bytes = Math.Abs(bmpDataMajora.Stride) * bmp.Height;
             byte[] rgbaValues = new byte[bytes];
 
-            Marshal.Copy(bmpData.Scan0, rgbaValues, 0, bytes);
+            Marshal.Copy(bmpDataMajora.Scan0, rgbaValues, 0, bytes);
 
             for (int i = 3; i < rgbaValues.Length; i += 4)
             {
@@ -775,9 +711,9 @@ namespace ZeldaMessage
                 }
             }
 
-            Marshal.Copy(rgbaValues, 0, bmpData.Scan0, bytes);
+            Marshal.Copy(rgbaValues, 0, bmpDataMajora.Scan0, bytes);
 
-            bmp.UnlockBits(bmpData);
+            bmp.UnlockBits(bmpDataMajora);
 
             return bmp;
         }
