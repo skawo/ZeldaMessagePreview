@@ -396,7 +396,7 @@ namespace ZeldaMessage
                 case DataMajora.BoxType.Red:
                 case DataMajora.BoxType.Red2:
                     {
-                        img = Properties.Resources.Box_Blue;
+                        img = Properties.Resources.Box_Default;
                         c = Color.FromArgb(170, 255, 0, 0);
                         revAlpha = true;
                         break;
@@ -482,12 +482,14 @@ namespace ZeldaMessage
 
 
             byte colorIdx = GetLastColorTag(boxNum);
-            bool altColor = (Header.BoxType == DataMajora.BoxType.Bombers_Notebook || Header.BoxType == DataMajora.BoxType.None_Black);
 
-            RGB clInitial = DataMajora.CharColors[colorIdx][Convert.ToInt32(altColor)];
+            RGB clInitial = DataMajora.CharColors[colorIdx][DataMajora.CharColorIndexes[Header.BoxType]];
             Color textColor = Color.FromArgb(255, clInitial.R, clInitial.G, clInitial.B);
 
             int choiceType = GetBoxChoiceTag(boxNum);
+
+            if (choiceType != 0)
+                xPos = (float)(1.5 * DataMajora.XPOS_DEFAULT);
 
             if (Header.MajoraIcon != 0xFE)
             {
@@ -496,13 +498,19 @@ namespace ZeldaMessage
 
                 if (img != null)
                 {
-                    float xPosIcon = xPos - 0x7;
-                    float yPosIcon = Header.BoxType == DataMajora.BoxType.None_White ? 36 : 0x14;
+                    float xPosIcon = xPos - 0x12;
+                    float yPosIcon = Header.BoxType == DataMajora.BoxType.None_White ? 32 : 0x14;
 
-                    DrawImage(destBmp, img, Color.White, img.Width < 24 ? img.Width : 32, img.Height < 24 ? img.Height : 32, ref xPosIcon, ref yPosIcon, 0, false);
+                    if (img.Width == 24)
+                    {
+                        xPosIcon += 4;
+                        yPosIcon += 4;
+                    }
+
+                    DrawImage(destBmp, img, Color.White, img.Width, img.Height, ref xPosIcon, ref yPosIcon, 0, false);
                 }
 
-                xPos += 0x20;
+                xPos += 0xF;
             }
 
             using (Graphics g = Graphics.FromImage(destBmp))
@@ -604,7 +612,7 @@ namespace ZeldaMessage
                                 {
                                     byte color_DataMajora_idx = (byte)(BoxDataMajora[charPos] - (byte)DataMajora.MsgControlCode.COLOR_DEFAULT);
 
-                                    RGB cl = DataMajora.CharColors[color_DataMajora_idx][Convert.ToInt32(Header.BoxType == DataMajora.BoxType.Bombers_Notebook)];
+                                    RGB cl = DataMajora.CharColors[color_DataMajora_idx][DataMajora.CharColorIndexes[Header.BoxType]];
                                     textColor = Color.FromArgb(255, cl.R, cl.G, cl.B);
 
                                     break;
@@ -622,8 +630,8 @@ namespace ZeldaMessage
                                         yPos += DataMajora.LINEBREAK_SIZE;
                                     }
 
-                                    if ((choiceType == 2 && yPos >= 32) || (choiceType == 3 && yPos >= 20) || Header.MajoraIcon != 0xFE && yPos > 12)
-                                        xPos = 2 * DataMajora.XPOS_DEFAULT;
+                                    if ((choiceType == 2 && yPos >= 32) || (choiceType == 3 && yPos >= 20) || (Header.MajoraIcon != 0xFE && yPos > 12))
+                                        xPos = (float)(1.5 * DataMajora.XPOS_DEFAULT);
 
                                     continue;
                                 }
@@ -726,7 +734,7 @@ namespace ZeldaMessage
 
             using (Graphics g = Graphics.FromImage(destBmp))
             {
-                if (Header.BoxType != DataMajora.BoxType.None_Black)
+                if (Header.BoxType != DataMajora.BoxType.None_Black && Header.BoxType != DataMajora.BoxType.Bombers_Notebook)
                 {
                     shadow = Colorize(shadow, Color.Black);
                     shadow.SetResolution(g.DpiX, g.DpiY);

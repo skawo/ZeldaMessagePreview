@@ -354,16 +354,38 @@ namespace ZeldaMessage
 
         public static readonly List<List<RGB>> CharColors = new List<List<RGB>>()
         {
-            new List<RGB>() { new RGB(255, 255, 255), new RGB(0, 0, 0) },
-            new List<RGB>() { new RGB(255, 60, 60), new RGB(255, 120, 0)},
-            new List<RGB>() { new RGB(70, 255, 80), new RGB(70, 255, 80)},
-            new List<RGB>() { new RGB(80, 110, 255), new RGB(80, 90, 255)},
-            new List<RGB>() { new RGB(255, 255, 30), new RGB(255, 255, 50)},
-            new List<RGB>() { new RGB(74, 138, 234), new RGB(74, 138, 234) },         //??
-            new List<RGB>() { new RGB(255, 192, 203), new RGB(255, 192, 203) },       //??
-            new List<RGB>() { new RGB(192, 192, 192), new RGB(192, 192, 192) },       //??
-            new List<RGB>() { new RGB(255, 165, 0), new RGB(255, 165, 0) },           //??
+            new List<RGB>() { new RGB(255,  255,  255),  new RGB(255, 255, 255),  new RGB(0,   0,   0)      },
+            new List<RGB>() { new RGB(255,  60,   60),   new RGB(255, 120, 0),    new RGB(255, 60, 60)      },
+            new List<RGB>() { new RGB(70,   255,  80),   new RGB(70,  255, 80),   new RGB(70,  255, 80)     },
+            new List<RGB>() { new RGB(80,   110,  255),  new RGB(80,  90,  255),  new RGB(80,  110, 255)    },
+            new List<RGB>() { new RGB(255,  255,  30),   new RGB(255, 255, 50),   new RGB(255, 255, 30)     },
+            new List<RGB>() { new RGB(74,   138,  234),  new RGB(74,  138, 234),  new RGB(74,  138, 234)    },       //??
+            new List<RGB>() { new RGB(255,  192,  203),  new RGB(255, 192, 203),  new RGB(255, 192, 203)    },       //??
+            new List<RGB>() { new RGB(192,  192,  192),  new RGB(192, 192, 192),  new RGB(192, 192, 192)    },       //??
+            new List<RGB>() { new RGB(255,  165,  0),    new RGB(255, 165, 0),    new RGB(255, 165, 0)      },       //??
         };
+
+        public static Dictionary<BoxType, int> CharColorIndexes = new Dictionary<BoxType, int>()
+        {
+            {BoxType.Black,                 0 },
+            {BoxType.Wooden,                1 },
+            {BoxType.Blue,                  0 },
+            {BoxType.Ocarina,               0 },
+            {BoxType.None_White,            2 },
+            {BoxType.None_Black,            0 },
+            {BoxType.Black2,                0 },
+            {BoxType.None,                  0 },
+            {BoxType.Blue2,                 0 },
+            {BoxType.Red,                   0 },
+            {BoxType.None2,                 0 },
+            {BoxType.Credits,               0 },
+            {BoxType.None3,                 0 },
+            {BoxType.Bombers_Notebook,      2 },
+            {BoxType.None4,                 0 },
+            {BoxType.Red2,                  0 },
+
+        };
+
 
         public static readonly int XPOS_DEFAULT = 32;
         public static readonly int LINEBREAK_SIZE = 12;

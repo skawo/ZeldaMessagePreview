@@ -894,9 +894,6 @@
     <None Include="Resources\majora_Box_Wooden.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\majora_Box_Bomber.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\majora_icon_10 - Copy.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1288,6 +1285,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\majora_icon_1121.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_Box_Bomber.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
