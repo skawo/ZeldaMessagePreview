@@ -448,6 +448,9 @@ namespace ZeldaMessage
             float yPos = 0;
             float scale = 0;
 
+            int NumLineBreaks = GetNumberOfLineBreaks(boxNum);
+            int NumCurrentLineBreak = 0;
+
             switch (Header.BoxType)
             {
                 case DataMajora.BoxType.None_White:
@@ -474,7 +477,7 @@ namespace ZeldaMessage
                 default:
                     {
                         xPos = DataMajora.XPOS_DEFAULT;
-                        yPos = Math.Max(DataMajora.YPOS_DEFAULT, ((52 - (Data.LINEBREAK_SIZE * GetNumberOfLineBreaks(boxNum))) / 2));
+                        yPos = Math.Max(DataMajora.YPOS_DEFAULT, ((52 - (Data.LINEBREAK_SIZE * NumLineBreaks)) / 2));
                         scale = DataMajora.SCALE_DEFAULT;
                         break;
                     }
@@ -482,24 +485,40 @@ namespace ZeldaMessage
 
 
             byte colorIdx = GetLastColorTag(boxNum);
-
             RGB clInitial = DataMajora.CharColors[colorIdx][DataMajora.CharColorIndexes[Header.BoxType]];
             Color textColor = Color.FromArgb(255, clInitial.R, clInitial.G, clInitial.B);
 
             int choiceType = GetBoxChoiceTag(boxNum);
 
-            if (choiceType != 0)
-                xPos = (float)(1.5 * DataMajora.XPOS_DEFAULT);
+            switch (choiceType)
+            {
+                case 2:
+                    {
+                        xPos = DataMajora.XPOS_DEFAULT;
+                        yPos = 26 - (6 * NumLineBreaks);
+                        break;
+                    }
+                case 3:
+                    {
+                        xPos = DataMajora.XPOS_DEFAULT + 22;
+                        yPos = 26 - (6 * NumLineBreaks);
+                        break;
+                    }
+                default:
+                    break;
+            }
 
             if (Header.MajoraIcon != 0xFE)
             {
                 string fn = $"majora_icon_{Header.MajoraIcon.ToString().ToLower()}";
                 Bitmap img = (Bitmap)Properties.Resources.ResourceManager.GetObject(fn);
 
+                yPos = 26 - (6 * NumLineBreaks);
+
                 if (img != null)
                 {
-                    float xPosIcon = xPos - 0x12;
-                    float yPosIcon = Header.BoxType == DataMajora.BoxType.None_White ? 32 : 0x14;
+                    float xPosIcon = DataMajora.XPOS_DEFAULT - 0x14;
+                    float yPosIcon = Header.BoxType == DataMajora.BoxType.None_White ? 32 : 0x10;
 
                     if (img.Width == 24)
                     {
@@ -510,14 +529,24 @@ namespace ZeldaMessage
                     DrawImage(destBmp, img, Color.White, img.Width, img.Height, ref xPosIcon, ref yPosIcon, 0, false);
                 }
 
-                xPos += 0xF;
+                xPos += 0xE;
             }
+
 
             using (Graphics g = Graphics.FromImage(destBmp))
             {
                 for (int charPos = 0; charPos < BoxDataMajora.Count; charPos++)
                 {
-                    if (DataMajora.ControlCharPresets.ContainsKey((DataMajora.MsgControlCode)BoxDataMajora[charPos]))
+                    if (BoxDataMajora[charPos] >= 0xB0 && BoxDataMajora[charPos] <= 0xBC)
+                    {
+                        RGB clButtonTag = DataMajora.SpecificTagTextColor[(DataMajora.MsgControlCode)BoxDataMajora[charPos]][DataMajora.CharColorIndexes[Header.BoxType]];
+                        Color textColorButtonTag = Color.FromArgb(255, clButtonTag.R, clButtonTag.G, clButtonTag.B);
+
+
+                        destBmp = DrawTextInternal(destBmp, BoxDataMajora[charPos], textColorButtonTag, scale, ref xPos, ref yPos);
+                        continue;
+                    }
+                    else if (DataMajora.ControlCharPresets.ContainsKey((DataMajora.MsgControlCode)BoxDataMajora[charPos]))
                     {
                         string Setting = DataMajora.ControlCharPresets[(DataMajora.MsgControlCode)BoxDataMajora[charPos]];
 
@@ -530,15 +559,19 @@ namespace ZeldaMessage
                     {
                         switch (BoxDataMajora[charPos])
                         {
+
                             case (byte)DataMajora.MsgControlCode.TWO_CHOICES:
                                 {
                                     Bitmap imgArrow = Properties.Resources.Box_Arrow;
-                                    float xPosChoice = 16;
-                                    float yPosChoice = 32;
+                                    float xPosChoice = 13;
+                                    float yPosChoice = 25;
+
+                                    if (NumLineBreaks >= 3)
+                                        yPosChoice += 7;
 
                                     for (int ch = 0; ch < 2; ch++)
                                     {
-                                        DrawImage(destBmp, imgArrow, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
+                                        DrawImage(destBmp, imgArrow, Color.RoyalBlue, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
                                         yPosChoice += DataMajora.LINEBREAK_SIZE;
                                     }
 
@@ -547,12 +580,15 @@ namespace ZeldaMessage
                             case (byte)DataMajora.MsgControlCode.THREE_CHOICES:
                                 {
                                     Bitmap imgArrow = Properties.Resources.Box_Arrow;
-                                    float xPosChoice = 16;
-                                    float yPosChoice = 20;
+                                    float xPosChoice = 13;
+                                    float yPosChoice = 13;
+
+                                    if (NumLineBreaks >= 3)
+                                        yPosChoice += 7;
 
                                     for (int ch = 0; ch < 3; ch++)
                                     {
-                                        DrawImage(destBmp, imgArrow, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
+                                        DrawImage(destBmp, imgArrow, Color.RoyalBlue, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
                                         yPosChoice += DataMajora.LINEBREAK_SIZE;
                                     }
 
@@ -619,19 +655,23 @@ namespace ZeldaMessage
                                 }
                             case (byte)DataMajora.MsgControlCode.LINE_BREAK:
                                 {
-                                    if ((int)Header.BoxType == (int)DataMajora.BoxType.Credits)
-                                    {
-                                        xPos = 20;
-                                        yPos += 6;
-                                    }
-                                    else
-                                    {
-                                        xPos = DataMajora.XPOS_DEFAULT;
-                                        yPos += DataMajora.LINEBREAK_SIZE;
-                                    }
+                                    NumCurrentLineBreak++;
+                                    yPos += DataMajora.LINEBREAK_SIZE;
 
-                                    if ((choiceType == 2 && yPos >= 32) || (choiceType == 3 && yPos >= 20) || (Header.MajoraIcon != 0xFE && yPos > 12))
-                                        xPos = (float)(1.5 * DataMajora.XPOS_DEFAULT);
+
+                                    if (Header.MajoraIcon != 0xFE && NumCurrentLineBreak > 1 || Header.MajoraIcon != 0xFE && choiceType == 0)
+                                        xPos = DataMajora.XPOS_DEFAULT + 0xE;
+                                    else
+                                        xPos = DataMajora.XPOS_DEFAULT;
+
+
+
+
+                                    if ((choiceType == 2 && NumCurrentLineBreak >= (NumLineBreaks - 1)))
+                                        xPos = DataMajora.XPOS_DEFAULT + 10;
+
+                                    if ((choiceType == 3 && NumCurrentLineBreak >= (NumLineBreaks - 2)))
+                                        xPos = DataMajora.XPOS_DEFAULT + 22;
 
                                     continue;
                                 }
@@ -659,7 +699,7 @@ namespace ZeldaMessage
                     float xPosEnd = 128 - 4;
                     float yPosEnd = 64 - 4;
 
-                    DrawImage(destBmp, imgend, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosEnd, ref yPosEnd, 0);
+                    DrawImage(destBmp, imgend, Color.RoyalBlue, (int)(16 * scale), (int)(16 * scale), ref xPosEnd, ref yPosEnd, 0);
                 }
             }
 

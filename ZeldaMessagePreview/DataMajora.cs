@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace ZeldaMessage
 {
@@ -364,6 +365,25 @@ namespace ZeldaMessage
             new List<RGB>() { new RGB(192,  192,  192),  new RGB(192, 192, 192),  new RGB(192, 192, 192)    },       //??
             new List<RGB>() { new RGB(255,  165,  0),    new RGB(255, 165, 0),    new RGB(255, 165, 0)      },       //??
         };
+
+        public static Dictionary<MsgControlCode, List<RGB>> SpecificTagTextColor = new Dictionary<MsgControlCode, List<RGB>>()
+        {
+            { MsgControlCode.A_BUTTON,      new List<RGB>() { new RGB(0x41, 0x69, 0xE1), new RGB(0x41, 0x69, 0xE1), new RGB(0x41, 0x69, 0xE1), } },
+            { MsgControlCode.B_BUTTON,      new List<RGB>() { new RGB(0x32, 0xCD, 0x32), new RGB(0x32, 0xCD, 0x32), new RGB(0x32, 0xCD, 0x32), } },
+            { MsgControlCode.C_BUTTON,      new List<RGB>() { new RGB(0xFF, 0xFF, 0x00), new RGB(0xFF, 0xFF, 0x00), new RGB(0xFF, 0xFF, 0x00), } },
+            { MsgControlCode.R_BUTTON,      new List<RGB>() { new RGB(0xFF, 0xFF, 0xFF), new RGB(0xFF, 0xFF, 0xFF), new RGB(0x00, 0x00, 0x00), } },
+            { MsgControlCode.L_BUTTON,      new List<RGB>() { new RGB(0xFF, 0xFF, 0xFF), new RGB(0xFF, 0xFF, 0xFF), new RGB(0x00, 0x00, 0x00), } },
+            { MsgControlCode.Z_BUTTON,      new List<RGB>() { new RGB(0xFF, 0xFF, 0xFF), new RGB(0xFF, 0xFF, 0xFF), new RGB(0x00, 0x00, 0x00), } },
+            { MsgControlCode.C_UP,          new List<RGB>() { new RGB(0xFF, 0xFF, 0x00), new RGB(0xFF, 0xFF, 0x00), new RGB(0xFF, 0xFF, 0x00), } },
+            { MsgControlCode.C_DOWN,        new List<RGB>() { new RGB(0xFF, 0xFF, 0x00), new RGB(0xFF, 0xFF, 0x00), new RGB(0xFF, 0xFF, 0x00), } },
+            { MsgControlCode.C_LEFT,        new List<RGB>() { new RGB(0xFF, 0xFF, 0x00), new RGB(0xFF, 0xFF, 0x00), new RGB(0xFF, 0xFF, 0x00), } },
+            { MsgControlCode.C_RIGHT,       new List<RGB>() { new RGB(0xFF, 0xFF, 0x00), new RGB(0xFF, 0xFF, 0x00), new RGB(0xFF, 0xFF, 0x00), } },
+            { MsgControlCode.TRIANGLE,      new List<RGB>() { new RGB(0x32, 0xCD, 0x32), new RGB(0x32, 0xCD, 0x32), new RGB(0x32, 0xCD, 0x32), } },
+            { MsgControlCode.CONTROL_STICK, new List<RGB>() { new RGB(0xFF, 0xFF, 0xFF), new RGB(0xFF, 0xFF, 0xFF), new RGB(0x00, 0x00, 0x00), } },
+            { MsgControlCode.D_PAD,         new List<RGB>() { new RGB(0xFF, 0xFF, 0xFF), new RGB(0xFF, 0xFF, 0xFF), new RGB(0x00, 0x00, 0x00), } },
+        };
+
+
 
         public static Dictionary<BoxType, int> CharColorIndexes = new Dictionary<BoxType, int>()
         {

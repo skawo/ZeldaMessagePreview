@@ -2823,6 +2823,16 @@ namespace ZeldaMessage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap majora_icon_111 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_111", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap majora_icon_112 {
             get {
                 object obj = ResourceManager.GetObject("majora_icon_112", resourceCulture);
