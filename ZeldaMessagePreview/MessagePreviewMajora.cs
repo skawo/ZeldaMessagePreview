@@ -46,10 +46,8 @@ namespace ZeldaMessage
                     }
                 }
             }
-            catch (Exception ex)
-            {
-
-            }
+            catch (Exception)
+            { }
 
             try
             {
@@ -362,8 +360,6 @@ namespace ZeldaMessage
                     img.SetResolution(g.DpiX, g.DpiY);
                     g.DrawImage(img, new Rectangle(0, 0, destBmp.Width / 2 , destBmp.Height));
                     img = FlipBitmapX_MonoSafe(img);
-
-                    //srcBmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
                     g.DrawImage(img, new Rectangle(destBmp.Width / 2, 0, destBmp.Width / 2, destBmp.Height));
                 }
 
@@ -488,8 +484,8 @@ namespace ZeldaMessage
                 DataMajora.XPOS_DEFAULT = 8;
 
                 xPos = DataMajora.XPOS_DEFAULT;
-                yPos = Math.Max(5, 18  - (6 * NumLineBreaks));
-                scale = 0.75f;
+                yPos = Math.Max(6, 18  - (6 * NumLineBreaks));
+                scale = DataMajora.SCALE_DEFAULT;
             }
             else
             {
@@ -571,7 +567,7 @@ namespace ZeldaMessage
                 Bitmap img = (Bitmap)Properties.Resources.ResourceManager.GetObject(fn);
 
                 if (BomberNotebook)
-                    yPos = Math.Max(5, 18 - (6 * NumLineBreaks));
+                    yPos = Math.Max(6, 18 - (6 * NumLineBreaks));
                 else
                     yPos = 26 - (6 * NumLineBreaks);
 
