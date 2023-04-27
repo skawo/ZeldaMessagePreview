@@ -489,6 +489,8 @@ namespace ZeldaMessage
             }
             else
             {
+                DataMajora.XPOS_DEFAULT = 32;
+
                 switch (Header.BoxType)
                 {
                     case DataMajora.BoxType.None_White:
