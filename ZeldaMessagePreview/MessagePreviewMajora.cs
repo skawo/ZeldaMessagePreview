@@ -16,16 +16,18 @@ namespace ZeldaMessage
         private readonly List<List<byte>> Message = new List<List<byte>>();
         public int MessageCount;
         public bool BrightenText;
+        public bool BomberNotebook;
 
         private int OUTPUT_IMAGE_X = 256;
         private int OUTPUT_IMAGE_Y = 64 + (Properties.Resources.Box_End.Width / 2);
 
         public byte[] FontDataMajora = null;
 
-        public MessagePreviewMajora(byte[] MessageDataMajora)
+        public MessagePreviewMajora(byte[] MessageDataMajora, bool IsBomberNotebook = false)
         {
             Header = new MajoraMsgHeader(MessageDataMajora);
             MessageDataMajora = MessageDataMajora.Skip(11).ToArray();
+            BomberNotebook = IsBomberNotebook;
 
             SplitMsgIntoTextboxes(MessageDataMajora);
 
@@ -44,8 +46,9 @@ namespace ZeldaMessage
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+
             }
 
             try
@@ -346,72 +349,96 @@ namespace ZeldaMessage
             Color c = Color.Black;
             bool revAlpha = true;
 
-            switch (Header.BoxType)
+            if (BomberNotebook)
             {
-                default:
-                    {
-                        destBmp = new Bitmap(320, 240);
-                        var g = Graphics.FromImage(destBmp);
-                        g.FillRectangle(Brushes.Black, 0, 0, 320, 240);
+                img = ReverseAlphaMask(img);
+                c = Color.White;
+                img = Colorize(img, c);
 
-                        return destBmp;
-                    }
-                case DataMajora.BoxType.Black:
-                case DataMajora.BoxType.Black2:
-                    {
-                        img = Properties.Resources.Box_Default;
-                        c = Color.FromArgb(170, 0, 0, 0);
-                        revAlpha = true;
-                        break;
-                    }
-                case DataMajora.BoxType.Ocarina:
-                    {
-                        img = Properties.Resources.Box_Staff;
-                        c = Color.FromArgb(180, 255, 0, 0);
-                        revAlpha = false;
-                        break;
-                    }
-                case DataMajora.BoxType.Wooden:
-                    {
-                        img = Properties.Resources.Box_Wooden;
-                        c = Color.FromArgb(230, 70, 50, 30);
-                        revAlpha = false;
-                        break;
-                    }
-                case DataMajora.BoxType.Blue:
-                case DataMajora.BoxType.Blue2:
-                    {
-                        img = Properties.Resources.Box_Blue;
-                        c = Color.FromArgb(170, 0, 10, 50);
-                        revAlpha = true;
-                        break;
-                    }
-                case DataMajora.BoxType.Bombers_Notebook:
-                    {
-                        img = Properties.Resources.majora_Box_Bomber;
-                        c = Color.FromArgb(170, 250, 253, 213);
-                        revAlpha = true;
-                        break;
-                    }
-                case DataMajora.BoxType.Red:
-                case DataMajora.BoxType.Red2:
-                    {
-                        img = Properties.Resources.Box_Default;
-                        c = Color.FromArgb(170, 255, 0, 0);
-                        revAlpha = true;
-                        break;
-                    }
-                case DataMajora.BoxType.None:
-                case DataMajora.BoxType.None2:
-                case DataMajora.BoxType.None3:
-                case DataMajora.BoxType.None4:
-                case DataMajora.BoxType.None_White:
-                case DataMajora.BoxType.None_Black:
-                    {
-                        destBmp = new Bitmap(OUTPUT_IMAGE_X, OUTPUT_IMAGE_Y);
-                        destBmp.MakeTransparent();
-                        return destBmp;
-                    }
+                destBmp = new Bitmap(280, 50);
+
+                using (Graphics g = Graphics.FromImage(destBmp))
+                {
+                    img.SetResolution(g.DpiX, g.DpiY);
+                    g.DrawImage(img, new Rectangle(0, 0, destBmp.Width / 2 , destBmp.Height));
+                    img = FlipBitmapX_MonoSafe(img);
+
+                    //srcBmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                    g.DrawImage(img, new Rectangle(destBmp.Width / 2, 0, destBmp.Width / 2, destBmp.Height));
+                }
+
+                return destBmp;
+            }
+            else
+            {
+
+                switch (Header.BoxType)
+                {
+                    default:
+                        {
+                            destBmp = new Bitmap(320, 240);
+                            var g = Graphics.FromImage(destBmp);
+                            g.FillRectangle(Brushes.Black, 0, 0, 320, 240);
+
+                            return destBmp;
+                        }
+                    case DataMajora.BoxType.Black:
+                    case DataMajora.BoxType.Black2:
+                        {
+                            img = Properties.Resources.Box_Default;
+                            c = Color.FromArgb(170, 0, 0, 0);
+                            revAlpha = true;
+                            break;
+                        }
+                    case DataMajora.BoxType.Ocarina:
+                        {
+                            img = Properties.Resources.Box_Staff;
+                            c = Color.FromArgb(180, 255, 0, 0);
+                            revAlpha = false;
+                            break;
+                        }
+                    case DataMajora.BoxType.Wooden:
+                        {
+                            img = Properties.Resources.Box_Wooden;
+                            c = Color.FromArgb(230, 70, 50, 30);
+                            revAlpha = false;
+                            break;
+                        }
+                    case DataMajora.BoxType.Blue:
+                    case DataMajora.BoxType.Blue2:
+                        {
+                            img = Properties.Resources.Box_Blue;
+                            c = Color.FromArgb(170, 0, 10, 50);
+                            revAlpha = true;
+                            break;
+                        }
+                    case DataMajora.BoxType.Bombers_Notebook:
+                        {
+                            img = Properties.Resources.majora_Box_Bomber;
+                            c = Color.FromArgb(170, 250, 253, 213);
+                            revAlpha = true;
+                            break;
+                        }
+                    case DataMajora.BoxType.Red:
+                    case DataMajora.BoxType.Red2:
+                        {
+                            img = Properties.Resources.Box_Default;
+                            c = Color.FromArgb(170, 255, 0, 0);
+                            revAlpha = true;
+                            break;
+                        }
+                    case DataMajora.BoxType.None:
+                    case DataMajora.BoxType.None2:
+                    case DataMajora.BoxType.None3:
+                    case DataMajora.BoxType.None4:
+                    case DataMajora.BoxType.None_White:
+                    case DataMajora.BoxType.None_Black:
+                        {
+                            destBmp = new Bitmap(OUTPUT_IMAGE_X, OUTPUT_IMAGE_Y);
+                            destBmp.MakeTransparent();
+                            return destBmp;
+                        }
+                }
             }
 
             destBmp = DrawBoxInternal(destBmp, img, c, revAlpha);
@@ -440,6 +467,11 @@ namespace ZeldaMessage
             return destBmp;
         }
 
+        private int GetColorIndex(DataMajora.BoxType BoxType)
+        {
+            return (BomberNotebook ? 3 : DataMajora.CharColorIndexes[BoxType]);
+        }
+
         private Bitmap DrawText(Bitmap destBmp, int boxNum)
         {
             List<byte> BoxDataMajora = Message[boxNum];
@@ -451,41 +483,52 @@ namespace ZeldaMessage
             int NumLineBreaks = GetNumberOfLineBreaks(boxNum);
             int NumCurrentLineBreak = 0;
 
-            switch (Header.BoxType)
+            if (BomberNotebook)
             {
-                case DataMajora.BoxType.None_White:
-                    {
-                        xPos = DataMajora.XPOS_DEFAULT;
-                        yPos = 36;
-                        scale = DataMajora.SCALE_DEFAULT;
-                        break;
-                    }
-                case DataMajora.BoxType.Ocarina:
-                    {
-                        xPos = DataMajora.XPOS_DEFAULT;
-                        yPos = 2;
-                        scale = DataMajora.SCALE_DEFAULT;
-                        break;
-                    }
-                case DataMajora.BoxType.Credits:
-                    {
-                        xPos = 20;
-                        yPos = 48;
-                        scale = 0.85f;
-                        break;
-                    }
-                default:
-                    {
-                        xPos = DataMajora.XPOS_DEFAULT;
-                        yPos = Math.Max(DataMajora.YPOS_DEFAULT, ((52 - (Data.LINEBREAK_SIZE * NumLineBreaks)) / 2));
-                        scale = DataMajora.SCALE_DEFAULT;
-                        break;
-                    }
+                DataMajora.XPOS_DEFAULT = 8;
+
+                xPos = DataMajora.XPOS_DEFAULT;
+                yPos = Math.Max(5, 18  - (6 * NumLineBreaks));
+                scale = 0.75f;
+            }
+            else
+            {
+                switch (Header.BoxType)
+                {
+                    case DataMajora.BoxType.None_White:
+                        {
+                            xPos = DataMajora.XPOS_DEFAULT;
+                            yPos = 36;
+                            scale = DataMajora.SCALE_DEFAULT;
+                            break;
+                        }
+                    case DataMajora.BoxType.Ocarina:
+                        {
+                            xPos = DataMajora.XPOS_DEFAULT;
+                            yPos = 2;
+                            scale = DataMajora.SCALE_DEFAULT;
+                            break;
+                        }
+                    case DataMajora.BoxType.Credits:
+                        {
+                            xPos = 20;
+                            yPos = 48;
+                            scale = 0.85f;
+                            break;
+                        }
+                    default:
+                        {
+                            xPos = DataMajora.XPOS_DEFAULT;
+                            yPos = Math.Max(DataMajora.YPOS_DEFAULT, ((52 - (Data.LINEBREAK_SIZE * NumLineBreaks)) / 2));
+                            scale = DataMajora.SCALE_DEFAULT;
+                            break;
+                        }
+                }
             }
 
 
             byte colorIdx = GetLastColorTag(boxNum);
-            RGB clInitial = DataMajora.CharColors[colorIdx][DataMajora.CharColorIndexes[Header.BoxType]];
+            RGB clInitial = DataMajora.CharColors[colorIdx][GetColorIndex(Header.BoxType)];
             Color textColor = Color.FromArgb(255, clInitial.R, clInitial.G, clInitial.B);
 
             int choiceType = GetBoxChoiceTag(boxNum);
@@ -494,14 +537,28 @@ namespace ZeldaMessage
             {
                 case 2:
                     {
-                        xPos = DataMajora.XPOS_DEFAULT;
-                        yPos = 26 - (6 * NumLineBreaks);
+                        if (BomberNotebook)
+                        {
+                            xPos = DataMajora.XPOS_DEFAULT;
+                        }
+                        else
+                        {
+                            xPos = DataMajora.XPOS_DEFAULT;
+                            yPos = 26 - (6 * NumLineBreaks);
+                        }
                         break;
                     }
                 case 3:
                     {
-                        xPos = DataMajora.XPOS_DEFAULT + 22;
-                        yPos = 26 - (6 * NumLineBreaks);
+                        if (BomberNotebook)
+                        {
+                            xPos = DataMajora.XPOS_DEFAULT + 13;
+                        }
+                        else
+                        {
+                            xPos = DataMajora.XPOS_DEFAULT + 22;
+                            yPos = 26 - (6 * NumLineBreaks);
+                        }
                         break;
                     }
                 default:
@@ -513,23 +570,42 @@ namespace ZeldaMessage
                 string fn = $"majora_icon_{Header.MajoraIcon.ToString().ToLower()}";
                 Bitmap img = (Bitmap)Properties.Resources.ResourceManager.GetObject(fn);
 
-                yPos = 26 - (6 * NumLineBreaks);
+                if (BomberNotebook)
+                    yPos = Math.Max(5, 18 - (6 * NumLineBreaks));
+                else
+                    yPos = 26 - (6 * NumLineBreaks);
 
                 if (img != null)
                 {
-                    float xPosIcon = DataMajora.XPOS_DEFAULT - 0x14;
-                    float yPosIcon = Header.BoxType == DataMajora.BoxType.None_White ? 32 : 0x10;
-
-                    if (img.Width == 24)
+                    if (BomberNotebook)
                     {
-                        xPosIcon += 4;
-                        yPosIcon += 4;
-                    }
+                        float xPosIcon = DataMajora.XPOS_DEFAULT - 4;
+                        float yPosIcon = 10;
 
-                    DrawImage(destBmp, img, Color.White, img.Width, img.Height, ref xPosIcon, ref yPosIcon, 0, false);
+                        if (img.Width == 24)
+                        {
+                            xPosIcon += 4;
+                            yPosIcon += 4;
+                        }
+
+                        DrawImage(destBmp, img, Color.White, Math.Max(16, img.Width - 8), Math.Max(16, img.Height - 8), ref xPosIcon, ref yPosIcon, 0, false);
+                    }
+                    else
+                    {
+                        float xPosIcon = DataMajora.XPOS_DEFAULT - 0x14;
+                        float yPosIcon = Header.BoxType == DataMajora.BoxType.None_White ? 32 : 0x10;
+
+                        if (img.Width == 24)
+                        {
+                            xPosIcon += 4;
+                            yPosIcon += 4;
+                        }
+
+                        DrawImage(destBmp, img, Color.White, img.Width, img.Height, ref xPosIcon, ref yPosIcon, 0, false);
+                    }
                 }
 
-                xPos += 0xE;
+                xPos += (BomberNotebook ? 0x1C : 0xE);
             }
 
 
@@ -569,10 +645,13 @@ namespace ZeldaMessage
                                     if (NumLineBreaks >= 3)
                                         yPosChoice += 7;
 
-                                    for (int ch = 0; ch < 2; ch++)
+                                    if (!BomberNotebook)
                                     {
-                                        DrawImage(destBmp, imgArrow, Color.RoyalBlue, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
-                                        yPosChoice += DataMajora.LINEBREAK_SIZE;
+                                        for (int ch = 0; ch < 2; ch++)
+                                        {
+                                            DrawImage(destBmp, imgArrow, Color.RoyalBlue, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
+                                            yPosChoice += DataMajora.LINEBREAK_SIZE;
+                                        }
                                     }
 
                                     break;
@@ -586,10 +665,13 @@ namespace ZeldaMessage
                                     if (NumLineBreaks >= 3)
                                         yPosChoice += 7;
 
-                                    for (int ch = 0; ch < 3; ch++)
+                                    if (!BomberNotebook)
                                     {
-                                        DrawImage(destBmp, imgArrow, Color.RoyalBlue, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
-                                        yPosChoice += DataMajora.LINEBREAK_SIZE;
+                                        for (int ch = 0; ch < 3; ch++)
+                                        {
+                                            DrawImage(destBmp, imgArrow, Color.RoyalBlue, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
+                                            yPosChoice += DataMajora.LINEBREAK_SIZE;
+                                        }
                                     }
 
                                     break;
@@ -648,7 +730,7 @@ namespace ZeldaMessage
                                 {
                                     byte color_DataMajora_idx = (byte)(BoxDataMajora[charPos] - (byte)DataMajora.MsgControlCode.COLOR_DEFAULT);
 
-                                    RGB cl = DataMajora.CharColors[color_DataMajora_idx][DataMajora.CharColorIndexes[Header.BoxType]];
+                                    RGB cl = DataMajora.CharColors[color_DataMajora_idx][GetColorIndex(Header.BoxType)];
                                     textColor = Color.FromArgb(255, cl.R, cl.G, cl.B);
 
                                     break;
@@ -660,18 +742,16 @@ namespace ZeldaMessage
 
 
                                     if (Header.MajoraIcon != 0xFE && NumCurrentLineBreak > 1 || Header.MajoraIcon != 0xFE && choiceType == 0)
-                                        xPos = DataMajora.XPOS_DEFAULT + 0xE;
+                                        xPos = DataMajora.XPOS_DEFAULT + (BomberNotebook ? 0x1C : 0xE);
                                     else
                                         xPos = DataMajora.XPOS_DEFAULT;
 
 
-
-
                                     if ((choiceType == 2 && NumCurrentLineBreak >= (NumLineBreaks - 1)))
-                                        xPos = DataMajora.XPOS_DEFAULT + 10;
+                                        xPos = DataMajora.XPOS_DEFAULT + (BomberNotebook ? 30 : 10);
 
                                     if ((choiceType == 3 && NumCurrentLineBreak >= (NumLineBreaks - 2)))
-                                        xPos = DataMajora.XPOS_DEFAULT + 22;
+                                        xPos = DataMajora.XPOS_DEFAULT + (BomberNotebook ? 13 : 22);
 
                                     continue;
                                 }
@@ -744,7 +824,7 @@ namespace ZeldaMessage
 
             if (Char == ' ')
             {
-                xPos += 6.0f;
+                xPos += (BomberNotebook ? 4.0f : 6.0f);
                 return destBmp;
             }
 
@@ -774,7 +854,7 @@ namespace ZeldaMessage
 
             using (Graphics g = Graphics.FromImage(destBmp))
             {
-                if (Header.BoxType != DataMajora.BoxType.None_Black && Header.BoxType != DataMajora.BoxType.Bombers_Notebook)
+                if (Header.BoxType != DataMajora.BoxType.None_Black && Header.BoxType != DataMajora.BoxType.Bombers_Notebook && !BomberNotebook)
                 {
                     shadow = Colorize(shadow, Color.Black);
                     shadow.SetResolution(g.DpiX, g.DpiY);
