@@ -90,7 +90,7 @@ namespace ZeldaMessage
                 if (Message[BoxNum].Count != 0)
                     bmp = DrawText(bmp, BoxNum);
 
-            bmp = Resize(bmp, outputScale);
+            bmp = Common.Resize(bmp, outputScale);
 
             return bmp;
         }
@@ -103,7 +103,7 @@ namespace ZeldaMessage
 
             for (int i = 0; i < MessageData.Length; i++)
             {
-                byte curByte = GetByteFromArray(MessageData, i);
+                byte curByte = Common.GetByteFromArray(MessageData, i);
 
                 switch (curByte)
                 {
@@ -132,14 +132,14 @@ namespace ZeldaMessage
                     case (byte)Data.MsgControlCode.ICON:
                         {
                             box.Add(curByte);
-                            box.Add(GetByteFromArray(MessageData, i + 1));
+                            box.Add(Common.GetByteFromArray(MessageData, i + 1));
                             i += 1;
                             break;
                         }
                     case (byte)Data.MsgControlCode.FADE:
                         {
                             box.Add(curByte);
-                            box.Add(GetByteFromArray(MessageData, i + 1));
+                            box.Add(Common.GetByteFromArray(MessageData, i + 1));
                             i += 1;
                             End = true;
                             break;
@@ -149,17 +149,17 @@ namespace ZeldaMessage
                     case (byte)Data.MsgControlCode.SOUND:
                         {
                             box.Add(curByte);
-                            box.Add(GetByteFromArray(MessageData, i + 1));
-                            box.Add(GetByteFromArray(MessageData, i + 2));
+                            box.Add(Common.GetByteFromArray(MessageData, i + 1));
+                            box.Add(Common.GetByteFromArray(MessageData, i + 2));
                             i += 2;
                             break;
                         }
                     case (byte)Data.MsgControlCode.BACKGROUND:
                         {
                             box.Add(curByte);
-                            box.Add(GetByteFromArray(MessageData, i + 1));
-                            box.Add(GetByteFromArray(MessageData, i + 2));
-                            box.Add(GetByteFromArray(MessageData, i + 3));
+                            box.Add(Common.GetByteFromArray(MessageData, i + 1));
+                            box.Add(Common.GetByteFromArray(MessageData, i + 2));
+                            box.Add(Common.GetByteFromArray(MessageData, i + 3));
                             i += 3;
                             break;
                         }
@@ -181,11 +181,11 @@ namespace ZeldaMessage
 
             for (int i = 0; i < BoxData.Count; i++)
             {
-                byte curByte = GetByteFromArray(BoxData.ToArray(), i);
+                byte curByte = Common.GetByteFromArray(BoxData.ToArray(), i);
 
                 if (curByte == (byte)Data.MsgControlCode.ICON)
                 {
-                    Result = GetByteFromArray(BoxData.ToArray(), i + 1);
+                    Result = Common.GetByteFromArray(BoxData.ToArray(), i + 1);
                     continue;
                 }
                 else
@@ -222,7 +222,7 @@ namespace ZeldaMessage
 
             for (int i = 0; i < BoxData.Count; i++)
             {
-                byte curByte = GetByteFromArray(BoxData.ToArray(), i);
+                byte curByte = Common.GetByteFromArray(BoxData.ToArray(), i);
 
                 if (curByte == (byte)Data.MsgControlCode.TWO_CHOICES)
                 {
@@ -275,7 +275,7 @@ namespace ZeldaMessage
 
                 for (int i = 0; i < BoxData.Count; i++)
                 {
-                    byte curByte = GetByteFromArray(BoxData.ToArray(), i);
+                    byte curByte = Common.GetByteFromArray(BoxData.ToArray(), i);
 
                     if (curByte == (byte)Tag)
                         numTags++;
@@ -367,16 +367,16 @@ namespace ZeldaMessage
         private Bitmap DrawBoxInternal(Bitmap destBmp, Bitmap srcBmp, Color cl, bool revAlpha = true)
         {
             if (revAlpha)
-                srcBmp = ReverseAlphaMask(srcBmp);
+                srcBmp = Common.ReverseAlphaMask(srcBmp);
 
-            srcBmp = Colorize(srcBmp, cl);
+            srcBmp = Common.Colorize(srcBmp, cl);
 
             using (Graphics g = Graphics.FromImage(destBmp))
             {
                 srcBmp.SetResolution(g.DpiX, g.DpiY);
                 g.DrawImage(srcBmp, 0, 0);
 
-                srcBmp = FlipBitmapX_MonoSafe(srcBmp);
+                srcBmp = Common.FlipBitmapX_MonoSafe(srcBmp);
 
                 //srcBmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
                 g.DrawImage(srcBmp, srcBmp.Width, 0);
@@ -419,7 +419,7 @@ namespace ZeldaMessage
 
                                 for (int ch = 0; ch < 2; ch++)
                                 {
-                                    DrawImage(destBmp, imgArrow, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
+                                    Common.DrawImage(destBmp, imgArrow, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
                                     yPosChoice += Data.LINEBREAK_SIZE;
                                 }
 
@@ -433,7 +433,7 @@ namespace ZeldaMessage
 
                                 for (int ch = 0; ch < 3; ch++)
                                 {
-                                    DrawImage(destBmp, imgArrow, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
+                                    Common.DrawImage(destBmp, imgArrow, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
                                     yPosChoice += Data.LINEBREAK_SIZE;
                                 }
 
@@ -474,7 +474,7 @@ namespace ZeldaMessage
                             }
                         case (byte)Data.MsgControlCode.ICON:
                             {
-                                byte IconN = GetByteFromArray(BoxData.ToArray(), charPos + 1);
+                                byte IconN = Common.GetByteFromArray(BoxData.ToArray(), charPos + 1);
 
                                 string fn = $"icon_{IconN.ToString().ToLower()}";
                                 Bitmap img = (Bitmap)Properties.Resources.ResourceManager.GetObject(fn);
@@ -486,14 +486,14 @@ namespace ZeldaMessage
                                         float xPosIcon = xPos - 0xA;
                                         float yPosIcon = Box == Data.BoxType.None_White ? 36 : 0x10;
 
-                                        DrawImage(destBmp, img, Color.White, 32, 32, ref xPosIcon, ref yPosIcon, 0, false);
+                                        Common.DrawImage(destBmp, img, Color.White, 32, 32, ref xPosIcon, ref yPosIcon, 0, false);
                                     }
                                     else
                                     {
                                         float xPosIcon = xPos - 0x7;
                                         float yPosIcon = Box == Data.BoxType.None_White ? 36 : 0x14;
 
-                                        DrawImage(destBmp, img, Color.White, 24, 24, ref xPosIcon, ref yPosIcon, 0, false);
+                                        Common.DrawImage(destBmp, img, Color.White, 24, 24, ref xPosIcon, ref yPosIcon, 0, false);
                                     }
                                 }
 
@@ -505,6 +505,10 @@ namespace ZeldaMessage
                             {
                                 break;
                             }
+                        case (byte)Data.MsgControlCode.PERSISTENT:
+                            {
+                                return destBmp;
+                            }
                         case (byte)Data.MsgControlCode.BACKGROUND:
                             {
                                 Bitmap left = Properties.Resources.xmes_left;
@@ -513,11 +517,11 @@ namespace ZeldaMessage
                                 float xPosbg = 0;
                                 float yPosbg = 0;
 
-                                DrawImage(destBmp, left, Color.White, left.Width, left.Height, ref xPosbg, ref yPosbg, 0);
+                                Common.DrawImage(destBmp, left, Color.White, left.Width, left.Height, ref xPosbg, ref yPosbg, 0);
 
                                 xPosbg += left.Width;
 
-                                DrawImage(destBmp, right, Color.White, left.Width, left.Height, ref xPosbg, ref yPosbg, 0);
+                                Common.DrawImage(destBmp, right, Color.White, left.Width, left.Height, ref xPosbg, ref yPosbg, 0);
 
                                 charPos += 3;
                                 continue;
@@ -552,7 +556,7 @@ namespace ZeldaMessage
                             continue;
                         case (byte)Data.MsgControlCode.SHIFT:
                             {
-                                byte num_shift = GetByteFromArray(BoxData.ToArray(), charPos + 1);
+                                byte num_shift = Common.GetByteFromArray(BoxData.ToArray(), charPos + 1);
 
                                 xPos += num_shift;
                                 charPos++;
@@ -560,7 +564,7 @@ namespace ZeldaMessage
                             }
                         case (byte)Data.MsgControlCode.COLOR:
                             {
-                                byte color_data_idx = GetByteFromArray(BoxData.ToArray(), charPos + 1);
+                                byte color_data_idx = Common.GetByteFromArray(BoxData.ToArray(), charPos + 1);
 
                                 switch (color_data_idx)
                                 {
@@ -619,6 +623,7 @@ namespace ZeldaMessage
                     GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.FADE2) == 0 &&
                     GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.TWO_CHOICES) == 0 &&
                     GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.THREE_CHOICES) == 0 &&
+                    GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.PERSISTENT) == 0 &&
                     GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.EVENT) == 0)
                 {
                     Bitmap imgend;
@@ -631,39 +636,11 @@ namespace ZeldaMessage
                     float xPosEnd = 128 - 4;
                     float yPosEnd = 64 - 4;
 
-                    DrawImage(destBmp, imgend, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosEnd, ref yPosEnd, 0);
+                    Common.DrawImage(destBmp, imgend, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosEnd, ref yPosEnd, 0);
                 }
             }
 
             return destBmp;
-        }
-
-        public Bitmap GetBitmapFromI4FontChar(byte[] bytes)
-        {
-            List<Color> Pixels = new List<Color>();
-
-            foreach (byte b in bytes)
-            {
-                byte ab = (byte)((b >> 4) * 0x11);
-                byte bb = (byte)((b & 0x0F) * 0x11);
-
-                Pixels.Add(Color.FromArgb(255, ab, ab, ab));
-                Pixels.Add(Color.FromArgb(255, bb, bb, bb));
-            }
-
-            Bitmap img = new Bitmap(16, 16);
-            int i = 0;
-
-            for (int y = 0; y < 16; y++)
-            {
-                for (int x = 0; x < 16; x++)
-                {
-                    img.SetPixel(x, y, Pixels[i]);
-                    i++;
-                }
-            }
-
-            return img;
         }
 
         private Bitmap DrawTextInternal(Bitmap destBmp, byte Char, Color cl, float scale, ref float xPos, ref float yPos)
@@ -679,7 +656,7 @@ namespace ZeldaMessage
             Bitmap img;
 
             if (FontData != null && (Char - ' ') * 128 < FontData.Length)
-                img = GetBitmapFromI4FontChar(FontData.Skip((Char - ' ') * 128).Take(128).ToArray());
+                img = Common.GetBitmapFromI4FontChar(FontData.Skip((Char - ' ') * 128).Take(128).ToArray());
             else
             {
                 img = (Bitmap)Properties.Resources.ResourceManager.GetObject(fn);
@@ -688,17 +665,17 @@ namespace ZeldaMessage
                     return destBmp;
             }
 
-            img = ReverseAlphaMask(img, BrightenText);
+            img = Common.ReverseAlphaMask(img, BrightenText);
 
             Bitmap shadow = img;
 
-            img = Colorize(img, cl);
+            img = Common.Colorize(img, cl);
 
             using (Graphics g = Graphics.FromImage(destBmp))
             {
                 if (Box != Data.BoxType.None_Black)
                 {
-                    shadow = Colorize(shadow, Color.Black);
+                    shadow = Common.Colorize(shadow, Color.Black);
                     shadow.SetResolution(g.DpiX, g.DpiY);
 
                     g.DrawImage(shadow, new Rectangle((int)xPos + 1, (int)yPos + 1, (int)(16 * scale), (int)(16 * scale)));
@@ -718,121 +695,6 @@ namespace ZeldaMessage
             }
 
             return destBmp;
-        }
-
-        private Bitmap DrawImage(Bitmap destBmp, Bitmap srcBmp, Color cl, int xSize, int ySize, ref float xPos, ref float yPos, float xPosMove, bool revAlpha = true)
-        {
-            if (revAlpha)
-                srcBmp = ReverseAlphaMask(srcBmp);
-
-            srcBmp = Colorize(srcBmp, cl);
-
-            using (Graphics g = Graphics.FromImage(destBmp))
-            {
-                srcBmp.SetResolution(g.DpiX, g.DpiY);
-                g.DrawImage(srcBmp, new Rectangle((int)xPos, (int)yPos, xSize, ySize));
-            }
-
-            xPos += xPosMove;
-            return destBmp;
-        }
-
-        private Bitmap FlipBitmapX_MonoSafe(Bitmap bmp)
-        {
-            Bitmap returnBitmap = new Bitmap(bmp.Width, bmp.Height);
-
-            using (Graphics g = Graphics.FromImage(returnBitmap))
-            {
-                g.TranslateTransform((float)bmp.Width / 2, (float)bmp.Height / 2);
-                g.ScaleTransform(-1, 1);
-                g.TranslateTransform(-(float)bmp.Width / 2, -(float)bmp.Height / 2);
-                g.DrawImage(bmp, new Point(0, 0));
-            }
-
-            return returnBitmap;
-        }
-
-        private Bitmap ReverseAlphaMask(Bitmap bmp, bool Brighten = false)
-        {
-            bmp.MakeTransparent();
-
-            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
-
-            int bytes = Math.Abs(bmpData.Stride) * bmp.Height;
-            byte[] rgbaValues = new byte[bytes];
-
-            Marshal.Copy(bmpData.Scan0, rgbaValues, 0, bytes);
-
-            for (int i = 3; i < rgbaValues.Length; i += 4)
-            {
-                rgbaValues[i] = rgbaValues[i - 3];
-
-                if (Brighten)
-                {
-                    rgbaValues[i - 1] = 255;
-                    rgbaValues[i - 2] = 255;
-                    rgbaValues[i - 3] = 255;
-                }
-            }
-
-            Marshal.Copy(rgbaValues, 0, bmpData.Scan0, bytes);
-
-            bmp.UnlockBits(bmpData);
-
-            return bmp;
-        }
-
-        private Bitmap Resize(Bitmap bmp, float scale)
-        {
-            Bitmap result = new Bitmap((int)(bmp.Width * scale), (int)(bmp.Height * scale));
-
-            using (Graphics g = Graphics.FromImage(result))
-            {
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
-                g.DrawImage(bmp, 0, 0, (int)(bmp.Width * scale), (int)(bmp.Height * scale));
-            }
-
-            return result;
-        }
-
-        private Bitmap Colorize(Bitmap bmp, Color cl)
-        {
-            float R = (float)((float)cl.R / (float)255);
-            float G = (float)((float)cl.G / (float)255);
-            float B = (float)((float)cl.B / (float)255);
-            float A = 1;
-
-
-            float[][] colorMatrixElements =
-            {
-                new float[] {R,  0,  0,  0,  0},
-                new float[] {0,  G,  0,  0,  0},
-                new float[] {0,  0,  B,  0,  0},
-                new float[] {0,  0,  0,  A,  0},
-                new float[] {0,  0,  0,  0,  0}
-            };
-
-            ColorMatrix cm = new ColorMatrix(colorMatrixElements);
-
-            ImageAttributes imageAttributes = new ImageAttributes();
-            imageAttributes.SetColorMatrix(cm, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-
-            Bitmap bm = new Bitmap(bmp.Width, bmp.Height);
-
-            using (Graphics gg = Graphics.FromImage(bm))
-                gg.DrawImage(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, imageAttributes);
-
-            return bm;
-        }
-
-        private byte GetByteFromArray(byte[] array, int i)
-        {
-            byte outB = 0;
-
-            if (i <= array.Length - 1)
-                outB = array[i];
-
-            return outB;
         }
     }
 }

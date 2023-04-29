@@ -3403,6 +3403,106 @@ namespace ZeldaMessage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap majora_icon_220 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_220", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_221 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_221", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_222 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_222", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_223 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_223", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_224 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_224", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_225 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_225", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_226 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_226", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_227 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_227", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_228 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_228", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_229 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_229", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap majora_icon_23 {
             get {
                 object obj = ResourceManager.GetObject("majora_icon_23", resourceCulture);
@@ -3413,9 +3513,119 @@ namespace ZeldaMessage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap majora_icon_230 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_230", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_231 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_231", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_232 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_232", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_233 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_233", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_234 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_234", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_235 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_235", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_236 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_236", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_237 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_237", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_238 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_238", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_239 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_239", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap majora_icon_24 {
             get {
                 object obj = ResourceManager.GetObject("majora_icon_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_240 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_240", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -3503,6 +3713,16 @@ namespace ZeldaMessage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap majora_icon_31_r {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_31_r", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap majora_icon_32 {
             get {
                 object obj = ResourceManager.GetObject("majora_icon_32", resourceCulture);
@@ -3513,9 +3733,29 @@ namespace ZeldaMessage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap majora_icon_32_b {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_32_b", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap majora_icon_33 {
             get {
                 object obj = ResourceManager.GetObject("majora_icon_33", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_33_y {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_33_y", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -3813,6 +4053,16 @@ namespace ZeldaMessage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap majora_icon_67 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_67", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap majora_icon_68 {
             get {
                 object obj = ResourceManager.GetObject("majora_icon_68", resourceCulture);
@@ -3936,6 +4186,16 @@ namespace ZeldaMessage.Properties {
         public static System.Drawing.Bitmap majora_icon_90 {
             get {
                 object obj = ResourceManager.GetObject("majora_icon_90", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap majora_icon_91 {
+            get {
+                object obj = ResourceManager.GetObject("majora_icon_91", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

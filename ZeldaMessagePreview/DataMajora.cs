@@ -357,7 +357,7 @@ namespace ZeldaMessage
         {
             new List<RGB>() { new RGB(255,  255,  255),  new RGB(255, 255, 255),  new RGB(0,   0,   0),    new RGB(0,   0,   0)      },
             new List<RGB>() { new RGB(255,  60,   60),   new RGB(255, 120, 0),    new RGB(255, 60, 60),    new RGB(255, 60, 60)      },
-            new List<RGB>() { new RGB(70,   255,  80),   new RGB(70,  255, 80),   new RGB(70,  255, 80),   new RGB(70,  255, 80)     },
+            new List<RGB>() { new RGB(70,   255,  80),   new RGB(70,  255, 80),   new RGB(70,  255, 80),   new RGB(124, 179, 255)    },
             new List<RGB>() { new RGB(80,   110,  255),  new RGB(80,  90,  255),  new RGB(80,  110, 255),  new RGB(80,  110, 255)    },
             new List<RGB>() { new RGB(255,  255,  30),   new RGB(255, 255, 50),   new RGB(255, 255, 30),   new RGB(255, 255, 30)     },
             new List<RGB>() { new RGB(74,   138,  234),  new RGB(74,  138, 234),  new RGB(74,  138, 234),  new RGB(74,  138, 234)    },       //??

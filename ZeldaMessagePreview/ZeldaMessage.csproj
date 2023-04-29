@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes.cs" />
+    <Compile Include="Common.cs" />
     <Compile Include="DataMajora.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="MessagePreviewMajora.cs" />
@@ -1291,6 +1292,84 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\majora_icon_1451.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_229.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_230.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_231.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_232.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_233.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_234.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_235.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_236.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_237.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_238.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_239.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_240.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_220.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_221.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_222.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_223.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_224.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_225.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_226.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_227.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_228.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_541.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_891.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_301.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_302.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_303.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
