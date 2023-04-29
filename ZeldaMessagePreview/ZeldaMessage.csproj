@@ -1371,5 +1371,8 @@
   <ItemGroup>
     <None Include="Resources\majora_icon_303.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_icon_1491.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
