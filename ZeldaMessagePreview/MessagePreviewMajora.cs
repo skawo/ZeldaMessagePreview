@@ -143,10 +143,8 @@ namespace ZeldaMessage
                     case (byte)DataMajora.MsgControlCode.DELAY_END:
                         {
                             Message.Add(box);
-                            box = new List<byte>();
 
-                            i += 2;
-                            break;
+                            return;
                         }
                     case (byte)DataMajora.MsgControlCode.DELAY_DC:
                     case (byte)DataMajora.MsgControlCode.DELAY_DI:
@@ -709,10 +707,14 @@ namespace ZeldaMessage
                             case (byte)DataMajora.MsgControlCode.SOUND:
                             case (byte)DataMajora.MsgControlCode.DELAY_DC:
                             case (byte)DataMajora.MsgControlCode.DELAY_DI:
-                            case (byte)DataMajora.MsgControlCode.DELAY_END:
                                 {
                                     charPos += 2;
                                     continue;
+                                }
+                            case (byte)DataMajora.MsgControlCode.DELAY_END:
+                                {
+                                    charPos += 2;
+                                    return destBmp;
                                 }
                             case (byte)DataMajora.MsgControlCode.FADE:
                                 {
