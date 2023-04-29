@@ -330,7 +330,21 @@ namespace ZeldaMessage
 
                             List<byte> MultiByteCodes = new List<byte>()
                             {
-                                (byte)DataMajora.MsgControlCode.SHIFT,
+                                (byte)DataMajora.MsgControlCode.SHIFT
+                            };
+
+
+                            if (MultiByteCodes.Contains(curBytePrev))
+                                continue;
+                        }
+
+                        if (i > 1)
+                        {
+                            byte curBytePrev = BoxDataMajora[i - 2];
+
+                            List<byte> MultiByteCodes = new List<byte>()
+                            {
+
                                 (byte)DataMajora.MsgControlCode.DELAY_END,
                                 (byte)DataMajora.MsgControlCode.DELAY_DC,
                                 (byte)DataMajora.MsgControlCode.DELAY_DI,
@@ -340,7 +354,10 @@ namespace ZeldaMessage
 
 
                             if (MultiByteCodes.Contains(curBytePrev))
+                            {
+                                i--;
                                 continue;
+                            }
                         }
 
                         if (curByte <= (byte)DataMajora.MsgControlCode.COLOR_ORANGE)
