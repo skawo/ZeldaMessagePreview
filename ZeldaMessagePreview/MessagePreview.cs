@@ -12,8 +12,8 @@ namespace ZeldaMessage
 {
     public class MessagePreview
     {
-        private readonly Data.BoxType Box;
-        private readonly List<List<byte>> Message = new List<List<byte>>();
+        public Data.BoxType Box;
+        public List<List<byte>> Message = new List<List<byte>>();
         public int MessageCount;
         public bool BrightenText;
 

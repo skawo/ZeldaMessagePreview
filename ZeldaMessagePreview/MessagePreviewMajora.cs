@@ -12,8 +12,8 @@ namespace ZeldaMessage
 {
     public class MessagePreviewMajora
     {
-        private readonly MajoraMsgHeader Header;
-        private readonly List<List<byte>> Message = new List<List<byte>>();
+        public MajoraMsgHeader Header;
+        public List<List<byte>> Message = new List<List<byte>>();
         public int MessageCount;
         public bool BrightenText;
         public bool BomberNotebook;

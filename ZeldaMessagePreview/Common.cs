@@ -12,6 +12,8 @@ namespace ZeldaMessage
 {
     class Common
     {
+        public static bool RunningUnderMono = Type.GetType("Mono.Runtime") != null;
+
         public static Bitmap GetBitmapFromI4FontChar(byte[] bytes)
         {
             List<Color> Pixels = new List<Color>();
@@ -42,17 +44,25 @@ namespace ZeldaMessage
 
         public static Bitmap FlipBitmapX_MonoSafe(Bitmap bmp)
         {
-            Bitmap returnBitmap = new Bitmap(bmp.Width, bmp.Height);
-
-            using (Graphics g = Graphics.FromImage(returnBitmap))
+            if (RunningUnderMono)
             {
-                g.TranslateTransform((float)bmp.Width / 2, (float)bmp.Height / 2);
-                g.ScaleTransform(-1, 1);
-                g.TranslateTransform(-(float)bmp.Width / 2, -(float)bmp.Height / 2);
-                g.DrawImage(bmp, new Point(0, 0));
-            }
+                Bitmap returnBitmap = new Bitmap(bmp.Width, bmp.Height);
 
-            return returnBitmap;
+                using (Graphics g = Graphics.FromImage(returnBitmap))
+                {
+                    g.TranslateTransform((float)bmp.Width / 2, (float)bmp.Height / 2);
+                    g.ScaleTransform(-1, 1);
+                    g.TranslateTransform(-(float)bmp.Width / 2, -(float)bmp.Height / 2);
+                    g.DrawImage(bmp, new Point(0, 0));
+                }
+
+                return returnBitmap;
+            }
+            else
+            {
+                bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                return bmp;
+            }
         }
 
         public static Bitmap ReverseAlphaMask(Bitmap bmp, bool Brighten = false)
