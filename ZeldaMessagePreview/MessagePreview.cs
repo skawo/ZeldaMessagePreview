@@ -262,13 +262,13 @@ namespace ZeldaMessage
             return Result;
         }
 
-        private int GetNumberOfTags(int BoxNum, int Tag)
+        private int GetNumberOfTags(int BoxNum, List<int> Tags)
         {
             int numTags = 0;
 
             if (BoxNum < 0)
                 for (int i = 0; i < Message.Count; i++)
-                    numTags += GetNumberOfTags(i, Tag);
+                    numTags += GetNumberOfTags(i, Tags);
             else
             {
                 List<byte> BoxData = Message[BoxNum];
@@ -277,7 +277,7 @@ namespace ZeldaMessage
                 {
                     byte curByte = Common.GetByteFromArray(BoxData.ToArray(), i);
 
-                    if (curByte == (byte)Tag)
+                    if (Tags.Contains(curByte))
                         numTags++;
                     else
                     {
@@ -308,9 +308,9 @@ namespace ZeldaMessage
 
         private Bitmap DrawBox(Bitmap destBmp)
         {
-            Bitmap img = Properties.Resources.Box_Default;
-            Color c = Color.Black;
-            bool revAlpha = true;
+            Bitmap img;
+            Color c;
+            bool revAlpha;
 
             switch (Box)
             {
@@ -378,7 +378,6 @@ namespace ZeldaMessage
 
                 srcBmp = Common.FlipBitmapX_MonoSafe(srcBmp);
 
-                //srcBmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
                 g.DrawImage(srcBmp, srcBmp.Width, 0);
             }
 
@@ -390,7 +389,7 @@ namespace ZeldaMessage
             List<byte> BoxData = Message[boxNum];
 
             float xPos = Data.XPOS_DEFAULT;
-            float yPos = (Box == Data.BoxType.None_White) ? 36 : Math.Max(Data.YPOS_DEFAULT, ((52 - (Data.LINEBREAK_SIZE * GetNumberOfTags(boxNum, (int)Data.MsgControlCode.LINE_BREAK))) / 2));
+            float yPos = (Box == Data.BoxType.None_White) ? 36 : Math.Max(Data.YPOS_DEFAULT, ((52 - (Data.LINEBREAK_SIZE * GetNumberOfTags(boxNum, new List<int>() { (int)Data.MsgControlCode.LINE_BREAK }))) / 2));
             float scale = Data.SCALE_DEFAULT;
 
             if ((int)Box > (int)Data.BoxType.None_Black)
@@ -618,17 +617,23 @@ namespace ZeldaMessage
                     }
                 }
 
-                if (GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.FADE) == 0 &&
-                    GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.DELAY) == 0 &&
-                    GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.FADE2) == 0 &&
-                    GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.TWO_CHOICES) == 0 &&
-                    GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.THREE_CHOICES) == 0 &&
-                    GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.PERSISTENT) == 0 &&
-                    GetNumberOfTags(boxNum, (byte)Data.MsgControlCode.EVENT) == 0)
+
+                if (GetNumberOfTags(boxNum,
+                        new List<int>()
+                        {
+                            (byte)Data.MsgControlCode.FADE,
+                            (byte)Data.MsgControlCode.FADE2,
+                            (byte)Data.MsgControlCode.DELAY,
+                            (byte)Data.MsgControlCode.TWO_CHOICES,
+                            (byte)Data.MsgControlCode.THREE_CHOICES,
+                            (byte)Data.MsgControlCode.PERSISTENT,
+                            (byte)Data.MsgControlCode.EVENT,
+                        }
+                   ) == 0)
                 {
                     Bitmap imgend;
 
-                    if (Message.Last() == BoxData)
+                    if (Message.Count == boxNum + 1)
                         imgend = Properties.Resources.Box_End;
                     else
                         imgend = Properties.Resources.Box_Triangle;
