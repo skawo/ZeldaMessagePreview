@@ -895,9 +895,6 @@
     <None Include="Resources\majora_Box_Wooden.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\majora_icon_10 - Copy.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\majora_icon_4.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1285,9 +1282,6 @@
     <None Include="Resources\majora_icon_1471.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\majora_icon_1121.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\majora_Box_Bomber.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1373,6 +1367,474 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\majora_icon_1491.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_55.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_56.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_57.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_58.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_59.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_61.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_62.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_63.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_65.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_66.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_67.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_68.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_69.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_70.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_71.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_73.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_74.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_75.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_76.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_77.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_78.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_79.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_80.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_81.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_82.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_83.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_84.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_85.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_86.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_87.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_88.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_89.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_90.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_91.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_92.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_93.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_94.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_95.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_97.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_98.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_99.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_a0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_a1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_a2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_a3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_a4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_a5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_a6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_a7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_a8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_a9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_aa.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_ab.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_ac.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_ad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_ae.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_af.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_b0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_b1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_b2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_b3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_b4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_b5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_b6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_b7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_b8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_b9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_ba.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_bb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_2a.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_2b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_2c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_2d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_2e.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_2f.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_3a.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_3b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_3c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_3d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_3e.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_3f.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_4a.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_4b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_4c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_4d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_4e.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_4f.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_5a.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_5b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_5c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_5d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_5e.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_5f.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_6a.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_6b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_6c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_6d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_6e.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_6f.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_7a.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_7b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_7c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_7d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_7e.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_7f.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_8a.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_8b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_8c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_8d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_8e.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_8f.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_9a.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_9b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_9c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_9d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_9e.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_9f.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_23.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_25.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_27.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_28.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_31.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_33.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_34.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_35.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_36.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_37.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_38.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_39.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_41.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_42.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_43.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_44.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_45.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_46.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_47.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_49.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_51.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_52.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_53.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\majora_char_54.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

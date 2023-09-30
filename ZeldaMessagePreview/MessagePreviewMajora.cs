@@ -840,10 +840,6 @@ namespace ZeldaMessage
 
         private Bitmap DrawTextInternal(Bitmap destBmp, byte Char, Color cl, float scale, ref float xPos, ref float yPos)
         {
-            // Change button characters to match Ocarina's
-            if (Char >= 0xB0 && Char <= 0xBC)
-                Char = (byte)(0x9F + (Char - 0xB0));
-
             string fn = $"majora_char_{Char.ToString("X").ToLower()}";
 
             if (Char == ' ')
