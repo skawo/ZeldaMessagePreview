@@ -21,7 +21,7 @@ namespace ZeldaMessage
             SWAMP_CRUISE_HITS = 0x0B,
             STRAY_FAIRY_SCORE = 0x0C,
             GOLD_SKULLTULAS = 0x0D,
-            UNK_0E = 0xE,
+            FISH_WEIGHT = 0xE,
             UNK_0F = 0xF,
             NEW_BOX = 0x10,
             LINE_BREAK = 0x11,
@@ -239,6 +239,7 @@ namespace ZeldaMessage
             {MsgControlCode.UNK_F3,                              "0\"10\'" },
             {MsgControlCode.UNK_F2,                              "0" },
             {MsgControlCode.UNK_F1,                              "0" },
+            {MsgControlCode.FISH_WEIGHT,                         "0" },
         };
 
 
