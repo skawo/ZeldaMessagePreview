@@ -155,12 +155,21 @@ namespace ZeldaMessage
 
                             return;
                         }
-                    case (byte)DataMajora.MsgControlCode.DELAY_DC:
-                    case (byte)DataMajora.MsgControlCode.DELAY_DI:
+                    case (byte)DataMajora.MsgControlCode.DELAY:
                         {
                             box.Add(curByte);
                             box.Add(Common.GetByteFromArray(MessageDataMajora, i + 1));
                             box.Add(Common.GetByteFromArray(MessageDataMajora, i + 2));
+                            i += 2;
+                            break;
+                        }
+                    case (byte)DataMajora.MsgControlCode.DELAY_NEWBOX:
+                        {
+                            box.Add(curByte);
+                            box.Add(Common.GetByteFromArray(MessageDataMajora, i + 1));
+                            box.Add(Common.GetByteFromArray(MessageDataMajora, i + 2));
+                            Message.Add(box);
+                            box = new List<byte>();
                             i += 2;
                             break;
                         }
@@ -218,8 +227,8 @@ namespace ZeldaMessage
                         case (byte)DataMajora.MsgControlCode.SHIFT:
                             i += 1; break;
                         case (byte)DataMajora.MsgControlCode.DELAY_END:
-                        case (byte)DataMajora.MsgControlCode.DELAY_DC:
-                        case (byte)DataMajora.MsgControlCode.DELAY_DI:
+                        case (byte)DataMajora.MsgControlCode.DELAY:
+                        case (byte)DataMajora.MsgControlCode.DELAY_NEWBOX:
                         case (byte)DataMajora.MsgControlCode.SOUND:
                             i += 2; break;
                         case (byte)DataMajora.MsgControlCode.BACKGROUND:
@@ -259,8 +268,8 @@ namespace ZeldaMessage
                             case (byte)DataMajora.MsgControlCode.SHIFT:
                                 i += 1; break;
                             case (byte)DataMajora.MsgControlCode.DELAY_END:
-                            case (byte)DataMajora.MsgControlCode.DELAY_DC:
-                            case (byte)DataMajora.MsgControlCode.DELAY_DI:
+                            case (byte)DataMajora.MsgControlCode.DELAY:
+                            case (byte)DataMajora.MsgControlCode.DELAY_NEWBOX:
                             case (byte)DataMajora.MsgControlCode.SOUND:
                             case (byte)DataMajora.MsgControlCode.FADE:
                                 i += 2; break;
@@ -306,8 +315,8 @@ namespace ZeldaMessage
                             case (byte)DataMajora.MsgControlCode.SHIFT:
                                 i += 1; break;
                             case (byte)DataMajora.MsgControlCode.DELAY_END:
-                            case (byte)DataMajora.MsgControlCode.DELAY_DC:
-                            case (byte)DataMajora.MsgControlCode.DELAY_DI:
+                            case (byte)DataMajora.MsgControlCode.DELAY:
+                            case (byte)DataMajora.MsgControlCode.DELAY_NEWBOX:
                             case (byte)DataMajora.MsgControlCode.SOUND:
                             case (byte)DataMajora.MsgControlCode.FADE:
                                 i += 2; break;
@@ -355,8 +364,8 @@ namespace ZeldaMessage
                             {
 
                                 (byte)DataMajora.MsgControlCode.DELAY_END,
-                                (byte)DataMajora.MsgControlCode.DELAY_DC,
-                                (byte)DataMajora.MsgControlCode.DELAY_DI,
+                                (byte)DataMajora.MsgControlCode.DELAY,
+                                (byte)DataMajora.MsgControlCode.DELAY_NEWBOX,
                                 (byte)DataMajora.MsgControlCode.SOUND,
                                 (byte)DataMajora.MsgControlCode.FADE
                             };
@@ -723,8 +732,8 @@ namespace ZeldaMessage
                                     continue;
                                 }
                             case (byte)DataMajora.MsgControlCode.SOUND:
-                            case (byte)DataMajora.MsgControlCode.DELAY_DC:
-                            case (byte)DataMajora.MsgControlCode.DELAY_DI:
+                            case (byte)DataMajora.MsgControlCode.DELAY:
+                            case (byte)DataMajora.MsgControlCode.DELAY_NEWBOX:
                                 {
                                     charPos += 2;
                                     continue;
