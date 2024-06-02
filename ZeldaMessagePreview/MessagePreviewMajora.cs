@@ -373,7 +373,7 @@ namespace ZeldaMessage
 
                             if (MultiByteCodes.Contains(curBytePrev))
                             {
-                                i--;
+                                i-=2;
                                 continue;
                             }
                         }
