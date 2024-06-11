@@ -12,54 +12,68 @@ namespace ZeldaMessage
 {
     public class MessagePreviewMajora
     {
-        public MajoraMsgHeader Header;
+        public MajoraMsgHeader Header = new MajoraMsgHeader(new byte[0]);
         public List<List<byte>> Message = new List<List<byte>>();
-        public int MessageCount;
-        public bool BrightenText;
-        public bool InBombersNotebook;
+        public int MessageCount = 0;
+        public bool BrightenText = true;
+        public bool InBombersNotebook = false;
 
         private int OUTPUT_IMAGE_X = 256;
         private int OUTPUT_IMAGE_Y = 64 + (Properties.Resources.Box_End.Width / 2);
 
         public byte[] FontDataMajora = null;
 
-        public MessagePreviewMajora(byte[] MessageDataMajora, bool IsBomberNotebook = false)
+        public MessagePreviewMajora(byte[] MessageDataMajora, bool IsBomberNotebook = false, float[] _FontWidths = null, byte[] _FontData = null)
         {
-            Header = new MajoraMsgHeader(MessageDataMajora);
-            MessageDataMajora = MessageDataMajora.Skip(11).ToArray();
-            InBombersNotebook = IsBomberNotebook;
+            if (MessageDataMajora.Length <= 11)
+                return;
 
-            SplitMsgIntoTextboxes(MessageDataMajora);
+            Header = new MajoraMsgHeader(MessageDataMajora);
+            InBombersNotebook = IsBomberNotebook;
+            SplitMsgIntoTextboxes(MessageDataMajora.Skip(11).ToArray());
 
             MessageCount = Message.Count;
 
-            try
+            if (_FontWidths == null)
             {
-                if (System.IO.File.Exists("font.width_table"))
+                try
                 {
-                    byte[] widths = System.IO.File.ReadAllBytes("font.width_table");
-
-                    for (int i = 0; i < widths.Length; i += 4)
+                    if (System.IO.File.Exists("font.width_table"))
                     {
-                        byte[] width = widths.Skip(i).Take(4).Reverse().ToArray();
-                        DataMajora.FontWidths[i / 4] = BitConverter.ToSingle(width, 0);
+                        byte[] widths = System.IO.File.ReadAllBytes("font.width_table");
+
+                        for (int i = 0; i < widths.Length; i += 4)
+                        {
+                            byte[] width = widths.Skip(i).Take(4).Reverse().ToArray();
+                            DataMajora.FontWidths[i / 4] = BitConverter.ToSingle(width, 0);
+                        }
                     }
                 }
+                catch (Exception)
+                { }
             }
-            catch (Exception)
-            { }
-
-            try
+            else
             {
-                if (System.IO.File.Exists("font.font_static"))
+                DataMajora.FontWidths = _FontWidths;
+            }
+
+
+            if (_FontData == null)
+            {
+                try
                 {
-                    FontDataMajora = System.IO.File.ReadAllBytes("font.font_static");
+                    if (System.IO.File.Exists("font.font_static"))
+                    {
+                        FontDataMajora = System.IO.File.ReadAllBytes("font.font_static");
+                    }
+                }
+                catch (Exception)
+                {
+                    FontDataMajora = null;
                 }
             }
-            catch (Exception)
-            {
-                FontDataMajora = null;
-            }
+            else
+                FontDataMajora = _FontData;
         }
 
         public Bitmap GetPreview(int BoxNum = 0, bool brightenText = true, float outputScale = 1.75f)

@@ -22,41 +22,53 @@ namespace ZeldaMessage
 
         public byte[] FontData = null;
 
-        public MessagePreview(Data.BoxType BoxType, byte[] MessageData)
+        public MessagePreview(Data.BoxType BoxType, byte[] MessageData, float[] _FontWidths = null, byte[] _FontData = null)
         {
             Box = BoxType;
             SplitMsgIntoTextboxes(MessageData);
 
             MessageCount = Message.Count;
 
-            try
+            if (_FontWidths == null)
             {
-                if (System.IO.File.Exists("font.width_table"))
+                try
                 {
-                    byte[] widths = System.IO.File.ReadAllBytes("font.width_table");
-
-                    for (int i = 0; i < widths.Length; i += 4)
+                    if (System.IO.File.Exists("font.width_table"))
                     {
-                        byte[] width = widths.Skip(i).Take(4).Reverse().ToArray();
-                        Data.FontWidths[i / 4] = BitConverter.ToSingle(width, 0);
+                        byte[] widths = System.IO.File.ReadAllBytes("font.width_table");
+
+                        for (int i = 0; i < widths.Length; i += 4)
+                        {
+                            byte[] width = widths.Skip(i).Take(4).Reverse().ToArray();
+                            Data.FontWidths[i / 4] = BitConverter.ToSingle(width, 0);
+                        }
                     }
                 }
+                catch (Exception)
+                { }
             }
-            catch (Exception)
+            else
             {
+                DataMajora.FontWidths = _FontWidths;
             }
 
-            try
+
+            if (_FontData == null)
             {
-                if (System.IO.File.Exists("font.font_static"))
+                try
                 {
-                    FontData = System.IO.File.ReadAllBytes("font.font_static");
+                    if (System.IO.File.Exists("font.font_static"))
+                    {
+                        FontData = System.IO.File.ReadAllBytes("font.font_static");
+                    }
+                }
+                catch (Exception)
+                {
+                    FontData = null;
                 }
             }
-            catch (Exception)
-            {
-                FontData = null;
-            }
+            else
+                FontData = _FontData;
         }
 
         public Bitmap GetPreview(int BoxNum = 0, bool brightenText = true, float outputScale = 1.75f)

@@ -220,7 +220,7 @@ namespace ZeldaMessage
             {MsgControlCode.WINNING_LOTTERY_NUM,                 "000" },
             {MsgControlCode.PLAYER_LOTTERY_NUM,                  "000" },
             {MsgControlCode.ITEM_VALUE,                          "500 Rupees" },
-            {MsgControlCode.BOMBER_CODE,                         "123456" },
+            {MsgControlCode.BOMBER_CODE,                         "12345" },
             {MsgControlCode.OCEANSIDE_HOUSE_ORDER_1,             "YELLOW" },
             {MsgControlCode.OCEANSIDE_HOUSE_ORDER_2,             "YELLOW" },
             {MsgControlCode.OCEANSIDE_HOUSE_ORDER_3,             "YELLOW" },
@@ -239,7 +239,7 @@ namespace ZeldaMessage
             {MsgControlCode.UNK_F3,                              "0\"10\'" },
             {MsgControlCode.UNK_F2,                              "0" },
             {MsgControlCode.UNK_F1,                              "0" },
-            {MsgControlCode.FISH_WEIGHT,                         "0" },
+            {MsgControlCode.FISH_WEIGHT,                         "00" },
         };
 
 
@@ -303,7 +303,7 @@ namespace ZeldaMessage
         public static int CHOICE_OFFSET = 0x20;
         public static float SCALE_DEFAULT = 0.75f;
 
-        public static readonly float[] FontWidths =
+        public static float[] FontWidths =
         {
             /* */ 8.0f,
             /* !*/ 8.0f,

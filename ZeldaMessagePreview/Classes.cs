@@ -31,6 +31,9 @@ namespace ZeldaMessage
 
         public MajoraMsgHeader(byte[] MesgData)
         {
+            if (MesgData.Length <= 11)
+                return;
+
             BoxType = (DataMajora.BoxType)MesgData[0];
             MajoraIcon = MesgData.Skip(2).Take(1).First();
             MajoraNextMessage = BitConverter.ToInt16(MesgData, 4);
