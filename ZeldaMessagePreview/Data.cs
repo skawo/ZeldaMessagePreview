@@ -287,7 +287,7 @@ namespace ZeldaMessage
         public static readonly int CHOICE_OFFSET = 0x20;
         public static readonly float SCALE_DEFAULT = 0.75f;
 
-        public static readonly float[] FontWidths =
+        public static float[] FontWidths =
         {
             /* */ 8.0f,
             /* !*/ 8.0f,

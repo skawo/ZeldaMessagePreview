@@ -16,14 +16,16 @@ namespace ZeldaMessage
         public List<List<byte>> Message = new List<List<byte>>();
         public int MessageCount;
         public bool BrightenText;
+        public bool UseRealSpaceWidth;
 
         private int OUTPUT_IMAGE_X = 256;
         private int OUTPUT_IMAGE_Y = 64 + (Properties.Resources.Box_End.Width / 2);
 
         public byte[] FontData = null;
 
-        public MessagePreview(Data.BoxType BoxType, byte[] MessageData, float[] _FontWidths = null, byte[] _FontData = null)
+        public MessagePreview(Data.BoxType BoxType, byte[] MessageData, float[] _FontWidths = null, byte[] _FontData = null, bool _UseRealSpaceWidth = false)
         {
+            UseRealSpaceWidth = _UseRealSpaceWidth;
             Box = BoxType;
             SplitMsgIntoTextboxes(MessageData);
 
@@ -49,7 +51,7 @@ namespace ZeldaMessage
             }
             else
             {
-                DataMajora.FontWidths = _FontWidths;
+                Data.FontWidths = _FontWidths;
             }
 
 
@@ -183,6 +185,17 @@ namespace ZeldaMessage
 
             if (box.Count != 0)
                 Message.Add(box);
+
+            string Errmsg = $"ERROR! - Textbox larger than 200 bytes.";
+
+            for (int i = 0; i < Message.Count; i++)
+            {
+                if (Message[i].Count > 200)
+                {
+                    Message[i].Clear();
+                    Message[i].AddRange(Encoding.GetEncoding("UTF-8").GetBytes(Errmsg.ToCharArray()));
+                }
+            }
         }
 
         private int GetBoxIconTag(int BoxNum)
@@ -666,7 +679,7 @@ namespace ZeldaMessage
 
             if (Char == ' ')
             {
-                xPos += 6.0f;
+                xPos += (UseRealSpaceWidth ? (int)Math.Floor((Data.FontWidths[0] * scale)) : 6.0f);
                 return destBmp;
             }
 
