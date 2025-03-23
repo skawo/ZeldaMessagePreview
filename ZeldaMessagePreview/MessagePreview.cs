@@ -684,9 +684,12 @@ namespace ZeldaMessage
             }
 
             Bitmap img;
+            int startByte = (Char - ' ') * 128;
 
-            if (FontData != null && (Char - ' ') * 128 < FontData.Length)
-                img = Common.GetBitmapFromI4FontChar(FontData.Skip((Char - ' ') * 128).Take(128).ToArray());
+            if (FontData != null && startByte + 128 <= FontData.Length)
+            {
+                img = Common.GetBitmapFromI4FontChar(FontData.Skip(startByte).Take(128).ToArray());
+            }
             else
             {
                 img = (Bitmap)Properties.Resources.ResourceManager.GetObject(fn);
@@ -721,6 +724,7 @@ namespace ZeldaMessage
             }
             catch (Exception)
             {
+                xPos += 16 * scale;
                 // Lazy way to ensure the program does not crash if exported message data doesn't have data for all the characters.
             }
 
