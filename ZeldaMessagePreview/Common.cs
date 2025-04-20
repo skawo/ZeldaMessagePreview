@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Microsoft.CSharp;
+using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -13,6 +16,72 @@ namespace ZeldaMessage
     class Common
     {
         public static bool RunningUnderMono = Type.GetType("Mono.Runtime") != null;
+        public static Dictionary<int, object> tagExtend = new Dictionary<int, object>();
+
+        public static void GetTagExtensions()
+        {
+            StringBuilder sb = new StringBuilder();
+            bool Errors = false;
+
+            if (Directory.Exists("msgextend"))
+            {
+                string[] files = Directory.GetFiles("msgextend");
+
+                foreach (string file in files)
+                {
+                    string tagN = Path.GetFileNameWithoutExtension(file);
+                    int tagNumber = 0;
+
+                    if (Int32.TryParse(tagN, out tagNumber))
+                    {
+                        if (tagExtend.ContainsKey(tagNumber))
+                            continue;
+
+                        string[] code = File.ReadAllLines(file);
+
+                        Dictionary<string, string> providerOptions = new Dictionary<string, string>{{"CompilerVersion", "v3.5"}};
+
+                        CSharpCodeProvider provider = new CSharpCodeProvider(providerOptions);
+
+                        CompilerParameters compilerParams = new CompilerParameters
+                        {
+                            GenerateInMemory = true,
+                            GenerateExecutable = false,
+                        };
+
+                        for (int i = 0; i < code.Length; i++)
+                        {
+                            string line = code[i];
+
+                            if (line.StartsWith("include "))
+                            {
+                                compilerParams.ReferencedAssemblies.Add(line.Substring(8));
+                                code[i] = "";
+                            }
+                        }
+
+                        CompilerResults results = provider.CompileAssemblyFromSource(compilerParams, String.Join(Environment.NewLine, code));
+
+                        if (results.Errors.Count != 0)
+                        {
+                            Errors = true;
+
+                            foreach (CompilerError m in results.Errors)
+                                sb.Append($"{tagNumber}:{m.ErrorText}{Environment.NewLine}");
+                        }
+                        else
+                        {
+                            object o = results.CompiledAssembly.CreateInstance("MsgExtend.Function");
+                            tagExtend.Add(tagNumber, o);
+                        }
+
+                    }
+                }
+
+                if (Errors)
+                    System.Windows.Forms.MessageBox.Show(sb.ToString());
+            }
+        }
 
         public static Bitmap GetBitmapFromI4FontChar(byte[] bytes)
         {

@@ -7,6 +7,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.CSharp;
+using System.CodeDom.Compiler;
+using System.IO;
+using System.Reflection;
 
 namespace ZeldaMessage
 {
@@ -71,7 +75,10 @@ namespace ZeldaMessage
             }
             else
                 FontData = _FontData;
+
+            Common.GetTagExtensions();
         }
+
 
         public Bitmap GetPreview(int BoxNum = 0, bool brightenText = true, float outputScale = 1.75f)
         {
@@ -251,7 +258,7 @@ namespace ZeldaMessage
 
                 if (curByte == (byte)Data.MsgControlCode.TWO_CHOICES)
                 {
-                    Result = 2; 
+                    Result = 2;
                     continue;
                 }
                 else if (curByte == (byte)Data.MsgControlCode.THREE_CHOICES)
@@ -433,212 +440,231 @@ namespace ZeldaMessage
             {
                 for (int charPos = 0; charPos < BoxData.Count; charPos++)
                 {
-                    switch (BoxData[charPos])
+                    if (Common.tagExtend.ContainsKey(BoxData[charPos]))
                     {
-                        case (byte)Data.MsgControlCode.TWO_CHOICES:
-                            {
-                                Bitmap imgArrow = Properties.Resources.Box_Arrow;
-                                float xPosChoice = 16;
-                                float yPosChoice = 32;
+                        object o = Common.tagExtend[BoxData[charPos]];
+                        MethodInfo mi = o.GetType().GetMethod("TagProcess");
 
-                                for (int ch = 0; ch < 2; ch++)
+                        object ret = mi.Invoke(o, new object[] { destBmp, BoxData, textColor, scale, xPos, yPos, charPos });
+                        object[] result = (ret as object[]);
+
+                        destBmp = (Bitmap)result[0];
+                        BoxData = (List<byte>)result[1];
+                        textColor = (Color)result[2];
+                        scale = (float)result[3];
+                        xPos = (float)result[4];
+                        yPos = (float)result[5];
+                        charPos = (int)result[6];
+                    }
+                    else
+                    {
+                        switch (BoxData[charPos])
+                        {
+                            case (byte)Data.MsgControlCode.TWO_CHOICES:
                                 {
-                                    Common.DrawImage(destBmp, imgArrow, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
-                                    yPosChoice += Data.LINEBREAK_SIZE;
-                                }
+                                    Bitmap imgArrow = Properties.Resources.Box_Arrow;
+                                    float xPosChoice = 16;
+                                    float yPosChoice = 32;
 
-                                break;
-                            }
-                        case (byte)Data.MsgControlCode.THREE_CHOICES:
-                            {
-                                Bitmap imgArrow = Properties.Resources.Box_Arrow;
-                                float xPosChoice = 16;
-                                float yPosChoice = 20;
-
-                                for (int ch = 0; ch < 3; ch++)
-                                {
-                                    Common.DrawImage(destBmp, imgArrow, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
-                                    yPosChoice += Data.LINEBREAK_SIZE;
-                                }
-
-                                break;
-                            }
-                        case (byte)Data.MsgControlCode.TIME:
-                            {
-                                char[] Setting = Data.ControlCharPresets[(Data.MsgControlCode)BoxData[charPos]].ToArray();
-
-                                foreach (char ch in Setting)
-                                    DrawTextInternal(destBmp, (byte)ch, textColor, scale, ref xPos, ref yPos);
-
-                                break;
-                            }
-                        case (byte)Data.MsgControlCode.POINTS:
-                        case (byte)Data.MsgControlCode.MARATHON_TIME:
-                        case (byte)Data.MsgControlCode.RACE_TIME:
-                        case (byte)Data.MsgControlCode.FISH_WEIGHT:
-                        case (byte)Data.MsgControlCode.GOLD_SKULLTULAS:
-                        case (byte)Data.MsgControlCode.PLAYER:
-                            {
-                                char[] Setting = Data.ControlCharPresets[(Data.MsgControlCode)BoxData[charPos]].ToArray();
-
-                                foreach (char ch in Setting)
-                                    DrawTextInternal(destBmp, (byte)ch, textColor, scale, ref xPos, ref yPos);
-
-                                break;
-                            }
-                        case (byte)Data.MsgControlCode.HIGH_SCORE:
-                            {
-                                char[] Setting = Data.HighScoreControlCharPresets[(Data.MsgHighScore)BoxData[charPos + 1]].ToArray();
-
-                                foreach (char ch in Setting)
-                                    DrawTextInternal(destBmp, (byte)ch, textColor, scale, ref xPos, ref yPos);
-
-                                charPos++;
-                                break;
-                            }
-                        case (byte)Data.MsgControlCode.ICON:
-                            {
-                                byte IconN = Common.GetByteFromArray(BoxData.ToArray(), charPos + 1);
-
-                                string fn = $"icon_{IconN.ToString().ToLower()}";
-                                Bitmap img = (Bitmap)Properties.Resources.ResourceManager.GetObject(fn);
-
-                                if (img != null)
-                                {
-                                    if (IconN < 102)
+                                    for (int ch = 0; ch < 2; ch++)
                                     {
-                                        float xPosIcon = xPos - 0xA;
-                                        float yPosIcon = Box == Data.BoxType.None_White ? 36 : 0x10;
+                                        Common.DrawImage(destBmp, imgArrow, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
+                                        yPosChoice += Data.LINEBREAK_SIZE;
+                                    }
 
-                                        Common.DrawImage(destBmp, img, Color.White, 32, 32, ref xPosIcon, ref yPosIcon, 0, false);
+                                    break;
+                                }
+                            case (byte)Data.MsgControlCode.THREE_CHOICES:
+                                {
+                                    Bitmap imgArrow = Properties.Resources.Box_Arrow;
+                                    float xPosChoice = 16;
+                                    float yPosChoice = 20;
+
+                                    for (int ch = 0; ch < 3; ch++)
+                                    {
+                                        Common.DrawImage(destBmp, imgArrow, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
+                                        yPosChoice += Data.LINEBREAK_SIZE;
+                                    }
+
+                                    break;
+                                }
+                            case (byte)Data.MsgControlCode.TIME:
+                                {
+                                    char[] Setting = Data.ControlCharPresets[(Data.MsgControlCode)BoxData[charPos]].ToArray();
+
+                                    foreach (char ch in Setting)
+                                        DrawTextInternal(destBmp, (byte)ch, textColor, scale, ref xPos, ref yPos);
+
+                                    break;
+                                }
+                            case (byte)Data.MsgControlCode.POINTS:
+                            case (byte)Data.MsgControlCode.MARATHON_TIME:
+                            case (byte)Data.MsgControlCode.RACE_TIME:
+                            case (byte)Data.MsgControlCode.FISH_WEIGHT:
+                            case (byte)Data.MsgControlCode.GOLD_SKULLTULAS:
+                            case (byte)Data.MsgControlCode.PLAYER:
+                                {
+                                    char[] Setting = Data.ControlCharPresets[(Data.MsgControlCode)BoxData[charPos]].ToArray();
+
+                                    foreach (char ch in Setting)
+                                        DrawTextInternal(destBmp, (byte)ch, textColor, scale, ref xPos, ref yPos);
+
+                                    break;
+                                }
+                            case (byte)Data.MsgControlCode.HIGH_SCORE:
+                                {
+                                    char[] Setting = Data.HighScoreControlCharPresets[(Data.MsgHighScore)BoxData[charPos + 1]].ToArray();
+
+                                    foreach (char ch in Setting)
+                                        DrawTextInternal(destBmp, (byte)ch, textColor, scale, ref xPos, ref yPos);
+
+                                    charPos++;
+                                    break;
+                                }
+                            case (byte)Data.MsgControlCode.ICON:
+                                {
+                                    byte IconN = Common.GetByteFromArray(BoxData.ToArray(), charPos + 1);
+
+                                    string fn = $"icon_{IconN.ToString().ToLower()}";
+                                    Bitmap img = (Bitmap)Properties.Resources.ResourceManager.GetObject(fn);
+
+                                    if (img != null)
+                                    {
+                                        if (IconN < 102)
+                                        {
+                                            float xPosIcon = xPos - 0xA;
+                                            float yPosIcon = Box == Data.BoxType.None_White ? 36 : 0x10;
+
+                                            Common.DrawImage(destBmp, img, Color.White, 32, 32, ref xPosIcon, ref yPosIcon, 0, false);
+                                        }
+                                        else
+                                        {
+                                            float xPosIcon = xPos - 0x7;
+                                            float yPosIcon = Box == Data.BoxType.None_White ? 36 : 0x14;
+
+                                            Common.DrawImage(destBmp, img, Color.White, 24, 24, ref xPosIcon, ref yPosIcon, 0, false);
+                                        }
+                                    }
+
+                                    xPos += 0x20;
+                                    charPos += 1;
+                                    continue;
+                                }
+                            case (byte)Data.MsgControlCode.EVENT:
+                                {
+                                    break;
+                                }
+                            case (byte)Data.MsgControlCode.PERSISTENT:
+                                {
+                                    return destBmp;
+                                }
+                            case (byte)Data.MsgControlCode.BACKGROUND:
+                                {
+                                    Bitmap left = Properties.Resources.xmes_left;
+                                    Bitmap right = Properties.Resources.xmes_right;
+
+                                    float xPosbg = 0;
+                                    float yPosbg = 0;
+
+                                    Common.DrawImage(destBmp, left, Color.White, left.Width, left.Height, ref xPosbg, ref yPosbg, 0);
+
+                                    xPosbg += left.Width;
+
+                                    Common.DrawImage(destBmp, right, Color.White, left.Width, left.Height, ref xPosbg, ref yPosbg, 0);
+
+                                    charPos += 3;
+                                    continue;
+                                }
+                            case (byte)Data.MsgControlCode.SOUND:
+                            case (byte)Data.MsgControlCode.FADE2:
+                                {
+                                    charPos += 2;
+                                    continue;
+                                }
+                            case (byte)Data.MsgControlCode.DELAY:
+                            case (byte)Data.MsgControlCode.JUMP:
+                                {
+                                    charPos += 2;
+                                    continue;
+                                }
+                            case (byte)Data.MsgControlCode.SPEED:
+                                {
+                                    charPos += 1;
+                                    continue;
+                                }
+                            case (byte)Data.MsgControlCode.FADE:
+                                {
+                                    charPos += 1;
+                                    return destBmp;
+                                }
+                            case (byte)Data.MsgControlCode.AWAIT_BUTTON:
+                            case (byte)Data.MsgControlCode.END:
+                            case (byte)Data.MsgControlCode.DC:
+                            case (byte)Data.MsgControlCode.DI:
+                            case (byte)Data.MsgControlCode.NS:
+                                continue;
+                            case (byte)Data.MsgControlCode.SHIFT:
+                                {
+                                    byte num_shift = Common.GetByteFromArray(BoxData.ToArray(), charPos + 1);
+
+                                    xPos += num_shift;
+                                    charPos++;
+                                    continue;
+                                }
+                            case (byte)Data.MsgControlCode.COLOR:
+                                {
+                                    byte color_data_idx = Common.GetByteFromArray(BoxData.ToArray(), charPos + 1);
+
+                                    switch (color_data_idx)
+                                    {
+                                        case (int)Data.MsgColor.R:
+                                        case (int)Data.MsgColor.G:
+                                        case (int)Data.MsgColor.B:
+                                        case (int)Data.MsgColor.C:
+                                        case (int)Data.MsgColor.M:
+                                        case (int)Data.MsgColor.Y:
+                                        case (int)Data.MsgColor.BLK:
+                                            {
+                                                RGB cl = Data.CharColors[color_data_idx - (int)Data.MsgColor.R][Convert.ToInt32(Box == Data.BoxType.Wooden)];
+                                                textColor = Color.FromArgb(255, cl.R, cl.G, cl.B);
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                RGB cl = Data.CharColors[7][Convert.ToInt32(Box == Data.BoxType.None_Black)];
+                                                textColor = Color.FromArgb(255, cl.R, cl.G, cl.B);
+                                                break;
+                                            }
+                                    }
+
+                                    charPos++;
+
+                                    break;
+                                }
+                            case (byte)Data.MsgControlCode.LINE_BREAK:
+                                {
+                                    if ((int)Box > (int)Data.BoxType.None_Black)
+                                    {
+                                        xPos = 20;
+                                        yPos += 6;
                                     }
                                     else
                                     {
-                                        float xPosIcon = xPos - 0x7;
-                                        float yPosIcon = Box == Data.BoxType.None_White ? 36 : 0x14;
-
-                                        Common.DrawImage(destBmp, img, Color.White, 24, 24, ref xPosIcon, ref yPosIcon, 0, false);
+                                        xPos = Data.XPOS_DEFAULT;
+                                        yPos += Data.LINEBREAK_SIZE;
                                     }
+
+                                    if ((choiceType == 2 && yPos >= 32) || (choiceType == 3 && yPos >= 20) || iconType != -1 && yPos > 12)
+                                        xPos = 2 * Data.XPOS_DEFAULT;
+
+                                    continue;
                                 }
-
-                                xPos += 0x20;
-                                charPos += 1;
-                                continue;
-                            }
-                        case (byte)Data.MsgControlCode.EVENT:
-                            {
-                                break;
-                            }
-                        case (byte)Data.MsgControlCode.PERSISTENT:
-                            {
-                                return destBmp;
-                            }
-                        case (byte)Data.MsgControlCode.BACKGROUND:
-                            {
-                                Bitmap left = Properties.Resources.xmes_left;
-                                Bitmap right = Properties.Resources.xmes_right;
-
-                                float xPosbg = 0;
-                                float yPosbg = 0;
-
-                                Common.DrawImage(destBmp, left, Color.White, left.Width, left.Height, ref xPosbg, ref yPosbg, 0);
-
-                                xPosbg += left.Width;
-
-                                Common.DrawImage(destBmp, right, Color.White, left.Width, left.Height, ref xPosbg, ref yPosbg, 0);
-
-                                charPos += 3;
-                                continue;
-                            }
-                        case (byte)Data.MsgControlCode.SOUND:
-                        case (byte)Data.MsgControlCode.FADE2:
-                            {
-                                charPos += 2;
-                                continue;
-                            }
-                        case (byte)Data.MsgControlCode.DELAY:
-                        case (byte)Data.MsgControlCode.JUMP:
-                            {
-                                charPos += 2;
-                                continue;
-                            }
-                        case (byte)Data.MsgControlCode.SPEED:
-                            {
-                                charPos += 1;
-                                continue;
-                            }
-                        case (byte)Data.MsgControlCode.FADE:
-                            {
-                                charPos += 1;
-                                return destBmp;
-                            }
-                        case (byte)Data.MsgControlCode.AWAIT_BUTTON:
-                        case (byte)Data.MsgControlCode.END:
-                        case (byte)Data.MsgControlCode.DC:
-                        case (byte)Data.MsgControlCode.DI:
-                        case (byte)Data.MsgControlCode.NS:
-                            continue;
-                        case (byte)Data.MsgControlCode.SHIFT:
-                            {
-                                byte num_shift = Common.GetByteFromArray(BoxData.ToArray(), charPos + 1);
-
-                                xPos += num_shift;
-                                charPos++;
-                                continue;
-                            }
-                        case (byte)Data.MsgControlCode.COLOR:
-                            {
-                                byte color_data_idx = Common.GetByteFromArray(BoxData.ToArray(), charPos + 1);
-
-                                switch (color_data_idx)
+                            default:
                                 {
-                                    case (int)Data.MsgColor.R:
-                                    case (int)Data.MsgColor.G:
-                                    case (int)Data.MsgColor.B:
-                                    case (int)Data.MsgColor.C:
-                                    case (int)Data.MsgColor.M:
-                                    case (int)Data.MsgColor.Y:
-                                    case (int)Data.MsgColor.BLK:
-                                        {
-                                            RGB cl = Data.CharColors[color_data_idx - (int)Data.MsgColor.R][Convert.ToInt32(Box == Data.BoxType.Wooden)];
-                                            textColor = Color.FromArgb(255, cl.R, cl.G, cl.B);
-                                            break;
-                                        }
-                                    default:
-                                        {
-                                            RGB cl = Data.CharColors[7][Convert.ToInt32(Box == Data.BoxType.None_Black)];
-                                            textColor = Color.FromArgb(255, cl.R, cl.G, cl.B);
-                                            break;
-                                        }
+                                    destBmp = DrawTextInternal(destBmp, BoxData[charPos], textColor, scale, ref xPos, ref yPos);
+                                    break;
                                 }
-
-                                charPos++;
-
-                                break;
-                            }
-                        case (byte)Data.MsgControlCode.LINE_BREAK:
-                            {
-                                if ((int)Box > (int)Data.BoxType.None_Black)
-                                {
-                                    xPos = 20;
-                                    yPos += 6;
-                                }
-                                else
-                                {
-                                    xPos = Data.XPOS_DEFAULT;
-                                    yPos += Data.LINEBREAK_SIZE;
-                                }
-
-                                if ((choiceType == 2 && yPos >= 32) || (choiceType == 3 && yPos >= 20) || iconType != -1 && yPos > 12)
-                                    xPos = 2 * Data.XPOS_DEFAULT;
-
-                                continue;
-                            }
-                        default:
-                            {
-                                destBmp = DrawTextInternal(destBmp, BoxData[charPos], textColor, scale, ref xPos, ref yPos);
-                                break;
-                            }
+                        }
                     }
                 }
 

@@ -1,0 +1,65 @@
+include System.dll
+include System.Drawing.dll
+include System.Core.dll
+include System.Windows.Forms.dll
+include ZeldaMessage.dll
+
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using ZeldaMessage;
+
+// Example tag that centers a message line.
+
+namespace MsgExtend
+{
+    public class Function
+    {
+        public object TagProcess(Bitmap bmp, List<byte> BoxData, Color textColor, float scale, float xPos, float yPos, int charPos)
+        {
+            int Len = 0;
+            int pos = charPos;
+            
+            while (BoxData[pos] != (byte)ZeldaMessage.Data.MsgControlCode.LINE_BREAK &&
+                   BoxData[pos] != (byte)ZeldaMessage.Data.MsgControlCode.END &&
+                   BoxData[pos] != (byte)ZeldaMessage.Data.MsgControlCode.NEW_BOX &&
+                   BoxData[pos] != (byte)ZeldaMessage.Data.MsgControlCode.PERSISTENT &&
+                   BoxData[pos] != (byte)ZeldaMessage.Data.MsgControlCode.EVENT &&
+                   BoxData[pos] != (byte)ZeldaMessage.Data.MsgControlCode.FADE &&
+                   BoxData[pos] != 0 &&
+                   pos != BoxData.Count())
+                   {
+                        if (BoxData[pos] >= 0x20 && BoxData[pos] < 0xFD)
+                        {
+                            if (BoxData[pos] - 0x20 > ZeldaMessage.Data.FontWidths.Length)
+                                Len += (int)(13 * scale);
+                            else
+                                Len += (int)((ZeldaMessage.Data.FontWidths[BoxData[pos] - 0x20] * scale));
+                        }
+
+                        pos++;
+                   }
+
+            xPos = 128 - (Len / 2);       
+        
+            object[] ret = new object[7];
+            
+            ret[0] = (object)bmp;
+            ret[1] = (object)BoxData;
+            ret[2] = (object)textColor;
+            ret[3] = (object)scale;
+            ret[4] = (object)xPos;
+            ret[5] = (object)yPos;
+            ret[6] = (object)charPos;
+            
+            return ret;
+        }
+    }
+}
+
+

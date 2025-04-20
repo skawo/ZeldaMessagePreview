@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -387,7 +388,7 @@ namespace ZeldaMessage
 
                             if (MultiByteCodes.Contains(curBytePrev))
                             {
-                                i-=2;
+                                i -= 2;
                                 continue;
                             }
                         }
@@ -687,146 +688,165 @@ namespace ZeldaMessage
                     }
                     else
                     {
-                        switch (BoxDataMajora[charPos])
+                        if (Common.tagExtend.ContainsKey(BoxDataMajora[charPos]))
                         {
-                            case (byte)DataMajora.MsgControlCode.TWO_CHOICES:
-                                {
-                                    if (!InBombersNotebook)
+                            object o = Common.tagExtend[BoxDataMajora[charPos]];
+                            MethodInfo mi = o.GetType().GetMethod("TagProcess");
+
+                            object ret = mi.Invoke(o, new object[] { destBmp, BoxDataMajora, textColor, scale, xPos, yPos, charPos });
+                            object[] result = (ret as object[]);
+
+                            destBmp = (Bitmap)result[0];
+                            BoxDataMajora = (List<byte>)result[1];
+                            textColor = (Color)result[2];
+                            scale = (float)result[3];
+                            xPos = (float)result[4];
+                            yPos = (float)result[5];
+                            charPos = (int)result[6];
+                        }
+                        else
+                        {
+                            switch (BoxDataMajora[charPos])
+                            {
+                                case (byte)DataMajora.MsgControlCode.TWO_CHOICES:
                                     {
-                                        Bitmap imgArrow = Properties.Resources.Box_Arrow;
-                                        float xPosChoice = 13;
-                                        float yPosChoice = 25;
-
-                                        if (NumLineBreaks >= 3)
-                                            yPosChoice += 7;
-
-                                        for (int ch = 0; ch < 2; ch++)
+                                        if (!InBombersNotebook)
                                         {
-                                            Common.DrawImage(destBmp, imgArrow, Color.RoyalBlue, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
-                                            yPosChoice += DataMajora.LINEBREAK_SIZE;
-                                        }
-                                    }
+                                            Bitmap imgArrow = Properties.Resources.Box_Arrow;
+                                            float xPosChoice = 13;
+                                            float yPosChoice = 25;
 
-                                    break;
-                                }
-                            case (byte)DataMajora.MsgControlCode.THREE_CHOICES:
-                                {
-                                    if (!InBombersNotebook)
+                                            if (NumLineBreaks >= 3)
+                                                yPosChoice += 7;
+
+                                            for (int ch = 0; ch < 2; ch++)
+                                            {
+                                                Common.DrawImage(destBmp, imgArrow, Color.RoyalBlue, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
+                                                yPosChoice += DataMajora.LINEBREAK_SIZE;
+                                            }
+                                        }
+
+                                        break;
+                                    }
+                                case (byte)DataMajora.MsgControlCode.THREE_CHOICES:
                                     {
-                                        Bitmap imgArrow = Properties.Resources.Box_Arrow;
-                                        float xPosChoice = 13;
-                                        float yPosChoice = 13;
-
-                                        if (NumLineBreaks >= 3)
-                                            yPosChoice += 7;
-
-
-                                        for (int ch = 0; ch < 3; ch++)
+                                        if (!InBombersNotebook)
                                         {
-                                            Common.DrawImage(destBmp, imgArrow, Color.RoyalBlue, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
-                                            yPosChoice += DataMajora.LINEBREAK_SIZE;
+                                            Bitmap imgArrow = Properties.Resources.Box_Arrow;
+                                            float xPosChoice = 13;
+                                            float yPosChoice = 13;
+
+                                            if (NumLineBreaks >= 3)
+                                                yPosChoice += 7;
+
+
+                                            for (int ch = 0; ch < 3; ch++)
+                                            {
+                                                Common.DrawImage(destBmp, imgArrow, Color.RoyalBlue, (int)(16 * scale), (int)(16 * scale), ref xPosChoice, ref yPosChoice, 0);
+                                                yPosChoice += DataMajora.LINEBREAK_SIZE;
+                                            }
                                         }
+
+                                        break;
                                     }
+                                case (byte)DataMajora.MsgControlCode.BACKGROUND:
+                                    {
+                                        Bitmap left = Properties.Resources.xmes_left;
+                                        Bitmap right = Properties.Resources.xmes_right;
 
-                                    break;
-                                }
-                            case (byte)DataMajora.MsgControlCode.BACKGROUND:
-                                {
-                                    Bitmap left = Properties.Resources.xmes_left;
-                                    Bitmap right = Properties.Resources.xmes_right;
+                                        float xPosbg = 0;
+                                        float yPosbg = 0;
 
-                                    float xPosbg = 0;
-                                    float yPosbg = 0;
+                                        Common.DrawImage(destBmp, left, Color.White, left.Width, left.Height, ref xPosbg, ref yPosbg, 0);
 
-                                    Common.DrawImage(destBmp, left, Color.White, left.Width, left.Height, ref xPosbg, ref yPosbg, 0);
+                                        xPosbg += left.Width;
 
-                                    xPosbg += left.Width;
-
-                                    Common.DrawImage(destBmp, right, Color.White, left.Width, left.Height, ref xPosbg, ref yPosbg, 0);
+                                        Common.DrawImage(destBmp, right, Color.White, left.Width, left.Height, ref xPosbg, ref yPosbg, 0);
+                                        continue;
+                                    }
+                                case (byte)DataMajora.MsgControlCode.SOUND:
+                                case (byte)DataMajora.MsgControlCode.DELAY:
+                                case (byte)DataMajora.MsgControlCode.DELAY_NEWBOX:
+                                    {
+                                        charPos += 2;
+                                        continue;
+                                    }
+                                case (byte)DataMajora.MsgControlCode.DELAY_END:
+                                    {
+                                        charPos += 2;
+                                        return destBmp;
+                                    }
+                                case (byte)DataMajora.MsgControlCode.FADE:
+                                    {
+                                        charPos += 2;
+                                        return destBmp;
+                                    }
+                                case (byte)DataMajora.MsgControlCode.PERSISTENT:
+                                    {
+                                        return destBmp;
+                                    }
+                                case (byte)DataMajora.MsgControlCode.END:
+                                case (byte)DataMajora.MsgControlCode.DC:
+                                case (byte)DataMajora.MsgControlCode.DI:
+                                case (byte)DataMajora.MsgControlCode.NOSKIP:
+                                case (byte)DataMajora.MsgControlCode.NOSKIP_SOUND:
                                     continue;
-                                }
-                            case (byte)DataMajora.MsgControlCode.SOUND:
-                            case (byte)DataMajora.MsgControlCode.DELAY:
-                            case (byte)DataMajora.MsgControlCode.DELAY_NEWBOX:
-                                {
-                                    charPos += 2;
-                                    continue;
-                                }
-                            case (byte)DataMajora.MsgControlCode.DELAY_END:
-                                {
-                                    charPos += 2;
-                                    return destBmp;
-                                }
-                            case (byte)DataMajora.MsgControlCode.FADE:
-                                {
-                                    charPos += 2;
-                                    return destBmp;
-                                }
-                            case (byte)DataMajora.MsgControlCode.PERSISTENT:
-                                {
-                                    return destBmp;
-                                }
-                            case (byte)DataMajora.MsgControlCode.END:
-                            case (byte)DataMajora.MsgControlCode.DC:
-                            case (byte)DataMajora.MsgControlCode.DI:
-                            case (byte)DataMajora.MsgControlCode.NOSKIP:
-                            case (byte)DataMajora.MsgControlCode.NOSKIP_SOUND:
-                                continue;
-                            case (byte)DataMajora.MsgControlCode.SHIFT:
-                                {
-                                    byte num_shift = Common.GetByteFromArray(BoxDataMajora.ToArray(), charPos + 1);
+                                case (byte)DataMajora.MsgControlCode.SHIFT:
+                                    {
+                                        byte num_shift = Common.GetByteFromArray(BoxDataMajora.ToArray(), charPos + 1);
 
-                                    xPos += num_shift;
-                                    charPos++;
-                                    continue;
-                                }
-                            case (byte)DataMajora.MsgControlCode.COLOR_DEFAULT:
-                            case (byte)DataMajora.MsgControlCode.COLOR_RED:
-                            case (byte)DataMajora.MsgControlCode.COLOR_GREEN:
-                            case (byte)DataMajora.MsgControlCode.COLOR_BLUE:
-                            case (byte)DataMajora.MsgControlCode.COLOR_YELLOW:
-                            case (byte)DataMajora.MsgControlCode.COLOR_NAVY:
-                            case (byte)DataMajora.MsgControlCode.COLOR_PINK:
-                            case (byte)DataMajora.MsgControlCode.COLOR_SILVER:
-                            case (byte)DataMajora.MsgControlCode.COLOR_ORANGE:
-                                {
-                                    byte color_DataMajora_idx = (byte)(BoxDataMajora[charPos] - (byte)DataMajora.MsgControlCode.COLOR_DEFAULT);
+                                        xPos += num_shift;
+                                        charPos++;
+                                        continue;
+                                    }
+                                case (byte)DataMajora.MsgControlCode.COLOR_DEFAULT:
+                                case (byte)DataMajora.MsgControlCode.COLOR_RED:
+                                case (byte)DataMajora.MsgControlCode.COLOR_GREEN:
+                                case (byte)DataMajora.MsgControlCode.COLOR_BLUE:
+                                case (byte)DataMajora.MsgControlCode.COLOR_YELLOW:
+                                case (byte)DataMajora.MsgControlCode.COLOR_NAVY:
+                                case (byte)DataMajora.MsgControlCode.COLOR_PINK:
+                                case (byte)DataMajora.MsgControlCode.COLOR_SILVER:
+                                case (byte)DataMajora.MsgControlCode.COLOR_ORANGE:
+                                    {
+                                        byte color_DataMajora_idx = (byte)(BoxDataMajora[charPos] - (byte)DataMajora.MsgControlCode.COLOR_DEFAULT);
 
-                                    RGB cl = DataMajora.CharColors[color_DataMajora_idx][GetColorIndex(Header.BoxType)];
-                                    textColor = Color.FromArgb(255, cl.R, cl.G, cl.B);
+                                        RGB cl = DataMajora.CharColors[color_DataMajora_idx][GetColorIndex(Header.BoxType)];
+                                        textColor = Color.FromArgb(255, cl.R, cl.G, cl.B);
 
-                                    break;
-                                }
-                            case (byte)DataMajora.MsgControlCode.LINE_BREAK:
-                                {
-                                    NumCurrentLineBreak++;
-                                    yPos += DataMajora.LINEBREAK_SIZE;
+                                        break;
+                                    }
+                                case (byte)DataMajora.MsgControlCode.LINE_BREAK:
+                                    {
+                                        NumCurrentLineBreak++;
+                                        yPos += DataMajora.LINEBREAK_SIZE;
 
 
-                                    if (Header.MajoraIcon != 0xFE && NumCurrentLineBreak > 1 || Header.MajoraIcon != 0xFE && choiceType == 0)
-                                        xPos = DataMajora.XPOS_DEFAULT + (InBombersNotebook ? 0x1C : 0xE);
-                                    else
-                                        xPos = DataMajora.XPOS_DEFAULT;
+                                        if (Header.MajoraIcon != 0xFE && NumCurrentLineBreak > 1 || Header.MajoraIcon != 0xFE && choiceType == 0)
+                                            xPos = DataMajora.XPOS_DEFAULT + (InBombersNotebook ? 0x1C : 0xE);
+                                        else
+                                            xPos = DataMajora.XPOS_DEFAULT;
 
 
-                                    if (choiceType == 2 && NumCurrentLineBreak >= (NumLineBreaks - 1))
-                                        xPos = DataMajora.XPOS_DEFAULT + (InBombersNotebook ? 30 : 10);
+                                        if (choiceType == 2 && NumCurrentLineBreak >= (NumLineBreaks - 1))
+                                            xPos = DataMajora.XPOS_DEFAULT + (InBombersNotebook ? 30 : 10);
 
-                                    if (choiceType == 3 && NumCurrentLineBreak >= (NumLineBreaks - 2))
-                                        xPos = DataMajora.XPOS_DEFAULT + (InBombersNotebook ? 13 : 22);
+                                        if (choiceType == 3 && NumCurrentLineBreak >= (NumLineBreaks - 2))
+                                            xPos = DataMajora.XPOS_DEFAULT + (InBombersNotebook ? 13 : 22);
 
-                                    continue;
-                                }
-                            default:
-                                {
-                                    destBmp = DrawTextInternal(destBmp, BoxDataMajora[charPos], textColor, scale, ref xPos, ref yPos);
-                                    break;
-                                }
+                                        continue;
+                                    }
+                                default:
+                                    {
+                                        destBmp = DrawTextInternal(destBmp, BoxDataMajora[charPos], textColor, scale, ref xPos, ref yPos);
+                                        break;
+                                    }
+                            }
                         }
                     }
                 }
 
-                if (GetNumberOfTags(boxNum, 
+                if (GetNumberOfTags(boxNum,
                         new List<int>()
                         {
                             (byte)DataMajora.MsgControlCode.FADE,
@@ -895,8 +915,8 @@ namespace ZeldaMessage
 
             using (Graphics g = Graphics.FromImage(destBmp))
             {
-                if (Header.BoxType != DataMajora.BoxType.None_Black && 
-                    Header.BoxType != DataMajora.BoxType.Bombers_Notebook && 
+                if (Header.BoxType != DataMajora.BoxType.None_Black &&
+                    Header.BoxType != DataMajora.BoxType.Bombers_Notebook &&
                     !InBombersNotebook)
                 {
                     shadow = Common.Colorize(shadow, Color.Black);
