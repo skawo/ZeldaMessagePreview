@@ -705,7 +705,7 @@ namespace ZeldaMessage
 
             if (Char == ' ')
             {
-                xPos += (UseRealSpaceWidth ? (int)Math.Floor((Data.FontWidths[0] * scale)) : 6.0f);
+                xPos += (UseRealSpaceWidth ? (int)(Data.FontWidths[0] * scale) : 6.0f);
                 return destBmp;
             }
 
@@ -746,7 +746,7 @@ namespace ZeldaMessage
 
             try
             {
-                xPos += (int)Math.Floor((Data.FontWidths[Char - 0x20] * scale));
+                xPos += (int)(Data.FontWidths[Char - 0x20] * scale);
             }
             catch (Exception)
             {

@@ -931,7 +931,7 @@ namespace ZeldaMessage
 
             try
             {
-                xPos += (int)Math.Floor((DataMajora.FontWidths[Char - 0x20] * scale));
+                xPos += (int)(DataMajora.FontWidths[Char - 0x20] * scale);
             }
             catch (Exception)
             {
