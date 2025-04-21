@@ -14,8 +14,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using ZeldaMessage;
 
-// Example tag that centers a message line.
-
 namespace MsgExtend
 {
     public class Function
@@ -24,26 +22,66 @@ namespace MsgExtend
         {
             int Len = 0;
             int pos = charPos;
-            
-            while (BoxData[pos] != (byte)ZeldaMessage.Data.MsgControlCode.LINE_BREAK &&
-                   BoxData[pos] != (byte)ZeldaMessage.Data.MsgControlCode.END &&
-                   BoxData[pos] != (byte)ZeldaMessage.Data.MsgControlCode.NEW_BOX &&
-                   BoxData[pos] != (byte)ZeldaMessage.Data.MsgControlCode.PERSISTENT &&
-                   BoxData[pos] != (byte)ZeldaMessage.Data.MsgControlCode.EVENT &&
-                   BoxData[pos] != (byte)ZeldaMessage.Data.MsgControlCode.FADE &&
-                   BoxData[pos] != 0 &&
-                   pos != BoxData.Count())
-                   {
-                        if (BoxData[pos] >= 0x20 && BoxData[pos] < 0xFD)
-                        {
-                            if (BoxData[pos] - 0x20 > ZeldaMessage.Data.FontWidths.Length)
-                                Len += (int)(13 * scale);
-                            else
-                                Len += (int)((ZeldaMessage.Data.FontWidths[BoxData[pos] - 0x20] * scale));
-                        }
+            byte curChar = BoxData[pos]; 
+        
+            try
+            {
+                while (curChar != (byte)ZeldaMessage.Data.MsgControlCode.LINE_BREAK &&
+                       curChar != (byte)ZeldaMessage.Data.MsgControlCode.END &&
+                       curChar != (byte)ZeldaMessage.Data.MsgControlCode.NEW_BOX &&
+                       curChar != (byte)ZeldaMessage.Data.MsgControlCode.PERSISTENT &&
+                       curChar != (byte)ZeldaMessage.Data.MsgControlCode.EVENT &&
+                       curChar != (byte)ZeldaMessage.Data.MsgControlCode.FADE &&
+                       curChar != (byte)ZeldaMessage.Data.MsgControlCode.FADE2 &&
+                       curChar != (byte)ZeldaMessage.Data.MsgControlCode.DELAY &&
+                       curChar != (byte)ZeldaMessage.Data.MsgControlCode.JUMP &&
+                       curChar != 0 && pos != BoxData.Count())
+                       {
+                            switch (curChar)
+                            {
+                                case (byte)ZeldaMessage.Data.MsgControlCode.HIGH_SCORE:
+                                case (byte)ZeldaMessage.Data.MsgControlCode.SPEED:
+                                case (byte)ZeldaMessage.Data.MsgControlCode.SHIFT:
+                                case (byte)ZeldaMessage.Data.MsgControlCode.COLOR:
+                                case (byte)ZeldaMessage.Data.MsgControlCode.ICON:
+                                {
+                                    pos += 1;
+                                    break;
+                                }
+                                case (byte)ZeldaMessage.Data.MsgControlCode.SOUND:
+                                {
+                                    pos += 2;
+                                    break;
+                                }
+                                case (byte)ZeldaMessage.Data.MsgControlCode.BACKGROUND:
+                                {
+                                    pos += 3;
+                                    break;
+                                }               
+                                default:
+                                {
+                                    if (curChar >= 0x20 && curChar < 0xFD)
+                                    {
+                                        if (curChar - 0x20 > ZeldaMessage.Data.FontWidths.Length)
+                                            Len += (int)(13 * scale);
+                                        else
+                                            Len += (int)((ZeldaMessage.Data.FontWidths[curChar - 0x20] * scale));           
+                                    }
 
-                        pos++;
-                   }
+                                    break;
+                                }
+                            }
+
+                            pos++;
+                            
+                            if (pos != BoxData.Count())
+                                curChar = BoxData[pos];
+                       }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("ERROR IN TAG PROCESS: " + ex.Message);
+            }
 
             xPos = 128 - (Len / 2);       
         
