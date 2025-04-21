@@ -1,0 +1,51 @@
+include System.dll
+include System.Drawing.dll
+include System.Core.dll
+include System.Windows.Forms.dll
+include ZeldaMessage.dll
+
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using ZeldaMessage;
+
+namespace MsgExtend
+{
+    public class Function
+    {
+        Bitmap systemBitmap = (System.Drawing.Bitmap)Bitmap.FromFile("msgextend/bitmaps/system.png");
+    
+        public object TagProcess(Bitmap bmp, Bitmap boxBitmap, Color c, bool revAlpha, ZeldaMessage.Data.BoxType BoxType)
+        {
+            try
+            {
+                if (BoxType == ZeldaMessage.Data.BoxType.Wooden)
+                {
+                    boxBitmap = systemBitmap;
+                    c = Color.FromArgb(0xFF, 0x24, 0x4B, 0x6E);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("ERROR IN TAG PROCESS: " + ex.Message);
+            }                
+            
+            
+            object[] ret = new object[4];
+            
+            ret[0] = (object)bmp;
+            ret[1] = (object)boxBitmap;
+            ret[2] = (object)c;
+            ret[3] = (object)revAlpha;
+            
+            return ret;
+        }
+    }
+}
+
+

@@ -18,17 +18,17 @@ namespace MsgExtend
 {
     public class Function
     {
-        public object TagProcess(Bitmap bmp, List<byte> BoxData, Color textColor, float scale, float xPos, float yPos, int charPos, ZeldaMessage.Data.BoxType BoxType)
+        public object TagProcess(Bitmap bmp, List<byte> BoxData, Color endColor, float xPos, float yPos, ZeldaMessage.Data.BoxType BoxType)
         {
-            int Len = 0;
-            int pos = charPos;
+            int pos = 0;
             byte curChar = BoxData[pos]; 
+            
+            bmp = ZeldaMessage.Properties.Resources.Box_Triangle;
+            xPos = 128 - 8;
         
             try
             {
-                while (curChar != (byte)ZeldaMessage.Data.MsgControlCode.LINE_BREAK &&
-                       curChar != (byte)ZeldaMessage.Data.MsgControlCode.END &&
-                       curChar != (byte)ZeldaMessage.Data.MsgControlCode.NEW_BOX &&
+                while (curChar != (byte)ZeldaMessage.Data.MsgControlCode.END &&
                        curChar != (byte)ZeldaMessage.Data.MsgControlCode.PERSISTENT &&
                        curChar != (byte)ZeldaMessage.Data.MsgControlCode.EVENT &&
                        curChar != (byte)ZeldaMessage.Data.MsgControlCode.FADE &&
@@ -60,13 +60,8 @@ namespace MsgExtend
                                 }               
                                 default:
                                 {
-                                    if (curChar >= 0x20 && curChar < 0xFD)
-                                    {
-                                        if (curChar - 0x20 > ZeldaMessage.Data.FontWidths.Length)
-                                            Len += (int)(13 * scale);
-                                        else
-                                            Len += (int)((ZeldaMessage.Data.FontWidths[curChar - 0x20] * scale));           
-                                    }
+                                    if (curChar == 0xFE)
+                                        bmp = ZeldaMessage.Properties.Resources.Box_End;
 
                                     break;
                                 }
@@ -81,19 +76,15 @@ namespace MsgExtend
             catch (Exception ex)
             {
                 System.Windows.Forms.MessageBox.Show("ERROR IN TAG PROCESS: " + ex.Message);
-            }
-
-            xPos = 128 - (Len / 2);       
-        
-            object[] ret = new object[7];
+            }            
+            
+            object[] ret = new object[5];
             
             ret[0] = (object)bmp;
             ret[1] = (object)BoxData;
-            ret[2] = (object)textColor;
-            ret[3] = (object)scale;
-            ret[4] = (object)xPos;
-            ret[5] = (object)yPos;
-            ret[6] = (object)charPos;
+            ret[2] = (object)endColor;
+            ret[3] = (object)xPos;
+            ret[4] = (object)yPos;
             
             return ret;
         }

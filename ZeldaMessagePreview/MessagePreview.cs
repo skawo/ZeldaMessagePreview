@@ -391,9 +391,21 @@ namespace ZeldaMessage
                     }
             }
 
-            destBmp = DrawBoxInternal(destBmp, img, c, revAlpha);
+            if (Common.tagExtend.ContainsKey(257))
+            {
+                object o = Common.tagExtend[257];
+                MethodInfo mi = o.GetType().GetMethod("TagProcess");
 
-            return destBmp;
+                object ret = mi.Invoke(o, new object[] { destBmp, img, c, revAlpha, Box });
+                object[] result = (ret as object[]);
+
+                destBmp = (Bitmap)result[0];
+                img = (Bitmap)result[1];
+                c = (Color)result[2];
+                revAlpha = (bool)result[3];
+            }
+
+            return DrawBoxInternal(destBmp, img, c, revAlpha);
         }
 
         private Bitmap DrawBoxInternal(Bitmap destBmp, Bitmap srcBmp, Color cl, bool revAlpha = true)
@@ -445,7 +457,7 @@ namespace ZeldaMessage
                         object o = Common.tagExtend[BoxData[charPos]];
                         MethodInfo mi = o.GetType().GetMethod("TagProcess");
 
-                        object ret = mi.Invoke(o, new object[] { destBmp, BoxData, textColor, scale, xPos, yPos, charPos });
+                        object ret = mi.Invoke(o, new object[] { destBmp, BoxData, textColor, scale, xPos, yPos, charPos, Box });
                         object[] result = (ret as object[]);
 
                         destBmp = (Bitmap)result[0];
@@ -668,7 +680,6 @@ namespace ZeldaMessage
                     }
                 }
 
-
                 if (GetNumberOfTags(boxNum,
                         new List<int>()
                         {
@@ -683,6 +694,7 @@ namespace ZeldaMessage
                    ) == 0)
                 {
                     Bitmap imgend;
+                    Color endColor = Color.LimeGreen;
 
                     if (Message.Count == boxNum + 1)
                         imgend = Properties.Resources.Box_End;
@@ -692,7 +704,22 @@ namespace ZeldaMessage
                     float xPosEnd = 128 - 4;
                     float yPosEnd = 64 - 4;
 
-                    Common.DrawImage(destBmp, imgend, Color.LimeGreen, (int)(16 * scale), (int)(16 * scale), ref xPosEnd, ref yPosEnd, 0);
+                    if (Common.tagExtend.ContainsKey(256))
+                    {
+                        object o = Common.tagExtend[256];
+                        MethodInfo mi = o.GetType().GetMethod("TagProcess");
+
+                        object ret = mi.Invoke(o, new object[] { imgend, BoxData, endColor, xPosEnd, yPosEnd, Box});
+                        object[] result = (ret as object[]);
+
+                        imgend = (Bitmap)result[0];
+                        BoxData = (List<byte>)result[1];
+                        endColor = (Color)result[2];
+                        xPosEnd = (float)result[3];
+                        yPosEnd = (float)result[4];
+                    }
+
+                    Common.DrawImage(destBmp, imgend, endColor, (int)(16 * scale), (int)(16 * scale), ref xPosEnd, ref yPosEnd, 0);
                 }
             }
 

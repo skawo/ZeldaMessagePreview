@@ -498,6 +498,20 @@ namespace ZeldaMessage
                 }
             }
 
+            if (Common.tagExtend.ContainsKey(257))
+            {
+                object o = Common.tagExtend[257];
+                MethodInfo mi = o.GetType().GetMethod("TagProcess");
+
+                object ret = mi.Invoke(o, new object[] { destBmp, img, c, revAlpha, Header.BoxType });
+                object[] result = (ret as object[]);
+
+                destBmp = (Bitmap)result[0];
+                img = (Bitmap)result[1];
+                c = (Color)result[2];
+                revAlpha = (bool)result[3];
+            }
+
             destBmp = DrawBoxInternal(destBmp, img, c, revAlpha);
 
             return destBmp;
@@ -693,7 +707,7 @@ namespace ZeldaMessage
                             object o = Common.tagExtend[BoxDataMajora[charPos]];
                             MethodInfo mi = o.GetType().GetMethod("TagProcess");
 
-                            object ret = mi.Invoke(o, new object[] { destBmp, BoxDataMajora, textColor, scale, xPos, yPos, charPos });
+                            object ret = mi.Invoke(o, new object[] { destBmp, BoxDataMajora, textColor, scale, xPos, yPos, charPos, Header.BoxType });
                             object[] result = (ret as object[]);
 
                             destBmp = (Bitmap)result[0];
@@ -867,6 +881,22 @@ namespace ZeldaMessage
                     float xPosEnd = 124;
                     float yPosEnd = 60;
                     Color endColor = Color.RoyalBlue;
+
+                    if (Common.tagExtend.ContainsKey(256))
+                    {
+                        object o = Common.tagExtend[256];
+                        MethodInfo mi = o.GetType().GetMethod("TagProcess");
+
+                        object ret = mi.Invoke(o, new object[] { imgend, BoxDataMajora, endColor, xPosEnd, yPosEnd, InBombersNotebook, Header.BoxType });
+                        object[] result = (ret as object[]);
+
+                        imgend = (Bitmap)result[0];
+                        BoxDataMajora = (List<byte>)result[1];
+                        endColor = (Color)result[2];
+                        xPosEnd = (float)result[3];
+                        yPosEnd = (float)result[4];
+                        InBombersNotebook = (bool)result[5];
+                    }
 
                     if (InBombersNotebook)
                     {

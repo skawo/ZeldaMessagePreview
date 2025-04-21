@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ZeldaMessage
 {
-    class Common
+    public class Common
     {
         public static bool RunningUnderMono = Type.GetType("Mono.Runtime") != null;
         public static Dictionary<int, object> tagExtend = new Dictionary<int, object>();

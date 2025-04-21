@@ -1,0 +1,38 @@
+include System.dll
+include System.Drawing.dll
+include System.Core.dll
+include System.Windows.Forms.dll
+include ZeldaMessage.dll
+
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using ZeldaMessage;
+
+namespace MsgExtend
+{
+    public class Function
+    {
+        public object TagProcess(Bitmap bmp, List<byte> BoxData, Color textColor, float scale, float xPos, float yPos, int charPos, ZeldaMessage.Data.BoxType BoxType)
+        {
+            object[] ret = new object[7];
+            
+            ret[0] = (object)bmp;
+            ret[1] = (object)BoxData;
+            ret[2] = (object)textColor;
+            ret[3] = (object)scale;
+            ret[4] = (object)xPos;
+            ret[5] = (object)yPos;
+            ret[6] = (object)charPos;
+            
+            return ret;
+        }
+    }
+}
+
+

@@ -1,0 +1,61 @@
+include System.dll
+include System.Drawing.dll
+include System.Core.dll
+include System.Windows.Forms.dll
+include ZeldaMessage.dll
+include System.Runtime.dll
+
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.IO;
+using ZeldaMessage;
+
+namespace MsgExtend
+{
+    public class Function
+    {
+        public object TagProcess(Bitmap bmp, List<byte> BoxData, Color textColor, float scale, float xPos, float yPos, int charPos, ZeldaMessage.Data.BoxType BoxType)
+        {
+            int imageId = BoxData[charPos + 1];
+            string fn = "msgextend/bitmaps/icon_" + imageId.ToString() + ".png";
+            
+            try
+            {
+                if (File.Exists(fn))
+                {
+                    float xPosIcon = xPos - 0xA;
+                    float yPosIcon = BoxType == Data.BoxType.None_White ? 36 : 0x10;
+                
+                    Bitmap icon = (System.Drawing.Bitmap)Bitmap.FromFile(fn);
+                    ZeldaMessage.Common.DrawImage(bmp, icon, Color.White, 32, 32, ref xPosIcon, ref yPosIcon, 0, false);
+                }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("ERROR IN TAG PROCESS: " + ex.Message);
+            }               
+            
+            xPos += 0x20;
+            charPos+= 1;
+        
+            object[] ret = new object[7];
+            
+            ret[0] = (object)bmp;
+            ret[1] = (object)BoxData;
+            ret[2] = (object)textColor;
+            ret[3] = (object)scale;
+            ret[4] = (object)xPos;
+            ret[5] = (object)yPos;
+            ret[6] = (object)charPos;
+            
+            return ret;
+        }
+    }
+}
+
+
