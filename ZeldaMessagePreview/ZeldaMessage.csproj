@@ -77,7 +77,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="msgextend\19" />
     <None Include="msgextend\253" />
+    <None Include="msgextend\254" />
+    <None Include="msgextend\255" />
+    <None Include="msgextend\256" />
+    <None Include="msgextend\257" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

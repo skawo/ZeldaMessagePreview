@@ -62,12 +62,16 @@ namespace ZeldaMessage
 
                         CompilerResults results = provider.CompileAssemblyFromSource(compilerParams, String.Join(Environment.NewLine, code));
 
-                        if (results.Errors.Count != 0)
+                        if (results.Errors.HasErrors)
                         {
-                            Errors = true;
-
                             foreach (CompilerError m in results.Errors)
-                                sb.Append($"{tagNumber}:{m.ErrorText}{Environment.NewLine}");
+                            {
+                                if (!m.IsWarning)
+                                {
+                                    Errors = true;
+                                    sb.Append($"{tagNumber}:{m.ErrorText}{Environment.NewLine}");
+                                }
+                            }
                         }
                         else
                         {
