@@ -39,7 +39,7 @@ namespace ZeldaMessage
 
                         string[] code = File.ReadAllLines(file);
 
-                        Dictionary<string, string> providerOptions = new Dictionary<string, string>{{"CompilerVersion", "v3.5"}};
+                        Dictionary<string, string> providerOptions = new Dictionary<string, string>{{"CompilerVersion", "v4.0"}};
 
                         CSharpCodeProvider provider = new CSharpCodeProvider(providerOptions);
 
