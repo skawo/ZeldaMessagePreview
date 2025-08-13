@@ -140,33 +140,67 @@ namespace ZeldaMessage
 
         public static Bitmap ReverseAlphaMask(Bitmap bmp, bool Brighten = false)
         {
-            bmp.MakeTransparent();
-
-            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
-
-            int bytes = Math.Abs(bmpData.Stride) * bmp.Height;
-            byte[] rgbaValues = new byte[bytes];
-
-            Marshal.Copy(bmpData.Scan0, rgbaValues, 0, bytes);
-
-            for (int i = 3; i < rgbaValues.Length; i += 4)
+            // Check if running under Mono
+            if (Type.GetType("Mono.Runtime") != null)
             {
-                rgbaValues[i] = rgbaValues[i - 3];
+                // Mono: Use GetPixel/SetPixel approach (slower but more reliable)
+                Bitmap result = new Bitmap(bmp.Width, bmp.Height, PixelFormat.Format32bppArgb);
 
-                if (Brighten)
+                for (int x = 0; x < bmp.Width; x++)
                 {
-                    rgbaValues[i - 1] = 255;
-                    rgbaValues[i - 2] = 255;
-                    rgbaValues[i - 3] = 255;
+                    for (int y = 0; y < bmp.Height; y++)
+                    {
+                        Color pixel = bmp.GetPixel(x, y);
+                        Color newPixel;
+
+                        if (Brighten)
+                        {
+                            newPixel = Color.FromArgb(pixel.R, 255, 255, 255);
+                        }
+                        else
+                        {
+                            newPixel = Color.FromArgb(pixel.R, pixel.R, pixel.G, pixel.B);
+                        }
+
+                        result.SetPixel(x, y, newPixel);
+                    }
                 }
+
+                return result;
             }
+            else
+            {
+                // .NET Framework/Core: Use original fast approach
+                bmp.MakeTransparent();
 
-            Marshal.Copy(rgbaValues, 0, bmpData.Scan0, bytes);
+                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
 
-            bmp.UnlockBits(bmpData);
+                int bytes = Math.Abs(bmpData.Stride) * bmp.Height;
+                byte[] rgbaValues = new byte[bytes];
 
-            return bmp;
+                Marshal.Copy(bmpData.Scan0, rgbaValues, 0, bytes);
+
+                for (int i = 3; i < rgbaValues.Length; i += 4)
+                {
+                    rgbaValues[i] = rgbaValues[i - 3];
+
+                    if (Brighten)
+                    {
+                        rgbaValues[i - 1] = 255;
+                        rgbaValues[i - 2] = 255;
+                        rgbaValues[i - 3] = 255;
+                    }
+                }
+
+                Marshal.Copy(rgbaValues, 0, bmpData.Scan0, bytes);
+
+                bmp.UnlockBits(bmpData);
+
+                return bmp;
+            }
         }
+
+
 
         public static Bitmap Resize(Bitmap bmp, float scale)
         {
