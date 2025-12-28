@@ -440,7 +440,7 @@ namespace ZeldaMessage
                 object o = Common.tagExtend[257];
                 MethodInfo mi = o.GetType().GetMethod("TagProcess");
 
-                object ret = mi.Invoke(o, new object[] { destBmp, img, c, revAlpha, Box });
+                object ret = mi.Invoke(o, new object[] { this, destBmp, img, c, revAlpha, Box });
                 object[] result = (ret as object[]);
 
                 destBmp = (Bitmap)result[0];
@@ -501,7 +501,7 @@ namespace ZeldaMessage
                         object o = Common.tagExtend[BoxData[charPos]];
                         MethodInfo mi = o.GetType().GetMethod("TagProcess");
 
-                        object ret = mi.Invoke(o, new object[] { destBmp, BoxData, textColor, scale, xPos, yPos, charPos, Box });
+                        object ret = mi.Invoke(o, new object[] { this, destBmp, BoxData, textColor, scale, xPos, yPos, charPos, Box });
                         object[] result = (ret as object[]);
 
                         destBmp = (Bitmap)result[0];
@@ -719,9 +719,9 @@ namespace ZeldaMessage
                                 {
                                     bool drawNormal = true;
 
-                                    if (Common.tagExtend.ContainsKey(0))
+                                    if (Common.tagExtend.ContainsKey(300))
                                     {
-                                        object o = Common.tagExtend[0];
+                                        object o = Common.tagExtend[300];
                                         MethodInfo mi = o.GetType().GetMethod("TagProcess");
 
                                         object ret = mi.Invoke(o, new object[] { this, destBmp, BoxData, charPos, textColor, scale, xPos, yPos });
@@ -775,7 +775,7 @@ namespace ZeldaMessage
                         object o = Common.tagExtend[256];
                         MethodInfo mi = o.GetType().GetMethod("TagProcess");
 
-                        object ret = mi.Invoke(o, new object[] { imgend, BoxData, endColor, xPosEnd, yPosEnd, Box});
+                        object ret = mi.Invoke(o, new object[] { this, imgend, BoxData, endColor, xPosEnd, yPosEnd, Box});
                         object[] result = (ret as object[]);
 
                         imgend = (Bitmap)result[0];
