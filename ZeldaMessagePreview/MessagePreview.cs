@@ -26,12 +26,15 @@ namespace ZeldaMessage
         private int OUTPUT_IMAGE_Y = 64 + (Properties.Resources.Box_End.Width / 2);
 
         public byte[] FontData = null;
+        public byte[] FontData2 = null;
+        public string Lang;
 
-        public MessagePreview(Data.BoxType BoxType, byte[] MessageData, float[] _FontWidths = null, byte[] _FontData = null, bool _UseRealSpaceWidth = false)
+        public MessagePreview(Data.BoxType BoxType, byte[] MessageData, float[] _FontWidths = null, byte[] _FontData = null, bool _UseRealSpaceWidth = false, float[] _FontWidths2 = null, byte[] _FontData2 = null, string LangName = "")
         {
             UseRealSpaceWidth = _UseRealSpaceWidth;
             Box = BoxType;
             SplitMsgIntoTextboxes(MessageData);
+            Lang = LangName;
 
             MessageCount = Message.Count;
 
@@ -39,9 +42,9 @@ namespace ZeldaMessage
             {
                 try
                 {
-                    if (System.IO.File.Exists("font.width_table"))
+                    if (File.Exists("font.width_table"))
                     {
-                        byte[] widths = System.IO.File.ReadAllBytes("font.width_table");
+                        byte[] widths = File.ReadAllBytes("font.width_table");
 
                         for (int i = 0; i < widths.Length; i += 4)
                         {
@@ -58,14 +61,54 @@ namespace ZeldaMessage
                 Data.FontWidths = _FontWidths;
             }
 
+            if (_FontWidths2 == null)
+            {
+                try
+                {
+                    if (File.Exists($"{Lang}.width_table"))
+                    {
+                        byte[] widths = File.ReadAllBytes($"{Lang}.width_table");
+
+                        for (int i = 0; i < widths.Length; i += 4)
+                        {
+                            byte[] width = widths.Skip(i).Take(4).Reverse().ToArray();
+                            Data.FontWidths2[i / 4] = BitConverter.ToSingle(width, 0);
+                        }
+                    }
+                }
+                catch (Exception)
+                { }
+            }
+            else
+            {
+                Data.FontWidths2 = _FontWidths;
+            }
+
+            if (_FontData2 == null)
+            {
+                try
+                {
+                    if (File.Exists($"{Lang}.font_static"))
+                    {
+                        FontData2 = File.ReadAllBytes($"{Lang}.font_static");
+                    }
+                }
+                catch (Exception)
+                {
+                    FontData2 = null;
+                }
+            }
+            else
+                FontData2 = _FontData2;
+
 
             if (_FontData == null)
             {
                 try
                 {
-                    if (System.IO.File.Exists("font.font_static"))
+                    if (File.Exists("font.font_static"))
                     {
-                        FontData = System.IO.File.ReadAllBytes("font.font_static");
+                        FontData = File.ReadAllBytes("font.font_static");
                     }
                 }
                 catch (Exception)
@@ -75,6 +118,7 @@ namespace ZeldaMessage
             }
             else
                 FontData = _FontData;
+
 
             Common.GetTagExtensions();
         }
@@ -673,7 +717,29 @@ namespace ZeldaMessage
                                 }
                             default:
                                 {
-                                    destBmp = DrawTextInternal(destBmp, BoxData[charPos], textColor, scale, ref xPos, ref yPos);
+                                    bool drawNormal = true;
+
+                                    if (Common.tagExtend.ContainsKey(0))
+                                    {
+                                        object o = Common.tagExtend[0];
+                                        MethodInfo mi = o.GetType().GetMethod("TagProcess");
+
+                                        object ret = mi.Invoke(o, new object[] { this, destBmp, BoxData, charPos, textColor, scale, xPos, yPos });
+                                        object[] result = (ret as object[]);
+
+                                        destBmp = (Bitmap)result[0];
+                                        BoxData = (List<byte>)result[1];
+                                        charPos = (int)result[2];
+                                        textColor = (Color)result[3];
+                                        scale = (float)result[4];
+                                        xPos = (float)result[5];
+                                        yPos = (float)result[6];
+                                        drawNormal = (bool)result[7];
+                                    }
+
+                                    if (drawNormal)
+                                        destBmp = DrawTextInternal(destBmp, BoxData[charPos], textColor, scale, ref xPos, ref yPos);
+
                                     break;
                                 }
                         }
@@ -729,7 +795,7 @@ namespace ZeldaMessage
         private Bitmap DrawTextInternal(Bitmap destBmp, byte Char, Color cl, float scale, ref float xPos, ref float yPos)
         {
             string fn = $"char_{Char.ToString("X").ToLower()}";
-
+            
             if (Char == ' ')
             {
                 xPos += (UseRealSpaceWidth ? (int)(Data.FontWidths[0] * scale) : 6.0f);
@@ -750,6 +816,7 @@ namespace ZeldaMessage
                 if (img == null)
                     return destBmp;
             }
+            
 
             img = Common.ReverseAlphaMask(img, BrightenText);
 

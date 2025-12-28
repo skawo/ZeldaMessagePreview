@@ -303,6 +303,7 @@ namespace ZeldaMessage
         public static int CHOICE_OFFSET = 0x20;
         public static float SCALE_DEFAULT = 0.75f;
 
+        public static float[] FontWidths2 = new float[255];
         public static float[] FontWidths =
         {
             /* */ 8.0f,

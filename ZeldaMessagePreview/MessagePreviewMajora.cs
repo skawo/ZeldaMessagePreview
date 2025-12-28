@@ -23,12 +23,15 @@ namespace ZeldaMessage
         private int OUTPUT_IMAGE_Y = 64 + (Properties.Resources.Box_End.Width / 2);
 
         public byte[] FontDataMajora = null;
+        public byte[] FontDataMajora2 = null;
+        public string Lang = "";
 
-        public MessagePreviewMajora(byte[] MessageDataMajora, bool IsBomberNotebook = false, float[] _FontWidths = null, byte[] _FontData = null)
+        public MessagePreviewMajora(byte[] MessageDataMajora, bool IsBomberNotebook = false, float[] _FontWidths = null, byte[] _FontData = null, float[] _FontWidths2 = null, byte[] _FontData2 = null, string LangName = "")
         {
             if (MessageDataMajora.Length <= 11)
                 return;
 
+            Lang = LangName;
             Header = new MajoraMsgHeader(MessageDataMajora);
             InBombersNotebook = IsBomberNotebook;
             SplitMsgIntoTextboxes(MessageDataMajora.Skip(11).ToArray());
@@ -75,6 +78,49 @@ namespace ZeldaMessage
             }
             else
                 FontDataMajora = _FontData;
+
+
+
+            if (_FontWidths2 == null)
+            {
+                try
+                {
+                    if (System.IO.File.Exists($"{Lang}.width_table"))
+                    {
+                        byte[] widths = System.IO.File.ReadAllBytes($"{Lang}.width_table");
+
+                        for (int i = 0; i < widths.Length; i += 4)
+                        {
+                            byte[] width = widths.Skip(i).Take(4).Reverse().ToArray();
+                            DataMajora.FontWidths2[i / 4] = BitConverter.ToSingle(width, 0);
+                        }
+                    }
+                }
+                catch (Exception)
+                { }
+            }
+            else
+            {
+                Data.FontWidths2 = _FontWidths;
+            }
+
+            if (_FontData2 == null)
+            {
+                try
+                {
+                    if (System.IO.File.Exists($"{Lang}.font_static"))
+                    {
+                        FontDataMajora2 = System.IO.File.ReadAllBytes($"{Lang}.font_static");
+                    }
+                }
+                catch (Exception)
+                {
+                    FontDataMajora2 = null;
+                }
+            }
+            else
+                FontDataMajora2 = _FontData2;
+
         }
 
         public Bitmap GetPreview(int BoxNum = 0, bool brightenText = true, float outputScale = 1.75f)
@@ -852,7 +898,29 @@ namespace ZeldaMessage
                                     }
                                 default:
                                     {
-                                        destBmp = DrawTextInternal(destBmp, BoxDataMajora[charPos], textColor, scale, ref xPos, ref yPos);
+                                        bool drawNormal = true;
+
+                                        if (Common.tagExtend.ContainsKey(0))
+                                        {
+                                            object o = Common.tagExtend[0];
+                                            MethodInfo mi = o.GetType().GetMethod("TagProcess");
+
+                                            object ret = mi.Invoke(o, new object[] { this, destBmp, BoxDataMajora, charPos, textColor, scale, xPos, yPos });
+                                            object[] result = (ret as object[]);
+
+                                            destBmp = (Bitmap)result[0];
+                                            BoxDataMajora = (List<byte>)result[1];
+                                            charPos = (int)result[2];
+                                            textColor = (Color)result[3];
+                                            scale = (float)result[4];
+                                            xPos = (float)result[5];
+                                            yPos = (float)result[6];
+                                            drawNormal = (bool)result[7];
+                                        }
+
+                                        if (drawNormal)
+                                            destBmp = DrawTextInternal(destBmp, BoxDataMajora[charPos], textColor, scale, ref xPos, ref yPos);
+    
                                         break;
                                     }
                             }
