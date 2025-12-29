@@ -26,102 +26,66 @@ namespace ZeldaMessage
         public byte[] FontDataMajora2 = null;
         public string Lang = "";
 
-        public MessagePreviewMajora(byte[] MessageDataMajora, bool IsBomberNotebook = false, float[] _FontWidths = null, byte[] _FontData = null, float[] _FontWidths2 = null, byte[] _FontData2 = null, string LangName = "")
+        public MessagePreviewMajora(
+            byte[] messageDataMajora,
+            bool isBombersNotebook = false,
+            float[] fontWidths = null,
+            byte[] fontData = null,
+            float[] fontWidths2 = null,
+            byte[] fontData2 = null,
+            string langName = "")
         {
-            if (MessageDataMajora.Length <= 11)
+            if (messageDataMajora == null || messageDataMajora.Length <= 11)
                 return;
 
-            Lang = LangName;
-            Header = new MajoraMsgHeader(MessageDataMajora);
-            InBombersNotebook = IsBomberNotebook;
-            SplitMsgIntoTextboxes(MessageDataMajora.Skip(11).ToArray());
+            Lang = langName;
+            InBombersNotebook = isBombersNotebook;
+
+            Header = new MajoraMsgHeader(messageDataMajora);
+            SplitMsgIntoTextboxes(messageDataMajora.Skip(11).ToArray());
 
             MessageCount = Message.Count;
 
-            if (_FontWidths == null)
-            {
-                try
-                {
-                    if (System.IO.File.Exists("font.width_table"))
-                    {
-                        byte[] widths = System.IO.File.ReadAllBytes("font.width_table");
+            DataMajora.FontWidths =
+                fontWidths ?? LoadWidthTable("font.width_table", DataMajora.FontWidths);
 
-                        for (int i = 0; i < widths.Length; i += 4)
-                        {
-                            byte[] width = widths.Skip(i).Take(4).Reverse().ToArray();
-                            DataMajora.FontWidths[i / 4] = BitConverter.ToSingle(width, 0);
-                        }
-                    }
-                }
-                catch (Exception)
-                { }
-            }
-            else
-            {
-                DataMajora.FontWidths = _FontWidths;
-            }
+            DataMajora.FontWidths2 =
+                fontWidths2 ?? LoadWidthTable(Lang + ".width_table", DataMajora.FontWidths2);
 
+            FontDataMajora =
+                fontData ?? LoadFontData("font.font_static");
 
-            if (_FontData == null)
-            {
-                try
-                {
-                    if (System.IO.File.Exists("font.font_static"))
-                    {
-                        FontDataMajora = System.IO.File.ReadAllBytes("font.font_static");
-                    }
-                }
-                catch (Exception)
-                {
-                    FontDataMajora = null;
-                }
-            }
-            else
-                FontDataMajora = _FontData;
-
-
-
-            if (_FontWidths2 == null)
-            {
-                try
-                {
-                    if (System.IO.File.Exists($"{Lang}.width_table"))
-                    {
-                        byte[] widths = System.IO.File.ReadAllBytes($"{Lang}.width_table");
-
-                        for (int i = 0; i < widths.Length; i += 4)
-                        {
-                            byte[] width = widths.Skip(i).Take(4).Reverse().ToArray();
-                            DataMajora.FontWidths2[i / 4] = BitConverter.ToSingle(width, 0);
-                        }
-                    }
-                }
-                catch (Exception)
-                { }
-            }
-            else
-            {
-                Data.FontWidths2 = _FontWidths;
-            }
-
-            if (_FontData2 == null)
-            {
-                try
-                {
-                    if (System.IO.File.Exists($"{Lang}.font_static"))
-                    {
-                        FontDataMajora2 = System.IO.File.ReadAllBytes($"{Lang}.font_static");
-                    }
-                }
-                catch (Exception)
-                {
-                    FontDataMajora2 = null;
-                }
-            }
-            else
-                FontDataMajora2 = _FontData2;
-
+            FontDataMajora2 =
+                fontData2 ?? LoadFontData(Lang + ".font_static");
         }
+
+        private static float[] LoadWidthTable(string path, float[] target)
+        {
+            if (!System.IO.File.Exists(path))
+                return target;
+
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+            for (int i = 0; i + 3 < bytes.Length; i += 4)
+            {
+                byte[] width = new byte[4];
+                width[0] = bytes[i + 3];
+                width[1] = bytes[i + 2];
+                width[2] = bytes[i + 1];
+                width[3] = bytes[i + 0];
+
+                target[i / 4] = BitConverter.ToSingle(width, 0);
+            }
+
+            return target;
+        }
+        private static byte[] LoadFontData(string path)
+        {
+            return System.IO.File.Exists(path)
+                ? System.IO.File.ReadAllBytes(path)
+                : null;
+        }
+
 
         public Bitmap GetPreview(int BoxNum = 0, bool brightenText = true, float outputScale = 1.75f)
         {
@@ -157,7 +121,6 @@ namespace ZeldaMessage
                         }
                 }
             }
-
 
             Bitmap bmp = new Bitmap(OUTPUT_IMAGE_X, OUTPUT_IMAGE_Y);
 
@@ -544,18 +507,20 @@ namespace ZeldaMessage
                 }
             }
 
-            if (Common.tagExtend.ContainsKey(257))
-            {
-                object o = Common.tagExtend[257];
-                MethodInfo mi = o.GetType().GetMethod("TagProcess");
+            object retBox = Common.RunExtendFunc(257, new object[] { this, destBmp, img, c, revAlpha, Header.BoxType });
 
-                object ret = mi.Invoke(o, new object[] { this, destBmp, img, c, revAlpha, Header.BoxType });
-                object[] result = (ret as object[]);
+            if (retBox != null)
+            {
+                object[] result = (retBox as object[]);
 
                 destBmp = (Bitmap)result[0];
                 img = (Bitmap)result[1];
                 c = (Color)result[2];
                 revAlpha = (bool)result[3];
+                bool drawNormal = (bool)result[4];
+
+                if (!drawNormal)
+                    return destBmp;
             }
 
             destBmp = DrawBoxInternal(destBmp, img, c, revAlpha);
@@ -707,6 +672,8 @@ namespace ZeldaMessage
         {
             List<byte> BoxDataMajora = Message[boxNum];
 
+            Common.RunExtendFunc(65535, new object[] { this, BoxDataMajora });
+
             float xPos = DataMajora.XPOS_DEFAULT;
             float yPos = DataMajora.YPOS_DEFAULT;
             float scale = DataMajora.SCALE_DEFAULT;
@@ -748,13 +715,11 @@ namespace ZeldaMessage
                     }
                     else
                     {
-                        if (Common.tagExtend.ContainsKey(BoxDataMajora[charPos]))
-                        {
-                            object o = Common.tagExtend[BoxDataMajora[charPos]];
-                            MethodInfo mi = o.GetType().GetMethod("TagProcess");
+                        object retTag = Common.RunExtendFunc(BoxDataMajora[charPos], new object[] { this, destBmp, BoxDataMajora, textColor, scale, xPos, yPos, charPos, Header.BoxType });
 
-                            object ret = mi.Invoke(o, new object[] { this, destBmp, BoxDataMajora, textColor, scale, xPos, yPos, charPos, Header.BoxType });
-                            object[] result = (ret as object[]);
+                        if (retTag != null)
+                        {
+                            object[] result = (retTag as object[]);
 
                             destBmp = (Bitmap)result[0];
                             BoxDataMajora = (List<byte>)result[1];
@@ -763,6 +728,7 @@ namespace ZeldaMessage
                             xPos = (float)result[4];
                             yPos = (float)result[5];
                             charPos = (int)result[6];
+                            choiceType = (int)result[7];
                         }
                         else
                         {
@@ -900,13 +866,11 @@ namespace ZeldaMessage
                                     {
                                         bool drawNormal = true;
 
-                                        if (Common.tagExtend.ContainsKey(300))
-                                        {
-                                            object o = Common.tagExtend[300];
-                                            MethodInfo mi = o.GetType().GetMethod("TagProcess");
+                                        object retText = Common.RunExtendFunc(300, new object[] { this, destBmp, BoxDataMajora, charPos, textColor, scale, xPos, yPos });
 
-                                            object ret = mi.Invoke(o, new object[] { this, destBmp, BoxDataMajora, charPos, textColor, scale, xPos, yPos });
-                                            object[] result = (ret as object[]);
+                                        if (retText != null)
+                                        {
+                                            object[] result = (retText as object[]);
 
                                             destBmp = (Bitmap)result[0];
                                             BoxDataMajora = (List<byte>)result[1];
@@ -950,13 +914,11 @@ namespace ZeldaMessage
                     float yPosEnd = 60;
                     Color endColor = Color.RoyalBlue;
 
-                    if (Common.tagExtend.ContainsKey(256))
-                    {
-                        object o = Common.tagExtend[256];
-                        MethodInfo mi = o.GetType().GetMethod("TagProcess");
+                    object retBoxEnd = Common.RunExtendFunc(256, new object[] { this, imgend, BoxDataMajora, endColor, xPosEnd, yPosEnd, InBombersNotebook, Header.BoxType });
 
-                        object ret = mi.Invoke(o, new object[] { this, imgend, BoxDataMajora, endColor, xPosEnd, yPosEnd, InBombersNotebook, Header.BoxType });
-                        object[] result = (ret as object[]);
+                    if (retBoxEnd != null)
+                    {
+                        object[] result = (retBoxEnd as object[]);
 
                         imgend = (Bitmap)result[0];
                         BoxDataMajora = (List<byte>)result[1];

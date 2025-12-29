@@ -29,99 +29,61 @@ namespace ZeldaMessage
         public byte[] FontData2 = null;
         public string Lang;
 
-        public MessagePreview(Data.BoxType BoxType, byte[] MessageData, float[] _FontWidths = null, byte[] _FontData = null, bool _UseRealSpaceWidth = false, float[] _FontWidths2 = null, byte[] _FontData2 = null, string LangName = "")
+        public MessagePreview(
+            Data.BoxType boxType,
+            byte[] messageData,
+            float[] fontWidths = null,
+            byte[] fontData = null,
+            bool useRealSpaceWidth = false,
+            float[] fontWidths2 = null,
+            byte[] fontData2 = null,
+            string langName = "")
         {
-            UseRealSpaceWidth = _UseRealSpaceWidth;
-            Box = BoxType;
-            SplitMsgIntoTextboxes(MessageData);
-            Lang = LangName;
+            UseRealSpaceWidth = useRealSpaceWidth;
+            Box = boxType;
+            Lang = langName;
 
+            SplitMsgIntoTextboxes(messageData);
             MessageCount = Message.Count;
 
-            if (_FontWidths == null)
-            {
-                try
-                {
-                    if (File.Exists("font.width_table"))
-                    {
-                        byte[] widths = File.ReadAllBytes("font.width_table");
+            Data.FontWidths = fontWidths ?? LoadWidthTable("font.width_table", Data.FontWidths);
+            Data.FontWidths2 = fontWidths2 ?? LoadWidthTable($"{Lang}.width_table", Data.FontWidths2);
 
-                        for (int i = 0; i < widths.Length; i += 4)
-                        {
-                            byte[] width = widths.Skip(i).Take(4).Reverse().ToArray();
-                            Data.FontWidths[i / 4] = BitConverter.ToSingle(width, 0);
-                        }
-                    }
-                }
-                catch (Exception)
-                { }
-            }
-            else
-            {
-                Data.FontWidths = _FontWidths;
-            }
-
-            if (_FontWidths2 == null)
-            {
-                try
-                {
-                    if (File.Exists($"{Lang}.width_table"))
-                    {
-                        byte[] widths = File.ReadAllBytes($"{Lang}.width_table");
-
-                        for (int i = 0; i < widths.Length; i += 4)
-                        {
-                            byte[] width = widths.Skip(i).Take(4).Reverse().ToArray();
-                            Data.FontWidths2[i / 4] = BitConverter.ToSingle(width, 0);
-                        }
-                    }
-                }
-                catch (Exception)
-                { }
-            }
-            else
-            {
-                Data.FontWidths2 = _FontWidths;
-            }
-
-            if (_FontData2 == null)
-            {
-                try
-                {
-                    if (File.Exists($"{Lang}.font_static"))
-                    {
-                        FontData2 = File.ReadAllBytes($"{Lang}.font_static");
-                    }
-                }
-                catch (Exception)
-                {
-                    FontData2 = null;
-                }
-            }
-            else
-                FontData2 = _FontData2;
-
-
-            if (_FontData == null)
-            {
-                try
-                {
-                    if (File.Exists("font.font_static"))
-                    {
-                        FontData = File.ReadAllBytes("font.font_static");
-                    }
-                }
-                catch (Exception)
-                {
-                    FontData = null;
-                }
-            }
-            else
-                FontData = _FontData;
-
+            FontData = fontData ?? LoadFontData("font.font_static");
+            FontData2 = fontData2 ?? LoadFontData($"{Lang}.font_static");
 
             Common.GetTagExtensions();
         }
+
+        private static float[] LoadWidthTable(string path, float[] target)
+        {
+            if (!File.Exists(path))
+                return target;
+
+            byte[] bytes = File.ReadAllBytes(path);
+
+            for (int i = 0; i < bytes.Length; i += 4)
+            {
+                byte[] width = new byte[4];
+                width[0] = bytes[i + 3];
+                width[1] = bytes[i + 2];
+                width[2] = bytes[i + 1];
+                width[3] = bytes[i + 0];
+
+                target[i / 4] = BitConverter.ToSingle(width, 0);
+            }
+
+            return target;
+        }
+
+
+        private static byte[] LoadFontData(string path)
+        {
+            return File.Exists(path)
+                ? File.ReadAllBytes(path)
+                : null;
+        }
+
 
 
         public Bitmap GetPreview(int BoxNum = 0, bool brightenText = true, float outputScale = 1.75f)
@@ -435,18 +397,20 @@ namespace ZeldaMessage
                     }
             }
 
-            if (Common.tagExtend.ContainsKey(257))
-            {
-                object o = Common.tagExtend[257];
-                MethodInfo mi = o.GetType().GetMethod("TagProcess");
+            object ret = Common.RunExtendFunc(257, new object[] { this, destBmp, img, c, revAlpha, Box });
 
-                object ret = mi.Invoke(o, new object[] { this, destBmp, img, c, revAlpha, Box });
+            if (ret != null)
+            {
                 object[] result = (ret as object[]);
 
                 destBmp = (Bitmap)result[0];
                 img = (Bitmap)result[1];
                 c = (Color)result[2];
                 revAlpha = (bool)result[3];
+                bool drawNormal = (bool)result[4];
+
+                if (!drawNormal)
+                    return destBmp;
             }
 
             return DrawBoxInternal(destBmp, img, c, revAlpha);
@@ -476,6 +440,8 @@ namespace ZeldaMessage
         {
             List<byte> BoxData = Message[boxNum];
 
+            Common.RunExtendFunc(65535, new object[] { this, BoxData });
+
             float xPos = Data.XPOS_DEFAULT;
             float yPos = (Box == Data.BoxType.None_White) ? 36 : Math.Max(Data.YPOS_DEFAULT, ((52 - (Data.LINEBREAK_SIZE * GetNumberOfTags(boxNum, new List<int>() { (int)Data.MsgControlCode.LINE_BREAK }))) / 2));
             float scale = Data.SCALE_DEFAULT;
@@ -487,6 +453,18 @@ namespace ZeldaMessage
                 scale = 0.85f;
             }
 
+            object ret = Common.RunExtendFunc(301, new object[] { this, BoxData, xPos, yPos, scale });
+
+            if (ret != null)
+            {
+                object[] result = (ret as object[]);
+
+                BoxData = (List<byte>)result[0];
+                xPos = (float)result[1];
+                yPos = (float)result[2];
+                scale = (float)result[3];
+            }
+
             Color textColor = (Box == Data.BoxType.None_Black) ? Color.Black : Color.White;
 
             int choiceType = GetBoxChoiceTag(boxNum);
@@ -496,13 +474,11 @@ namespace ZeldaMessage
             {
                 for (int charPos = 0; charPos < BoxData.Count; charPos++)
                 {
-                    if (Common.tagExtend.ContainsKey(BoxData[charPos]))
-                    {
-                        object o = Common.tagExtend[BoxData[charPos]];
-                        MethodInfo mi = o.GetType().GetMethod("TagProcess");
+                    object retTag = Common.RunExtendFunc(BoxData[charPos], new object[] { this, destBmp, BoxData, textColor, scale, xPos, yPos, charPos, Box, choiceType, iconType });
 
-                        object ret = mi.Invoke(o, new object[] { this, destBmp, BoxData, textColor, scale, xPos, yPos, charPos, Box });
-                        object[] result = (ret as object[]);
+                    if (retTag != null)
+                    {
+                        object[] result = (retTag as object[]);
 
                         destBmp = (Bitmap)result[0];
                         BoxData = (List<byte>)result[1];
@@ -511,6 +487,8 @@ namespace ZeldaMessage
                         xPos = (float)result[4];
                         yPos = (float)result[5];
                         charPos = (int)result[6];
+                        choiceType = (int)result[7];
+                        iconType = (int)result[8];
                     }
                     else
                     {
@@ -719,13 +697,11 @@ namespace ZeldaMessage
                                 {
                                     bool drawNormal = true;
 
-                                    if (Common.tagExtend.ContainsKey(300))
-                                    {
-                                        object o = Common.tagExtend[300];
-                                        MethodInfo mi = o.GetType().GetMethod("TagProcess");
+                                    object retText = Common.RunExtendFunc(300, new object[] { this, destBmp, BoxData, charPos, textColor, scale, xPos, yPos });
 
-                                        object ret = mi.Invoke(o, new object[] { this, destBmp, BoxData, charPos, textColor, scale, xPos, yPos });
-                                        object[] result = (ret as object[]);
+                                    if (retText != null)
+                                    {
+                                        object[] result = (retText as object[]);
 
                                         destBmp = (Bitmap)result[0];
                                         BoxData = (List<byte>)result[1];
@@ -770,13 +746,11 @@ namespace ZeldaMessage
                     float xPosEnd = 128 - 4;
                     float yPosEnd = 64 - 4;
 
-                    if (Common.tagExtend.ContainsKey(256))
-                    {
-                        object o = Common.tagExtend[256];
-                        MethodInfo mi = o.GetType().GetMethod("TagProcess");
+                    object retBoxEnd = Common.RunExtendFunc(256, new object[] { this, imgend, BoxData, endColor, xPosEnd, yPosEnd, Box });
 
-                        object ret = mi.Invoke(o, new object[] { this, imgend, BoxData, endColor, xPosEnd, yPosEnd, Box});
-                        object[] result = (ret as object[]);
+                    if (retBoxEnd != null)
+                    {
+                        object[] result = (retBoxEnd as object[]);
 
                         imgend = (Bitmap)result[0];
                         BoxData = (List<byte>)result[1];
@@ -842,8 +816,9 @@ namespace ZeldaMessage
             {
                 xPos += (int)(Data.FontWidths[Char - 0x20] * scale);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                
                 xPos += 16 * scale;
                 // Lazy way to ensure the program does not crash if exported message data doesn't have data for all the characters.
             }

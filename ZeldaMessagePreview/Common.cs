@@ -7,6 +7,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,12 @@ namespace ZeldaMessage
             if (Directory.Exists("msgextend"))
             {
                 string[] files = Directory.GetFiles("msgextend");
+                string fshared = "";
+
+                string fsharedPath = Path.Combine("msgextend", "fshared");
+
+                if (File.Exists(fsharedPath))
+                    fshared = File.ReadAllText(fsharedPath);
 
                 foreach (string file in files)
                 {
@@ -60,7 +67,10 @@ namespace ZeldaMessage
                             }
                         }
 
-                        CompilerResults results = provider.CompileAssemblyFromSource(compilerParams, String.Join(Environment.NewLine, code));
+                        string endCode = String.Join(Environment.NewLine, code);
+                        endCode = endCode.Replace("##FSHARED##", fshared);
+
+                        CompilerResults results = provider.CompileAssemblyFromSource(compilerParams, endCode);
 
                         if (results.Errors.HasErrors)
                         {
@@ -85,6 +95,19 @@ namespace ZeldaMessage
                 if (Errors)
                     System.Windows.Forms.MessageBox.Show(sb.ToString());
             }
+        }
+
+        public static object RunExtendFunc(int extendId, object[] args = null, string MethodName = "TagProcess")
+        {
+            if (Common.tagExtend.ContainsKey(extendId))
+            {
+                object o = Common.tagExtend[extendId];
+                MethodInfo mi = o.GetType().GetMethod(MethodName);
+
+                return mi.Invoke(o, args);
+            }
+
+            return null;
         }
 
         public static Bitmap GetBitmapFromI4FontChar(byte[] bytes)
