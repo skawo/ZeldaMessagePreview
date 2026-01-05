@@ -59,7 +59,7 @@ namespace ZeldaMessage
                 fontData2 ?? LoadFontData(Lang + ".font_static");
         }
 
-        private static float[] LoadWidthTable(string path, float[] target)
+        public static float[] LoadWidthTable(string path, float[] target)
         {
             if (!System.IO.File.Exists(path))
                 return target;
@@ -79,7 +79,7 @@ namespace ZeldaMessage
 
             return target;
         }
-        private static byte[] LoadFontData(string path)
+        public static byte[] LoadFontData(string path)
         {
             return System.IO.File.Exists(path)
                 ? System.IO.File.ReadAllBytes(path)

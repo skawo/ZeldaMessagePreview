@@ -55,7 +55,7 @@ namespace ZeldaMessage
             Common.GetTagExtensions();
         }
 
-        private static float[] LoadWidthTable(string path, float[] target)
+        public static float[] LoadWidthTable(string path, float[] target)
         {
             if (!File.Exists(path))
                 return target;
@@ -77,7 +77,7 @@ namespace ZeldaMessage
         }
 
 
-        private static byte[] LoadFontData(string path)
+        public static byte[] LoadFontData(string path)
         {
             return File.Exists(path)
                 ? File.ReadAllBytes(path)
