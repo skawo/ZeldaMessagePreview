@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ZeldaMessage
 {
@@ -24,12 +25,14 @@ namespace ZeldaMessage
             StringBuilder sb = new StringBuilder();
             bool Errors = false;
 
-            if (Directory.Exists("msgextend"))
+            string pathCur = Path.GetFullPath("msgextend");
+
+            if (Directory.Exists(pathCur))
             {
-                string[] files = Directory.GetFiles("msgextend");
+                string[] files = Directory.GetFiles(pathCur);
                 string fshared = "";
 
-                string fsharedPath = Path.Combine("msgextend", "fshared");
+                string fsharedPath = Path.Combine(pathCur, "fshared");
 
                 if (File.Exists(fsharedPath))
                     fshared = File.ReadAllText(fsharedPath);
@@ -95,6 +98,8 @@ namespace ZeldaMessage
                 if (Errors)
                     System.Windows.Forms.MessageBox.Show(sb.ToString());
             }
+
+            
         }
 
         public static object RunExtendFunc(int extendId, object[] args = null, string MethodName = "TagProcess")
