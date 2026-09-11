@@ -28,6 +28,8 @@ namespace ZeldaMessage
         public byte[] FontData = null;
         public byte[] FontData2 = null;
         public string Lang;
+        public float lastPreviewMaxXPos = 0;
+        public float lastPreviewMaxYPos = 0;
 
         public MessagePreview(
             Data.BoxType boxType,
@@ -442,6 +444,9 @@ namespace ZeldaMessage
 
             Common.RunExtendFunc(65535, new object[] { this, BoxData });
 
+            lastPreviewMaxXPos = 0;
+            lastPreviewMaxYPos = 0;
+
             float xPos = Data.XPOS_DEFAULT;
             float yPos = (Box == Data.BoxType.None_White) ? 36 : Math.Max(Data.YPOS_DEFAULT, ((52 - (Data.LINEBREAK_SIZE * GetNumberOfTags(boxNum, new List<int>() { (int)Data.MsgControlCode.LINE_BREAK }))) / 2));
             float scale = Data.SCALE_DEFAULT;
@@ -474,6 +479,12 @@ namespace ZeldaMessage
             {
                 for (int charPos = 0; charPos < BoxData.Count; charPos++)
                 {
+                    if (xPos > lastPreviewMaxXPos)
+                        lastPreviewMaxXPos = xPos;
+
+                    if (yPos > lastPreviewMaxYPos)
+                        lastPreviewMaxYPos = yPos;
+
                     object retTag = Common.RunExtendFunc(BoxData[charPos], new object[] { this, destBmp, BoxData, textColor, scale, xPos, yPos, charPos, Box, choiceType, iconType });
 
                     if (retTag != null)

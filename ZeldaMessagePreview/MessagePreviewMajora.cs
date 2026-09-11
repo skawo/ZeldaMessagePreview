@@ -26,6 +26,9 @@ namespace ZeldaMessage
         public byte[] FontDataMajora2 = null;
         public string Lang = "";
 
+        public float lastPreviewMaxXPos = 0;
+        public float lastPreviewMaxYPos = 0;
+
         public MessagePreviewMajora(
             byte[] messageDataMajora,
             bool isBombersNotebook = false,
@@ -678,6 +681,9 @@ namespace ZeldaMessage
             float yPos = DataMajora.YPOS_DEFAULT;
             float scale = DataMajora.SCALE_DEFAULT;
 
+            lastPreviewMaxXPos = 0;
+            lastPreviewMaxYPos = 0;
+
             int NumLineBreaks = GetNumberOfLineBreaks(boxNum);
             int NumCurrentLineBreak = 0;
             int choiceType = GetBoxChoiceTag(boxNum);
@@ -693,6 +699,12 @@ namespace ZeldaMessage
             {
                 for (int charPos = 0; charPos < BoxDataMajora.Count; charPos++)
                 {
+                    if (xPos > lastPreviewMaxXPos)
+                        lastPreviewMaxXPos = xPos;
+
+                    if (yPos > lastPreviewMaxYPos)
+                        lastPreviewMaxYPos = yPos;
+
                     // Draw and colorize buttons
                     if (BoxDataMajora[charPos] >= 0xB0 && BoxDataMajora[charPos] <= 0xBC)
                     {
