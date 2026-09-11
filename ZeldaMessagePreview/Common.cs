@@ -117,6 +117,9 @@ namespace ZeldaMessage
 
         public static Bitmap GetBitmapFromI4FontChar(byte[] bytes)
         {
+            if (Data.MeasureMode)
+                return null;
+
             List<Color> Pixels = new List<Color>();
 
             foreach (byte b in bytes)
@@ -145,6 +148,9 @@ namespace ZeldaMessage
 
         public static Bitmap FlipBitmapX_MonoSafe(Bitmap bmp)
         {
+            if (Data.MeasureMode)
+                return bmp;
+
             if (RunningUnderMono)
             {
                 Bitmap returnBitmap = new Bitmap(bmp.Width, bmp.Height);
@@ -168,6 +174,9 @@ namespace ZeldaMessage
 
         public static Bitmap ReverseAlphaMask(Bitmap bmp, bool Brighten = false)
         {
+            if (Data.MeasureMode)
+                return bmp;
+
             // Check if running under Mono
             if (Type.GetType("Mono.Runtime") != null)
             {
@@ -232,6 +241,9 @@ namespace ZeldaMessage
 
         public static Bitmap Resize(Bitmap bmp, float scale)
         {
+            if (Data.MeasureMode)
+                return bmp;
+
             Bitmap result = new Bitmap((int)(bmp.Width * scale), (int)(bmp.Height * scale));
 
             using (Graphics g = Graphics.FromImage(result))
@@ -245,6 +257,9 @@ namespace ZeldaMessage
 
         public static Bitmap Colorize(Bitmap bmp, Color cl)
         {
+            if (Data.MeasureMode)
+                return bmp;
+
             float R = (float)((float)cl.R / (float)255);
             float G = (float)((float)cl.G / (float)255);
             float B = (float)((float)cl.B / (float)255);
@@ -285,6 +300,12 @@ namespace ZeldaMessage
 
         public static Bitmap DrawImage(Bitmap destBmp, Bitmap srcBmp, Color cl, int xSize, int ySize, ref float xPos, ref float yPos, float xPosMove, bool revAlpha = true)
         {
+            if (Data.MeasureMode)
+            {
+                xPos += xPosMove;
+                return destBmp;
+            }
+
             if (revAlpha)
                 srcBmp = Common.ReverseAlphaMask(srcBmp);
 

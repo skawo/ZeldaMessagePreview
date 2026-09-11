@@ -36,10 +36,13 @@ namespace ZeldaMessage
             byte[] fontData = null,
             float[] fontWidths2 = null,
             byte[] fontData2 = null,
-            string langName = "")
+            string langName = "",
+            bool measureMode = false)
         {
             if (messageDataMajora == null || messageDataMajora.Length <= 11)
                 return;
+
+            Data.MeasureMode = measureMode;
 
             Lang = langName;
             InBombersNotebook = isBombersNotebook;
@@ -92,49 +95,56 @@ namespace ZeldaMessage
 
         public Bitmap GetPreview(int BoxNum = 0, bool brightenText = true, float outputScale = 1.75f)
         {
-            BrightenText = brightenText;
+            Bitmap bmp;
 
-            if (InBombersNotebook)
+            if (!Data.MeasureMode)
             {
-                OUTPUT_IMAGE_X = 280;
-                OUTPUT_IMAGE_Y = 58;
+                BrightenText = brightenText;
+
+                if (InBombersNotebook)
+                {
+                    OUTPUT_IMAGE_X = 280;
+                    OUTPUT_IMAGE_Y = 58;
+                }
+                else
+                {
+                    switch (Header.BoxType)
+                    {
+                        case DataMajora.BoxType.None_Black:
+                        case DataMajora.BoxType.None_White:
+                            {
+                                OUTPUT_IMAGE_X = 320;
+                                OUTPUT_IMAGE_Y = 72;
+                                break;
+                            }
+                        case DataMajora.BoxType.Credits:
+                            {
+                                OUTPUT_IMAGE_X = 320;
+                                OUTPUT_IMAGE_Y = 240;
+                                break;
+                            }
+                        default:
+                            {
+                                OUTPUT_IMAGE_X = 256;
+                                OUTPUT_IMAGE_Y = 72;
+                                break;
+                            }
+                    }
+                }
+
+                bmp = new Bitmap(OUTPUT_IMAGE_X, OUTPUT_IMAGE_Y);
+                bmp.MakeTransparent();
+                bmp = DrawBox(bmp);
             }
             else
-            {
-                switch (Header.BoxType)
-                {
-                    case DataMajora.BoxType.None_Black:
-                    case DataMajora.BoxType.None_White:
-                        {
-                            OUTPUT_IMAGE_X = 320;
-                            OUTPUT_IMAGE_Y = 72;
-                            break;
-                        }
-                    case DataMajora.BoxType.Credits:
-                        {
-                            OUTPUT_IMAGE_X = 320;
-                            OUTPUT_IMAGE_Y = 240;
-                            break;
-                        }
-                    default:
-                        {
-                            OUTPUT_IMAGE_X = 256;
-                            OUTPUT_IMAGE_Y = 72;
-                            break;
-                        }
-                }
-            }
-
-            Bitmap bmp = new Bitmap(OUTPUT_IMAGE_X, OUTPUT_IMAGE_Y);
-
-            bmp.MakeTransparent();
-            bmp = DrawBox(bmp);
+                bmp = new Bitmap(1, 1);            
 
             if (Message.Count != 0)
                 if (Message[BoxNum].Count != 0)
                     bmp = DrawText(bmp, BoxNum);
 
-            bmp = Common.Resize(bmp, outputScale);
+            if (bmp != null)
+                bmp = Common.Resize(bmp, outputScale);
 
             return bmp;
         }
@@ -416,97 +426,101 @@ namespace ZeldaMessage
 
         private Bitmap DrawBox(Bitmap destBmp)
         {
-            Bitmap img;
-            Color c;
-            bool revAlpha;
+            Bitmap img = null;
+            Color c = Color.White;
+            bool revAlpha = false;
 
-            if (InBombersNotebook)
+            if (destBmp != null)
             {
-                c = Color.White;
-                img = Properties.Resources.Box_Default;
-                img = Common.ReverseAlphaMask(img);
-                img = Common.Colorize(img, c);
 
-                destBmp = new Bitmap(280, 50);
-
-                using (Graphics g = Graphics.FromImage(destBmp))
+                if (InBombersNotebook)
                 {
-                    img.SetResolution(g.DpiX, g.DpiY);
-                    g.DrawImage(img, new Rectangle(0, 0, destBmp.Width / 2, destBmp.Height));
-                    img = Common.FlipBitmapX_MonoSafe(img);
-                    g.DrawImage(img, new Rectangle(destBmp.Width / 2, 0, destBmp.Width / 2, destBmp.Height));
+                    c = Color.White;
+                    img = Properties.Resources.Box_Default;
+                    img = Common.ReverseAlphaMask(img);
+                    img = Common.Colorize(img, c);
+
+                    destBmp = new Bitmap(280, 50);
+
+                    using (Graphics g = Graphics.FromImage(destBmp))
+                    {
+                        img.SetResolution(g.DpiX, g.DpiY);
+                        g.DrawImage(img, new Rectangle(0, 0, destBmp.Width / 2, destBmp.Height));
+                        img = Common.FlipBitmapX_MonoSafe(img);
+                        g.DrawImage(img, new Rectangle(destBmp.Width / 2, 0, destBmp.Width / 2, destBmp.Height));
+                    }
+
+                    return destBmp;
                 }
-
-                return destBmp;
-            }
-            else
-            {
-                switch (Header.BoxType)
+                else
                 {
-                    default:
-                        {
-                            destBmp = new Bitmap(320, 240);
-                            var g = Graphics.FromImage(destBmp);
-                            g.FillRectangle(Brushes.Black, 0, 0, 320, 240);
+                    switch (Header.BoxType)
+                    {
+                        default:
+                            {
+                                destBmp = new Bitmap(320, 240);
+                                var g = Graphics.FromImage(destBmp);
+                                g.FillRectangle(Brushes.Black, 0, 0, 320, 240);
 
-                            return destBmp;
-                        }
-                    case DataMajora.BoxType.Black:
-                    case DataMajora.BoxType.Black2:
-                        {
-                            img = Properties.Resources.Box_Default;
-                            c = Color.FromArgb(170, 0, 0, 0);
-                            revAlpha = true;
-                            break;
-                        }
-                    case DataMajora.BoxType.Ocarina:
-                        {
-                            img = Properties.Resources.Box_Staff;
-                            c = Color.FromArgb(180, 255, 0, 0);
-                            revAlpha = false;
-                            break;
-                        }
-                    case DataMajora.BoxType.Wooden:
-                        {
-                            img = Properties.Resources.Box_Wooden;
-                            c = Color.FromArgb(230, 70, 50, 30);
-                            revAlpha = false;
-                            break;
-                        }
-                    case DataMajora.BoxType.Blue:
-                    case DataMajora.BoxType.Blue2:
-                        {
-                            img = Properties.Resources.Box_Blue;
-                            c = Color.FromArgb(170, 0, 10, 50);
-                            revAlpha = true;
-                            break;
-                        }
-                    case DataMajora.BoxType.Bombers_Notebook:
-                        {
-                            img = Properties.Resources.majora_Box_Bomber;
-                            c = Color.FromArgb(170, 250, 253, 213);
-                            revAlpha = true;
-                            break;
-                        }
-                    case DataMajora.BoxType.Red:
-                    case DataMajora.BoxType.Red2:
-                        {
-                            img = Properties.Resources.Box_Default;
-                            c = Color.FromArgb(170, 255, 0, 0);
-                            revAlpha = true;
-                            break;
-                        }
-                    case DataMajora.BoxType.None:
-                    case DataMajora.BoxType.None2:
-                    case DataMajora.BoxType.None3:
-                    case DataMajora.BoxType.None4:
-                    case DataMajora.BoxType.None_White:
-                    case DataMajora.BoxType.None_Black:
-                        {
-                            destBmp = new Bitmap(OUTPUT_IMAGE_X, OUTPUT_IMAGE_Y);
-                            destBmp.MakeTransparent();
-                            return destBmp;
-                        }
+                                return destBmp;
+                            }
+                        case DataMajora.BoxType.Black:
+                        case DataMajora.BoxType.Black2:
+                            {
+                                img = Properties.Resources.Box_Default;
+                                c = Color.FromArgb(170, 0, 0, 0);
+                                revAlpha = true;
+                                break;
+                            }
+                        case DataMajora.BoxType.Ocarina:
+                            {
+                                img = Properties.Resources.Box_Staff;
+                                c = Color.FromArgb(180, 255, 0, 0);
+                                revAlpha = false;
+                                break;
+                            }
+                        case DataMajora.BoxType.Wooden:
+                            {
+                                img = Properties.Resources.Box_Wooden;
+                                c = Color.FromArgb(230, 70, 50, 30);
+                                revAlpha = false;
+                                break;
+                            }
+                        case DataMajora.BoxType.Blue:
+                        case DataMajora.BoxType.Blue2:
+                            {
+                                img = Properties.Resources.Box_Blue;
+                                c = Color.FromArgb(170, 0, 10, 50);
+                                revAlpha = true;
+                                break;
+                            }
+                        case DataMajora.BoxType.Bombers_Notebook:
+                            {
+                                img = Properties.Resources.majora_Box_Bomber;
+                                c = Color.FromArgb(170, 250, 253, 213);
+                                revAlpha = true;
+                                break;
+                            }
+                        case DataMajora.BoxType.Red:
+                        case DataMajora.BoxType.Red2:
+                            {
+                                img = Properties.Resources.Box_Default;
+                                c = Color.FromArgb(170, 255, 0, 0);
+                                revAlpha = true;
+                                break;
+                            }
+                        case DataMajora.BoxType.None:
+                        case DataMajora.BoxType.None2:
+                        case DataMajora.BoxType.None3:
+                        case DataMajora.BoxType.None4:
+                        case DataMajora.BoxType.None_White:
+                        case DataMajora.BoxType.None_Black:
+                            {
+                                destBmp = new Bitmap(OUTPUT_IMAGE_X, OUTPUT_IMAGE_Y);
+                                destBmp.MakeTransparent();
+                                return destBmp;
+                            }
+                    }
                 }
             }
 
@@ -533,6 +547,9 @@ namespace ZeldaMessage
 
         private Bitmap DrawBoxInternal(Bitmap destBmp, Bitmap srcBmp, Color cl, bool revAlpha = true)
         {
+            if (Data.MeasureMode)
+                return destBmp;
+
             if (revAlpha)
                 srcBmp = Common.ReverseAlphaMask(srcBmp);
 
@@ -637,7 +654,7 @@ namespace ZeldaMessage
                 else
                     yPos = 26 - (6 * NumLineBreaks);
 
-                if (img != null)
+                if (img != null && !Data.MeasureMode)
                 {
                     if (InBombersNotebook)
                     {
@@ -963,42 +980,45 @@ namespace ZeldaMessage
                 return destBmp;
             }
 
-            Bitmap img;
-
-            if (FontDataMajora != null && (Char - ' ') * 128 < FontDataMajora.Length)
-                img = Common.GetBitmapFromI4FontChar(FontDataMajora.Skip((Char - ' ') * 128).Take(128).ToArray());
-            else
+            if (!Data.MeasureMode)
             {
-                img = (Bitmap)Properties.Resources.ResourceManager.GetObject(fn);
+                Bitmap img;
 
-                if (img == null)
+                if (FontDataMajora != null && (Char - ' ') * 128 < FontDataMajora.Length)
+                    img = Common.GetBitmapFromI4FontChar(FontDataMajora.Skip((Char - ' ') * 128).Take(128).ToArray());
+                else
                 {
-                    fn = $"char_{Char.ToString("X").ToLower()}";
                     img = (Bitmap)Properties.Resources.ResourceManager.GetObject(fn);
 
                     if (img == null)
-                        return destBmp;
+                    {
+                        fn = $"char_{Char.ToString("X").ToLower()}";
+                        img = (Bitmap)Properties.Resources.ResourceManager.GetObject(fn);
+
+                        if (img == null)
+                            return destBmp;
+                    }
                 }
-            }
 
-            img = Common.ReverseAlphaMask(img, BrightenText);
-            Bitmap shadow = img;
-            img = Common.Colorize(img, cl);
+                img = Common.ReverseAlphaMask(img, BrightenText);
+                Bitmap shadow = img;
+                img = Common.Colorize(img, cl);
 
-            using (Graphics g = Graphics.FromImage(destBmp))
-            {
-                if (Header.BoxType != DataMajora.BoxType.None_Black &&
-                    Header.BoxType != DataMajora.BoxType.Bombers_Notebook &&
-                    !InBombersNotebook)
+                using (Graphics g = Graphics.FromImage(destBmp))
                 {
-                    shadow = Common.Colorize(shadow, Color.Black);
-                    shadow.SetResolution(g.DpiX, g.DpiY);
+                    if (Header.BoxType != DataMajora.BoxType.None_Black &&
+                        Header.BoxType != DataMajora.BoxType.Bombers_Notebook &&
+                        !InBombersNotebook)
+                    {
+                        shadow = Common.Colorize(shadow, Color.Black);
+                        shadow.SetResolution(g.DpiX, g.DpiY);
 
-                    g.DrawImage(shadow, new Rectangle((int)xPos + 1, (int)yPos + 1, (int)(16 * scale), (int)(16 * scale)));
+                        g.DrawImage(shadow, new Rectangle((int)xPos + 1, (int)yPos + 1, (int)(16 * scale), (int)(16 * scale)));
+                    }
+
+                    img.SetResolution(g.DpiX, g.DpiY);
+                    g.DrawImage(img, new Rectangle((int)xPos, (int)yPos, (int)(16 * scale), (int)(16 * scale)));
                 }
-
-                img.SetResolution(g.DpiX, g.DpiY);
-                g.DrawImage(img, new Rectangle((int)xPos, (int)yPos, (int)(16 * scale), (int)(16 * scale)));
             }
 
             try
