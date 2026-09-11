@@ -24,6 +24,8 @@ namespace ZeldaMessage
 
         public byte[] FontDataMajora = null;
         public byte[] FontDataMajora2 = null;
+        public float[] FontWidths = null;
+        public float[] FontWidths2 = null;
         public string Lang = "";
 
         public float lastPreviewMaxXPos = 0;
@@ -52,44 +54,10 @@ namespace ZeldaMessage
 
             MessageCount = Message.Count;
 
-            DataMajora.FontWidths =
-                fontWidths ?? LoadWidthTable("font.width_table", DataMajora.FontWidths);
-
-            DataMajora.FontWidths2 =
-                fontWidths2 ?? LoadWidthTable(Lang + ".width_table", DataMajora.FontWidths2);
-
-            FontDataMajora =
-                fontData ?? LoadFontData("font.font_static");
-
-            FontDataMajora2 =
-                fontData2 ?? LoadFontData(Lang + ".font_static");
-        }
-
-        public static float[] LoadWidthTable(string path, float[] target)
-        {
-            if (!System.IO.File.Exists(path))
-                return target;
-
-            byte[] bytes = System.IO.File.ReadAllBytes(path);
-
-            for (int i = 0; i + 3 < bytes.Length; i += 4)
-            {
-                byte[] width = new byte[4];
-                width[0] = bytes[i + 3];
-                width[1] = bytes[i + 2];
-                width[2] = bytes[i + 1];
-                width[3] = bytes[i + 0];
-
-                target[i / 4] = BitConverter.ToSingle(width, 0);
-            }
-
-            return target;
-        }
-        public static byte[] LoadFontData(string path)
-        {
-            return System.IO.File.Exists(path)
-                ? System.IO.File.ReadAllBytes(path)
-                : null;
+            FontWidths = fontWidths ?? Common.LoadWidthTable("font.width_table");
+            FontWidths2 = fontWidths2 ?? Common.LoadWidthTable("font.width_table");
+            FontDataMajora = fontData ?? Common.LoadFontData("font.font_static");
+            FontDataMajora2 = fontData2 ?? Common.LoadFontData($"{Lang}.font_static");
         }
 
 
@@ -1023,7 +991,10 @@ namespace ZeldaMessage
 
             try
             {
-                xPos += (int)(DataMajora.FontWidths[Char - 0x20] * scale);
+                if (this.FontWidths != null)
+                   xPos += (int)(this.FontWidths[Char - 0x20] * scale);
+                else
+                   xPos += (int)(DataMajora.FontWidths[Char - 0x20] * scale);
             }
             catch (Exception)
             {

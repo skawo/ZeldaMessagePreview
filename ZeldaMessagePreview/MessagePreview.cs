@@ -27,9 +27,13 @@ namespace ZeldaMessage
 
         public byte[] FontData = null;
         public byte[] FontData2 = null;
+        public float[] FontWidths = null;
+        public float[] FontWidths2 = null;
         public string Lang;
         public float lastPreviewMaxXPos = 0;
         public float lastPreviewMaxYPos = 0;
+
+
 
         public MessagePreview(
             Data.BoxType boxType,
@@ -50,34 +54,12 @@ namespace ZeldaMessage
             SplitMsgIntoTextboxes(messageData);
             MessageCount = Message.Count;
 
-            Data.FontWidths = fontWidths ?? LoadWidthTable("font.width_table", Data.FontWidths);
-            Data.FontWidths2 = fontWidths2 ?? LoadWidthTable($"{Lang}.width_table", Data.FontWidths2);
-
-            FontData = fontData ?? LoadFontData("font.font_static");
-            FontData2 = fontData2 ?? LoadFontData($"{Lang}.font_static");
+            FontWidths = fontWidths ?? Common.LoadWidthTable("font.width_table");
+            FontWidths2 = fontWidths2 ?? Common.LoadWidthTable("font.width_table");
+            FontData = fontData ?? Common.LoadFontData("font.font_static");
+            FontData2 = fontData2 ?? Common.LoadFontData($"{Lang}.font_static");
 
             Common.GetTagExtensions();
-        }
-
-        public static float[] LoadWidthTable(string path, float[] target)
-        {
-            if (!File.Exists(path))
-                return target;
-
-            byte[] bytes = File.ReadAllBytes(path);
-
-            for (int i = 0; i < bytes.Length; i += 4)
-            {
-                byte[] width = new byte[4];
-                width[0] = bytes[i + 3];
-                width[1] = bytes[i + 2];
-                width[2] = bytes[i + 1];
-                width[3] = bytes[i + 0];
-
-                target[i / 4] = BitConverter.ToSingle(width, 0);
-            }
-
-            return target;
         }
 
 
@@ -797,7 +779,11 @@ namespace ZeldaMessage
 
             if (Char == ' ')
             {
-                xPos += (UseRealSpaceWidth ? (int)(Data.FontWidths[0] * scale) : 6.0f);
+                if (this.FontWidths != null)
+                    xPos += (UseRealSpaceWidth ? (int)(this.FontWidths[0] * scale) : 6.0f);
+                else
+                    xPos += (UseRealSpaceWidth ? (int)(Data.FontWidths[0] * scale) : 6.0f);
+
                 return destBmp;
             }
 
@@ -843,7 +829,10 @@ namespace ZeldaMessage
 
             try
             {
-                xPos += (int)(Data.FontWidths[Char - 0x20] * scale);
+                if (this.FontWidths != null)
+                    xPos += (int)(this.FontWidths[Char - 0x20] * scale);
+                else
+                    xPos += (int)(Data.FontWidths[Char - 0x20] * scale);
             }
             catch (Exception ex)
             {

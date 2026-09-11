@@ -320,5 +320,34 @@ namespace ZeldaMessage
             xPos += xPosMove;
             return destBmp;
         }
+
+        public static float[] LoadWidthTable(string path)
+        {
+            if (!File.Exists(path))
+                return null;
+
+            byte[] bytes = File.ReadAllBytes(path);
+            float[] target = new float[255];
+
+            for (int i = 0; i < bytes.Length; i += 4)
+            {
+                byte[] width = new byte[4];
+                width[0] = bytes[i + 3];
+                width[1] = bytes[i + 2];
+                width[2] = bytes[i + 1];
+                width[3] = bytes[i + 0];
+
+                target[i / 4] = BitConverter.ToSingle(width, 0);
+            }
+
+            return target;
+        }
+
+        public static byte[] LoadFontData(string path)
+        {
+            return System.IO.File.Exists(path)
+                ? System.IO.File.ReadAllBytes(path)
+                : null;
+        }
     }
 }
